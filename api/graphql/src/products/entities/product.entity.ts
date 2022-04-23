@@ -69,7 +69,7 @@ export class Product extends CoreEntity {
   @Field(() => ID)
   type_id: number;
   product_type: ProductType;
-  categories?: Category[];
+  categories?: Category;
   tags?: Tag[];
   variations?: AttributeValue[];
   variation_options?: Variation[];

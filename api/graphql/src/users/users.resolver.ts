@@ -44,7 +44,7 @@ export class UsersResolver {
     return this.usersService.register(createUserInput);
   }
 
-  @Query(() => UserDto) 
+  @Mutation(() => UserDto) 
   async login(@Args('input') loginInput: finduser){
     return this.usersService.login(loginInput);
   }

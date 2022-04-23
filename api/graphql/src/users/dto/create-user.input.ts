@@ -21,6 +21,7 @@ export class RegisterInput extends PickType(User, [
   'email',
   'password',
   "shop_id",
+  "profile"
 ]) {
   permission: Permission = Permission.CUSTOMER;
 }
@@ -29,6 +30,9 @@ export class RegisterInput extends PickType(User, [
 export class finduser{
   @Field()
   readonly email:string;
+
+  @Field()
+  readonly password:string;
 }
 
 @InputType()
