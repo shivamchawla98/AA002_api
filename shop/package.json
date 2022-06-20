@@ -13,7 +13,8 @@
     "lint": "next lint",
     "postbuild:rest": "next-sitemap",
     "prepare": "husky install",
-   "restart": "pm2 stop shop_test &&  yarn clean && yarn && yarn build:gql && pm2 restart shop_test"
+    "deploy": "yarn clean && yarn && yarn build:gql && pm2 start yarn --name \"shop\" -- start",
+    "restart": "pm2 stop shop &&  yarn clean && yarn && yarn build:gql && pm2 restart shop"
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
