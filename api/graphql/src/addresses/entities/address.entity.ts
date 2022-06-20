@@ -12,11 +12,11 @@ registerEnumType(AddressType, { name: 'AddressType' });
 @InputType('AddressInputType', { isAbstract: true })
 @ObjectType()
 export class Address extends CoreEntity {
-  title: string;
-  default: boolean;
-  address: UserAddress;
-  type: AddressType;
-  customer: User;
+  title?: string;
+  default?: boolean;
+  address?: UserAddress;
+  type?: AddressType;
+  customer?: User;
 }
 
 @InputType('UserAddressInputType', { isAbstract: true })

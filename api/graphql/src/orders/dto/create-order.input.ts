@@ -7,6 +7,7 @@ export class CreateOrderInput {
   shop_id?: number;
   @Field(() => ID)
   coupon_id?: number;
+  tracking_number?:string;
   status: string;
   customer_contact: string;
   products: ConnectProductOrderPivot[];
@@ -18,7 +19,7 @@ export class CreateOrderInput {
   payment_gateway?: PaymentGatewayType;
   discount?: number;
   delivery_fee?: number;
-  delivery_time: string;
+  delivery_time?: string;
   card?: CardInput;
   billing_address?: UserAddressInput;
   shipping_address?: UserAddressInput;

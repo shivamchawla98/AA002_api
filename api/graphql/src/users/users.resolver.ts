@@ -27,9 +27,11 @@ import { Profile } from './entities/profile.entity';
 import { UpdateProfileArgs } from './dto/update-profile.args';
 import { MakeOrRevokeAdminInput } from './dto/make-revoke-admin.input';
 import { UserDto } from './dto/users.dto';
+import { Profiledto } from './dto/profile.dto';
 
 @Resolver(() => User)
 export class UsersResolver {
+  ProfileService: any;
   constructor(private readonly usersService: UsersService) {}
 
   // @Mutation(() => UserDto)
@@ -44,7 +46,14 @@ export class UsersResolver {
     return this.usersService.register(createUserInput);
   }
 
-  @Mutation(() => UserDto) 
+  @Mutation(() => Profile)
+  createProfile(
+    @Args('input') profileInput: ProfileInput) {
+    console.log(profileInput);
+    return this.usersService.CreateProfileRecord(profileInput);
+  }
+
+  @Mutation(() => AuthResponse) 
   async login(@Args('input') loginInput: finduser){
     return this.usersService.login(loginInput);
   }
@@ -134,16 +143,20 @@ export class UsersResolver {
 
   @Query(() => UserPaginator, { name: 'users' })
   async getUsers(@Args() getUsersArgs: GetUsersArgs): Promise<UserPaginator> {
+    console.log("paginator");
     return this.usersService.getUsers(getUsersArgs);
   }
 
   @Query(() => User, { name: 'me' })
   async me(): Promise<User> {
+    console.log("me query");
     return this.usersService.me();
   }
 
   @Query(() => User, { name: 'user', nullable: true })
-  getUser(@Args() getUserArgs: GetUserArgs): User {
+  getUser(@Args() getUserArgs: GetUserArgs): Promise<User> {
+    //console.log("line 158");
+    //console.log(getUserArgs);
     return this.usersService.getUser(getUserArgs);
   }
 
@@ -169,13 +182,9 @@ export class UsersResolver {
     return this.usersService.remove(id);
   }
 
-  @Mutation(() => Profile)
-  createProfile(@Args('input') profileInput: ProfileInput) {
-    console.log(profileInput);
-  }
-
-  @Mutation(() => Profile)
+  @Mutation(() => Profiledto)
   updateProfile(@Args() updateProfileArgs: UpdateProfileArgs) {
+    console.log("@@@@22222222222222222222222");
     console.log(updateProfileArgs);
   }
 

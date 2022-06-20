@@ -7,8 +7,8 @@ import { Type } from 'src/types/entities/type.entity';
 @InputType('TagInputType', { isAbstract: true })
 @ObjectType()
 export class Tag extends CoreEntity {
-  name: string;
-  slug: string;
+  name?: string;
+  slug?: string;
   @Field(() => Int)
   parent?: number;
   details?: string;

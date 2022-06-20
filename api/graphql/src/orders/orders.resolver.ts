@@ -40,11 +40,14 @@ export class OrdersResolver {
 
   @Mutation(() => Order)
   createOrder(@Args('input') createOrderInput: CreateOrderInput) {
+    
     return this.ordersService.create(createOrderInput);
   }
 
   @Query(() => OrderPaginator, { name: 'orders' })
   getOrders(@Args() ordersArgs: GetOrdersArgs) {
+    // console.log("########GET order");
+    // console.log(ordersArgs);
     return this.ordersService.getOrders(ordersArgs);
   }
 
@@ -74,9 +77,9 @@ export class OrdersResolver {
   }
 
   @Mutation(() => VerifiedCheckoutData)
-  verifyCheckout(
+  async verifyCheckout(
     @Args('input') checkoutVerificationInput: CheckoutVerificationInput,
-  ): VerifiedCheckoutData {
+  ): Promise<VerifiedCheckoutData> {
     return this.ordersService.verifyCheckout(checkoutVerificationInput);
   }
 
@@ -91,6 +94,7 @@ export class OrdersResolver {
   updateOrderStatus(
     @Args('input') updateOrderStatusInput: UpdateOrderStatusInput,
   ) {
+    // console.log(updateOrderStatusInput);
     return this.ordersService.updateOrderStatus(updateOrderStatusInput);
   }
 

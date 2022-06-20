@@ -13,7 +13,6 @@ export class CreateCategoryInput extends PickType(Category, [
   'icon',
   'image',
 ]) {
-  @Field(() => Int, { nullable: true })
-  parent?: number;
+  parent?: string;
   type?: ConnectTypeBelongsTo;
 }

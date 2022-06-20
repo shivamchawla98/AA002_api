@@ -22,6 +22,7 @@ export class CategoriesResolver {
   async getCategories(
     @Args() getCategoriesArgs: GetCategoriesArgs,
   ): Promise<CategoryPaginator> {
+    
     return this.categoriesService.getCategories(getCategoriesArgs);
   }
 

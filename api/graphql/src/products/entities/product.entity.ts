@@ -64,8 +64,8 @@ export class DigitalFile extends CoreEntity {
 @ObjectType()
 export class Product extends CoreEntity {
   name: string;
-  slug: string;
-  type: Type;
+  slug?: string;
+  type?: Type;
   @Field(() => ID)
   type_id: number;
   product_type: ProductType;
@@ -106,7 +106,9 @@ export class Product extends CoreEntity {
   price?: number;
   @Field(() => Int)
   quantity: number;
-  unit: string;
+  unit?: string;
+  created_at?: Date;
+  updated_at?: Date;
 }
 
 @InputType('PivotInputType', { isAbstract: true })
@@ -124,20 +126,20 @@ export class OrderProductPivot {
 @ObjectType()
 export class Variation {
   @Field(() => ID)
-  id: number;
-  title: string;
+  id?: number;
+  title?: string;
   product?: Product;
   @Field(() => Float)
-  price: number;
+  price?: number;
   image?: Attachment;
-  sku: string;
-  is_disable: boolean;
-  is_digital: boolean;
+  sku?: string;
+  is_disable?: boolean;
+  is_digital?: boolean;
   @Field(() => Float)
   sale_price?: number;
   @Field(() => Int)
-  quantity: number;
-  options: VariationOption[];
+  quantity?: number;
+  options?: VariationOption[];
 }
 
 @InputType()

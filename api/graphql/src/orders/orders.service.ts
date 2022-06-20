@@ -25,6 +25,13 @@ import {
 import { GetOrderFilesPaginator } from './dto/get-order-file.args';
 import { OrderFiles } from './entities/order.entity';
 import { GenerateDownloadableUrlInput } from './dto/generate-downloadable-url.input';
+import {Model} from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Orders_ } from './orders.schema';
+import { Users } from 'src/users/user.schema';
+import { Products } from 'src/products/product.schema';
+import { Shippings } from 'src/shippings/shippings.schema';
+import { TAXES } from 'src/taxes/tax.schema';
 
 const orders = plainToClass(Order, ordersJson);
 const orderStatus = plainToClass(OrderStatus, orderStatusJson);
@@ -32,29 +39,113 @@ const orderFiles = plainToClass(OrderFiles, orderFilesJson);
 
 @Injectable()
 export class OrdersService {
+  constructor( @InjectModel(Orders_.name) private OrdersModel:Model<Orders_>,@InjectModel(Products.name) private ProductModel:Model<Products>,@InjectModel(Users.name) private userModel:Model<Users>,@InjectModel(TAXES.name) private TAXESModel:Model<TAXES>, @InjectModel(Shippings.name) private ShippingModel:Model<Shippings> ){}
   private orders: Order[] = orders;
   private orderStatus: OrderStatus[] = orderStatus;
   private orderFiles: OrderFiles[] = orderFiles;
+  public ProductList = [];
 
-  create(createOrderInput: CreateOrderInput) {
-    return this.orders[0];
+  async create(createOrderInput: CreateOrderInput) {
+    this.ProductList = [];
+    // console.log("000000000000000000000000 USER ID");
+    // console.log(createOrderInput);
+    if(!createOrderInput.customer_id){
+      console.log("inside if loooooooop");
+      var IDuser0 = {"id":34};
+      var customerInfo={
+        customer:await this.userModel.findOne(IDuser0)
+      }
+      // console.log(customerInfo);
+    }
+    if(createOrderInput.customer_id){
+      var IDuser = {"id":createOrderInput.customer_id};
+    // console.log("000000000000000000000000 Inside if loop where ID PRESENTTTT");
+    // console.log(IDuser);
+    var customerInfo={
+      customer:await this.userModel.findOne(IDuser)
+    }
+    }
+
+    var input = createOrderInput;
+    var randomString = Math.random().toString(36).slice(2);
+    var trackingNumberObj={
+      tracking_number:randomString
+    }
+    
+
+    var StatusOtder={
+      status: {
+        id: 1,
+        name: "Order Received",
+        serial: 1,
+        color: "#23b848"
+      },
+    }
+    
+    for (let index = 0; index < createOrderInput.products.length; index++) {
+      var ProductId = {"_id":createOrderInput.products[index].product_id};
+      var pivotvalue = {
+        pivot:createOrderInput.products[index]
+      }
+      // console.log("PPPPPPPIIIIIIVVVVOOOTTTTT");
+      // console.log(pivotvalue);
+      // console.log("PPPPPPPIIIIIIVVVVOOOTTTTT");
+      var productInfo = await this.ProductModel.findById(ProductId);
+      var productObj =Object.assign(productInfo,pivotvalue);
+      this.ProductList.push(productObj);
+    }
+    // console.log(this.ProductList);
+      var ProductInput={
+      products:this.ProductList
+    }
+    
+    var IDObject={
+      id:randomString
+    }
+
+    var A =Object.assign(input,customerInfo);
+    var B =Object.assign(input,trackingNumberObj);
+    var C =Object.assign(input,StatusOtder);
+    var D =Object.assign(input,ProductInput);
+    var E =Object.assign(input,IDObject);
+    
+    // console.log(cc);
+    // console.log("000000000000000000000000");
+    const createOrders = new this.OrdersModel(createOrderInput);
+    createOrders.save();
+    
+    // console.log("000000000000000000000000");
+    // console.log(await this.OrdersModel.findOne({"id":`"${randomString}"`}));
+    // console.log(`"${randomString}"`);
+    // console.log("000000000000000000000000");
+    
+    return input;
+    // return this.orders[1];
   }
 
-  getOrders({
+  async getOrders({
     first,
     page,
     customer_id,
     tracking_number,
     shop_id,
-  }: GetOrdersArgs): OrderPaginator {
+  }: GetOrdersArgs): Promise<OrderPaginator> {
+    console.log(")()()()()()()()()()(()");
+    console.log(customer_id);
+    console.log(tracking_number);
+    console.log(shop_id);
     const startIndex = (page - 1) * first;
     const endIndex = page * first;
-    let data: Order[] = this.orders;
+    //let data: Order[] = this.orders;
+    let data: Order[] = await this.OrdersModel.find();
 
-    if (shop_id) {
-      data = this.orders?.filter((p) => p?.shop?.id === Number(shop_id));
-    }
+    // if (shop_id) {
+    //   data = this.orders?.filter((p) => p?.shop?.id === Number(shop_id));
+    // }
     const results = data.slice(startIndex, endIndex);
+    // console.log("************************** Order list")
+    // console.log(results);
+    // console.log("************************** Order list")
 
     return {
       data: results,
@@ -62,19 +153,31 @@ export class OrdersService {
     };
   }
 
-  getOrder({ id, tracking_number }: GetOrderArgs): Order {
-    let parentOrder = undefined;
-    if (id) {
-      parentOrder = this.orders.find((p) => p.id === Number(id));
-    } else {
-      parentOrder = this.orders.find(
-        (p) => p.tracking_number === tracking_number,
-      );
+  async getOrder({ id, tracking_number }: GetOrderArgs): Promise<Order> {
+    // let parentOrder = undefined;
+    // if (id) {
+    //   parentOrder = this.orders.find((p) => p.id === Number(id));
+    // } else {
+    //   parentOrder = this.orders.find(
+    //     (p) => p.tracking_number === tracking_number,
+    //   );
+    // }
+    // if (!parentOrder) {
+    //   return this.orders[0];
+    // }
+    // console.log("@@@@@@@@FINDING ORDER@@@@@@@@@@@@@@@@@@");
+    // console.log(id);
+    // console.log(tracking_number);
+    // console.log(await this.OrdersModel.findOne({"id":id}));
+    if(id){
+      return await this.OrdersModel.findOne({"id":id});
     }
-    if (!parentOrder) {
-      return this.orders[0];
+    if(tracking_number){
+      console.log(await this.OrdersModel.findOne({"tracking_number":tracking_number}));
+      // return this.orders[0];
+      return await this.OrdersModel.findOne({"tracking_number":tracking_number});
+
     }
-    return parentOrder;
   }
 
   getOrderStatuses({
@@ -102,18 +205,48 @@ export class OrdersService {
     return this.orderStatus.find((p) => p.id === Number(id));
   }
 
-  update(id: number, updateOrderInput: UpdateOrderInput) {
-    return this.orders[0];
+  async update(id: number, updateOrderInput: UpdateOrderInput) {
+    var OrderId = {"id":  id };
+    var statusID = updateOrderInput.status;
+    var statusValue = this.orderStatus.find((p) => p.id === Number(statusID));
+    var newValues = {"status":statusValue};
+    //return await this.ShippingModel.findOneAndUpdate(OrderId,newValues,{new:true})
+
+    // console.log("%%%%%%%%%%%%Update order");
+    // console.log(updateOrderInput);
+    // console.log("%%%%%%%%%%%%Update order");
+    // console.log(statusValue);
+    // console.log("%%%%%%%%%%%%Updateed");
+    // console.log(await this.OrdersModel.findOneAndUpdate(OrderId,newValues,{new:true}));
+    return await this.OrdersModel.findOneAndUpdate(OrderId,newValues,{new:true});
   }
 
   remove(id: number) {
     return `This action removes a #${id} order`;
   }
 
-  verifyCheckout(input: CheckoutVerificationInput): VerifiedCheckoutData {
+  async verifyCheckout(input: CheckoutVerificationInput): Promise<VerifiedCheckoutData> {
+    console.log(input);
+    var orderAmount = input.amount;
+
+    var stateNameForTax = input.billing_address.state;
+    var cityNameForShipping = input.shipping_address.city;
+    
+    var taxObj =await this.TAXESModel.findOne({"state":stateNameForTax});
+    var taxRate = taxObj.rate;
+    var taxAmount = (orderAmount*taxRate)/100;
+    // console.log("@@@@@@@@@@@@@@@@@@@@@@ Tax amount");
+    // console.log(taxAmount); 
+
+    var shippingObj =await this.ShippingModel.findOne({"name":cityNameForShipping});
+    var shippingAmount = shippingObj.amount;
+    // console.log("@@@@@@@@@@@@@@@@@@@@@@ Shipping amount");
+    // console.log(shippingAmount); 
+
+    
     return {
-      total_tax: 0,
-      shipping_charge: 0,
+      total_tax: taxAmount,
+      shipping_charge: shippingAmount,
       unavailable_products: [],
       wallet_amount: 0,
       wallet_currency: 0,

@@ -17,6 +17,7 @@ export class TypesResolver {
 
   @Query(() => [Type], { name: 'types' })
   async getTypes(@Args() getTypesArgs: GetTypesArgs): Promise<Type[]> {
+    // console.log("Query types @@@@@@@@@@@");
     return this.typesService.getTypes(getTypesArgs);
   }
 

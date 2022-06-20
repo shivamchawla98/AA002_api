@@ -6,6 +6,7 @@ import { User } from './user.entity';
 @InputType('ProfileInputType', { isAbstract: true })
 @ObjectType()
 export class Profile extends CoreEntity {
+  id?: number;
   avatar?: Attachment;
   bio?: string;
   socials?: Social[];

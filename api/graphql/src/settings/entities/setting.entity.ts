@@ -1,4 +1,4 @@
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { Attachment } from 'src/common/entities/attachment.entity';
 import { CoreEntity } from 'src/common/entities/core.entity';
 
@@ -6,6 +6,17 @@ import { CoreEntity } from 'src/common/entities/core.entity';
 @ObjectType()
 export class Setting extends CoreEntity {
   options: SettingsOptions;
+}
+
+@InputType('SettingsOptionsInputType', { isAbstract: true })
+@ObjectType()
+export class testSettingInput {
+  @Field(() => ID)
+  id?: number;
+  created_at?: Date;
+  updated_at?: Date;
+  options: SettingsOptions;
+
 }
 
 @InputType('SettingsOptionsInputType', { isAbstract: true })

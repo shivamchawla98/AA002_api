@@ -5,5 +5,5 @@ import { IsNotEmpty } from 'class-validator';
 export class GetUserArgs {
   @IsNotEmpty()
   @Field(() => ID)
-  id: number;
+  id?: number;
 }

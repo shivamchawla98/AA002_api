@@ -124,6 +124,7 @@ export enum QueryProductsOrderByColumn {
   CREATED_AT = 'CREATED_AT',
   NAME = 'NAME',
   UPDATED_AT = 'UPDATED_AT',
+  MIN_PRICE = 'MIN_PRICE',
 }
 
 registerEnumType(QueryProductsOrderByColumn, {

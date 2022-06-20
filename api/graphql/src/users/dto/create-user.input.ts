@@ -20,8 +20,6 @@ export class RegisterInput extends PickType(User, [
   'name',
   'email',
   'password',
-  "shop_id",
-  "profile"
 ]) {
   permission: Permission = Permission.CUSTOMER;
 }

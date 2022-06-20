@@ -21,12 +21,13 @@ export class ShippingsResolver {
 
   @Query(() => Shipping, { name: 'shippingClass' })
   findOne(@Args('id', { type: () => ID }) id: number) {
+    console.log(id);
     return this.shippingsService.findOne(id);
   }
 
   @Mutation(() => Shipping)
   updateShipping(@Args('input') updateShippingInput: UpdateShippingInput) {
-    return this.shippingsService.update(updateShippingInput);
+    return this.shippingsService.update(updateShippingInput.id,updateShippingInput);
   }
 
   @Mutation(() => Shipping)

@@ -7,8 +7,8 @@ import { Type } from 'src/types/entities/type.entity';
 @InputType('CategoryInputType', { isAbstract: true })
 @ObjectType()
 export class Category extends CoreEntity {
-  name: string;
-  slug: string;
+  name?: string;
+  slug?: string;
   @Field(() => ID, { nullable: true })
   parent_id?: number;
   parent?: Category;

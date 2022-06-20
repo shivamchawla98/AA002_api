@@ -6,10 +6,10 @@ import { Refund } from 'src/refunds/entities/refund.entity';
 import { Shop } from 'src/shops/entities/shop.entity';
 import { Wallet } from 'src/wallets/entities/wallet.entity';
 import { Profile } from './profile.entity';
-
 @InputType('UserInputType', { isAbstract: true })
 @ObjectType()
 export class User extends CoreEntity {
+  id: number;
   name: string;
   email: string;
   password: string;

@@ -4,9 +4,9 @@ import { Type } from 'class-transformer';
 @ObjectType()
 export class CoreEntity {
   @Field(() => ID)
-  id: number;
+  id?: number;
   @Type(() => Date)
-  created_at: Date;
+  created_at?: Date;
   @Type(() => Date)
-  updated_at: Date;
+  updated_at?: Date;
 }

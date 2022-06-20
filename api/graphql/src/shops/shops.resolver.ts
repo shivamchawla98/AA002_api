@@ -26,16 +26,20 @@ export class ShopsResolver {
 
   @Query(() => Shop, { name: 'shop', nullable: true })
   async getShop(@Args() getShopArgs: GetShopArgs): Promise<Shop> {
+    console.log("line 29");
     return this.shopsService.getShop(getShopArgs);
   }
 
   @Mutation(() => Shop)
   updateShop(@Args('input') updateShopInput: UpdateShopInput) {
+    console.log("update shop");
     return this.shopsService.update(updateShopInput.id, updateShopInput);
   }
 
   @Mutation(() => Shop)
   deleteShop(@Args('id', { type: () => ID }) id: number) {
+    console.log("Id to delete shop");
+    console.log(id);
     return this.shopsService.remove(id);
   }
   @Mutation(() => Shop)

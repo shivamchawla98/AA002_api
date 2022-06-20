@@ -8,6 +8,8 @@ import {
   ID,
   OmitType
 } from '@nestjs/graphql';
+import { Shop } from 'src/shops/entities/shop.entity';
+import { Type } from 'src/types/entities/type.entity';
 import { Product, VariationInput } from '../entities/product.entity';
 
 @InputType()
@@ -16,7 +18,10 @@ class UpsertVariationsHasMany {
   @Field(() => [ID], { nullable: true })
   delete?: number[];
 }
-
+export class ConnectTypeBelongsTo {
+  @Field(() => ID)
+  connect: number;
+}
 @InputType()
 export class CreateProductInput extends OmitType(Product, [
   'id',
@@ -38,6 +43,10 @@ export class CreateProductInput extends OmitType(Product, [
   tags?: string[];
   @Field(() => UpsertVariationsHasMany)
   variation_options?: UpsertVariationsHasMany;
+  @Field(() => Shop)
+  shop?: Shop;
+  @Field(() => [ID])
+  type?: ConnectTypeBelongsTo;
 }
 
 @InputType()

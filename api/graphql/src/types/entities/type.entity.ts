@@ -6,7 +6,7 @@ import { CoreEntity } from 'src/common/entities/core.entity';
 export class Type extends CoreEntity {
   name: string;
   slug: string;
-  image: Attachment;
+  image: string;
   icon: string;
   banners?: Banner[];
   promotional_sliders?: Attachment[];

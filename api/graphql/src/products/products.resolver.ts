@@ -21,11 +21,7 @@ import { ProductDto } from './dto/product.dto';
 export class ProductsResolver {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Mutation(() => Product)
-  async c_product(
-    @Args('input') registerProduct: RegisterProduct,){
-    return this.productsService.c_product(registerProduct);
-  }
+  
 
   @Mutation(() => Product)
   createProduct(@Args('input') createProductInput: CreateProductInput) {
@@ -36,6 +32,8 @@ export class ProductsResolver {
   async getProducts(
     @Args() getProductsArgs: GetProductsArgs,
   ): Promise<ProductPaginator> {
+    console.log("#############GET PRODUCTS LINE 35");
+    console.log(getProductsArgs);
     return this.productsService.getProducts(getProductsArgs);
   }
 
@@ -46,6 +44,9 @@ export class ProductsResolver {
 
   @Query(() => Product, { name: 'product' })
   async getProduct(@Args() getProductArgs: GetProductArgs): Promise<Product> {
+    console.log("Lineeeeeeeee45");
+    console.log(getProductArgs);
+    console.log("Lineeeeeeeee49");
     return this.productsService.getProduct(getProductArgs);
   }
 
@@ -53,6 +54,8 @@ export class ProductsResolver {
   async getPopularProducts(
     @Args() getPopularProductsArgs: GetPopularProductsArgs,
   ): Promise<Product[]> {
+    // console.log("Lineeeeeeeee53");
+    // console.log(getPopularProductsArgs);
     return this.productsService.getPopularProducts(getPopularProductsArgs);
   }
 
@@ -66,7 +69,7 @@ export class ProductsResolver {
 
   @Mutation(() => Product)
   deleteProduct(@Args('id', { type: () => ID }) id: number) {
-    return this.productsService.remove(+id);
+    return this.productsService.remove(id);
   }
 
   @ResolveField(() => [Product])
@@ -74,8 +77,10 @@ export class ProductsResolver {
     @Parent() product: Product,
     @Args('limit', { type: () => Int, nullable: true }) limit?: number,
   ) {
-    const { type } = product;
-    return this.productsService.getRelatedProducts({ slug: type.slug });
+    // console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVV");
+    // console.log(product);
+    const { categories } = product;
+    return this.productsService.getRelatedProducts({ slug: categories.slug });
   }
 }
 
