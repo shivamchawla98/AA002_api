@@ -23,6 +23,9 @@ const SlidingCardCategories1 = dynamic(
 const SlidingCardCategories2 = dynamic(
   () => import('@/components/categories/sliding-card-category2')
 );
+const SlidingCardCategoriesParent = dynamic(
+  () => import('@/components/categories/sliding-card-category-parent')
+);
 const MAP_CATEGORY_TO_GROUP: Record<string, any> = {
   classic: StickySidebarListCategories,
   modern: StickySidebarBoxedCategories,
@@ -31,6 +34,7 @@ const MAP_CATEGORY_TO_GROUP: Record<string, any> = {
   compact: SlidingCardCategories,
   compact1: SlidingCardCategories1,
   compact2: SlidingCardCategories2,
+  compactParent: SlidingCardCategoriesParent,
   default: StickySidebarListCategories,
 };
 interface CategoriesProps {

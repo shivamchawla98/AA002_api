@@ -7,14 +7,15 @@
     "dev:rest": "next dev -p 3003",
     "build:rest": "next build",
     "codegen": "graphql-let",
-    "dev:gql": "yarn codegen && next dev -p 3000",
+    "dev:gql": "yarn codegen && next dev -p 3001",
     "build:gql": "yarn codegen && next build",
     "start": "next start",
     "lint": "next lint",
     "postbuild:rest": "next-sitemap",
     "prepare": "husky install",
     "deploy": "yarn clean && yarn && yarn build:gql && pm2 start yarn --name \"shop\" -- start",
-    "restart": "pm2 stop shop &&  yarn clean && yarn && yarn build:gql && pm2 restart shop"
+    "restart": "pm2 stop shop &&  yarn clean && yarn && yarn build:gql && pm2 restart shop",
+    "dev:restart": "yarn clean && yarn && yarn dev:gql"
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",

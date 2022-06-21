@@ -2,6 +2,8 @@ import BakeryCategoryLoader from '@/components/ui/loaders/bakery-categories-load
 import Logo from '@/components/ui/logo';
 import cn from 'classnames';
 import StaticMenu from './menu/static-menu';
+import Categories from '@/components/categories/categories';
+import categories from '../categories/categories';
 import { useAtom } from 'jotai';
 import { displayHeaderSearchAtom } from '@/store/display-header-search-atom';
 import { displayMobileHeaderSearchAtom } from '@/store/display-mobile-header-search-atom';
@@ -52,19 +54,19 @@ const Header = ({ layout }: { layout: string }) => {
           <Logo className="mx-auto lg:mx-0" />
 
           <div className="hidden ltr:ml-10 rtl:mr-10 ltr:mr-auto rtl:ml-auto xl:block">
-            <BakeryCategoryLoader />
+            {/* <Categories layout="compactParent" variables={{ limit: 1000, parent: null, type: "products" }} /> */}
           </div>
         </div>
         {/* {isHomePage ? ( */}
-          <>
-            <div className="hidden w-full px-8 mx-auto xl:flex xl:w-6/12 xl:rtl:w-4/12 2xl:rtl:w-5/12 xl:px-10">
-              <SearchWithSuggestion
-                label={t('text-search-label')}
-                variant="minimal"
-                seeMore={true}
-              />
-            </div>
-            {/* {(displayHeaderSearch || layout === 'modern') && (
+        <>
+          <div className="hidden w-full px-8 mx-auto xl:flex xl:w-6/12 xl:rtl:w-4/12 2xl:rtl:w-5/12 xl:px-10">
+            <SearchWithSuggestion
+              label={t('text-search-label')}
+              variant="minimal"
+              seeMore={true}
+            />
+          </div>
+          {/* {(displayHeaderSearch || layout === 'modern') && (
               <div className="hidden w-full px-10 mx-auto overflow-hidden lg:block xl:w-11/12 2xl:w-10/12">
                 <Search label={t('text-search-label')} variant="minimal" />
               </div>
@@ -75,7 +77,7 @@ const Header = ({ layout }: { layout: string }) => {
                 <Search label={t('text-search-label')} variant="minimal" />
               </div>
             )} */}
-          </>
+        </>
         {/* ) : null} */}
         <ul className="items-center shrink-0 hidden lg:flex space-x-10 rtl:space-x-reverse">
           <StaticMenu />
@@ -91,6 +93,17 @@ const Header = ({ layout }: { layout: string }) => {
             <li>{isAuthorize ? <AuthorizedMenu /> : <JoinButton />}</li>
           </div>
         </ul>
+      </div>
+      <div
+        className={cn(
+          'fixed flex justify-between items-center w-full h-21 md:h-24 lg:h-33 px-4 lg:px-8 py-5 z-50 bg-light border-b border-border-200 shadow-sm transition-transform duration-300 transform-gpu mt-14 md:mt-16 lg:mt-22',
+          {
+            'lg:absolute lg:bg-transparent lg:shadow-none lg:border-0':
+              isFlattenHeader,
+          }
+        )}
+      >
+        <Categories layout="compactParent" variables={{ limit: 1000, parent: null, type: "products" }} />
       </div>
     </header>
   );

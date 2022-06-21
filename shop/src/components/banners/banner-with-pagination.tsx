@@ -1,4 +1,4 @@
-import { Swiper, SwiperSlide, Pagination } from '@/components/ui/slider';
+import { Swiper, SwiperSlide, Pagination, Autoplay, Navigation } from '@/components/ui/slider';
 import { Image } from '@/components/ui/image';
 import { Banner } from '@/framework/types';
 import { productPlaceholder } from '@/lib/placeholders';
@@ -12,20 +12,26 @@ interface BannerProps {
 }
 
 const BannerWithPagination: React.FC<BannerProps> = ({ banners, slug }) => {
-  console.log("@@@@@@@@@@@@@@@@@@@@@@@@BANNERS")
-  console.log(banners);
+  // console.log("@@@@@@@@@@@@@@@@@@@@@@@@BANNERS")
+  // console.log(banners);
   return (
     <div className="relative compact">
       <div className="overflow-hidden -z-1 rounded-xl">
         <div className="relative">
           <Swiper
             id="banner"
+            spaceBetween={30}
+            centeredSlides={true}
             loop={true}
-            modules={[Pagination]}
             resizeObserver={true}
-            allowTouchMove={false}
+            allowTouchMove={true}
             slidesPerView={1}
+            autoplay={{
+              delay: 2000,
+              disableOnInteraction: false,
+            }}
             // pagination={true}
+            modules={[Autoplay, Pagination, Navigation]}
             pagination={{
               bulletClass:
                 'swiper-pagination-bullet !w-2.5 !h-2.5 !p-1 !rounded-full bg-gray-400 !border-0 !opacity-70',
