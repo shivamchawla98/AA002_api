@@ -37,6 +37,7 @@
     "graphql-tools": "^8.2.0",
     "graphql-upload": "^13.0.0",
     "mongoose": "^6.3.0",
+    "nestjs-razorpay": "^1.0.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.4.0",

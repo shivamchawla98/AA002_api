@@ -12,10 +12,13 @@ import {
   calculatePaidTotal,
   calculateTotal,
 } from '@/store/quick-cart/cart.utils';
+// const Razorpay = require('razorpay'); 
 
 export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { createOrder, isLoading } = useCreateOrder();
+  console.log("#################3");
+  console.log();
 
   const { orderStatuses } = useOrderStatuses({
     limit: 1,
@@ -116,9 +119,56 @@ export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
   const isAllRequiredFieldSelected = formatRequiredFields.every(
     (item) => !isEmpty(item)
   );
+
+
+  // const createRazorPayOrder = () => {
+  //   var instance = new Razorpay({ key_id: 'rzp_test_6KeEX1ZjMEQqzq', key_secret: 'M9B8Cad10RpKr5D3O2PuQKlY' })
+  //   instance.orders.create({
+  //     amount: subtotal,
+  //     currency: "INR"
+  //     },function(err: any, order: { id: any; }){
+  //     console.log(")))))********ORDER RAZORPAY(((((");
+  //     console.log(order.id);
+  //     console.log(order);
+  //     displayRazorpay(order.id)
+  //   })
+  // }
+
+  // const displayRazorpay = (orderID: any) => {
+  //   var options = {
+  //     "key": "rzp_test_6KeEX1ZjMEQqzq", // Enter the Key ID generated from the Dashboard
+  //     "name": "Acme Corp",
+  //     "description": "Test Transaction",
+  //     "image": "https://example.com/your_logo",
+  //     "order_id": "order_Jl2XY3rZSNtP9q", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+  //     "handler": function (response: { razorpay_payment_id: any; razorpay_order_id: any; razorpay_signature: any; }){
+  //         alert(response.razorpay_payment_id);
+  //         alert(response.razorpay_order_id);
+  //         alert(response.razorpay_signature)
+  //         handlePlaceOrder()
+  //     },
+      
+  //     "theme": {
+  //         "color": "#3399cc"
+  //     }
+  //   };
+  //   const _window = window as any
+  //   var paymenytObject = new _window.Razorpay(options);
+  //   paymenytObject.open();
+    
+  // }
+
+  // const loadRazorpay  = () =>  {
+  //   const script = document.createElement('script')
+  //   script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+  //   document.body.appendChild(script)
+  //   script.onload = displayRazorpay
+  // }
+
   return (
     <>
       <Button
+        id="rzp-button1"
         loading={isLoading}
         className={classNames('mt-5 w-full', props.className)}
         onClick={handlePlaceOrder}

@@ -32,10 +32,14 @@ import { Users } from 'src/users/user.schema';
 import { Products } from 'src/products/product.schema';
 import { Shippings } from 'src/shippings/shippings.schema';
 import { TAXES } from 'src/taxes/tax.schema';
+import { delay } from 'rxjs';
+
+const Razorpay = require('razorpay');
 
 const orders = plainToClass(Order, ordersJson);
 const orderStatus = plainToClass(OrderStatus, orderStatusJson);
 const orderFiles = plainToClass(OrderFiles, orderFilesJson);
+
 
 @Injectable()
 export class OrdersService {
@@ -47,10 +51,30 @@ export class OrdersService {
 
   async create(createOrderInput: CreateOrderInput) {
     this.ProductList = [];
-    // console.log("000000000000000000000000 USER ID");
-    // console.log(createOrderInput);
+    console.log("000000000000000000000000 USER ID");
+    console.log(createOrderInput);
+    var trackingNumberObj ={};  
+
+    var instance = new Razorpay({ key_id: 'rzp_test_6KeEX1ZjMEQqzq', key_secret: 'M9B8Cad10RpKr5D3O2PuQKlY' })
+    await instance.orders.create({
+      amount: createOrderInput.amount*100,
+      currency: "INR"
+      },function(err: any, order: { id: any; }){
+      console.log(createOrderInput.total*100);
+      console.log(")))))********ORDER RAZORPAY(((((");
+      console.log(order.id);
+      var a = order.id
+      console.log(a);
+      trackingNumberObj={
+        tracking_number:a
+      }
+      console.log("test");
+      console.log(trackingNumberObj);
+    })
+
+
     if(!createOrderInput.customer_id){
-      console.log("inside if loooooooop");
+      // console.log("inside if loooooooop");
       var IDuser0 = {"id":34};
       var customerInfo={
         customer:await this.userModel.findOne(IDuser0)
@@ -68,9 +92,9 @@ export class OrdersService {
 
     var input = createOrderInput;
     var randomString = Math.random().toString(36).slice(2);
-    var trackingNumberObj={
-      tracking_number:randomString
-    }
+    // trackingNumberObj={
+    //   tracking_number:randomString
+    // }
     
 
     var StatusOtder={
@@ -104,6 +128,7 @@ export class OrdersService {
     }
 
     var A =Object.assign(input,customerInfo);
+    console.log("continue");
     var B =Object.assign(input,trackingNumberObj);
     var C =Object.assign(input,StatusOtder);
     var D =Object.assign(input,ProductInput);
@@ -118,7 +143,6 @@ export class OrdersService {
     // console.log(await this.OrdersModel.findOne({"id":`"${randomString}"`}));
     // console.log(`"${randomString}"`);
     // console.log("000000000000000000000000");
-    
     return input;
     // return this.orders[1];
   }
@@ -229,17 +253,17 @@ export class OrdersService {
     console.log(input);
     var orderAmount = input.amount;
 
-    var stateNameForTax = input.billing_address.state;
-    var cityNameForShipping = input.shipping_address.city;
+    var stateNameForTax = "Haryana";
+    var cityNameForShipping = "Gurgaon";
     
     var taxObj =await this.TAXESModel.findOne({"state":stateNameForTax});
     var taxRate = taxObj.rate;
-    var taxAmount = (orderAmount*taxRate)/100;
+    var taxAmount = 0;
     // console.log("@@@@@@@@@@@@@@@@@@@@@@ Tax amount");
     // console.log(taxAmount); 
 
     var shippingObj =await this.ShippingModel.findOne({"name":cityNameForShipping});
-    var shippingAmount = shippingObj.amount;
+    var shippingAmount = 0;
     // console.log("@@@@@@@@@@@@@@@@@@@@@@ Shipping amount");
     // console.log(shippingAmount); 
 
@@ -284,3 +308,7 @@ export class OrdersService {
     return item.file.url;
   }
 }
+function sleep(arg0: number) {
+  throw new Error('Function not implemented.');
+}
+

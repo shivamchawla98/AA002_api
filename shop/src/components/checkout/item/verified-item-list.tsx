@@ -67,8 +67,8 @@ const VerifiedItemList: React.FC<Props> = ({ className }) => {
     ? calculatePaidTotal(
         {
           totalAmount: base_amount,
-          tax: verifiedResponse?.total_tax,
-          shipping_charge: verifiedResponse?.shipping_charge,
+          tax: 0,
+          shipping_charge: 0,
         },
         Number(discount)
       )

@@ -31,6 +31,7 @@ import {
 import { useAtom } from 'jotai';
 import { verifiedResponseAtom } from '@/store/checkout';
 import { ROUTES } from '@/lib/routes';
+import { useState } from 'react';
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
   const {
@@ -223,11 +224,19 @@ export function useCreateRefund() {
 }
 export function useCreateOrder() {
   const router = useRouter();
+  // const [orderID,setOrderID] = useState("");
+  var ORDER_ID = "";
   const [createOrder, { loading: isLoading }] = useCreateOrderMutation({
     onCompleted: (data) => {
-      if (data?.createOrder?.tracking_number) {
-        router.push(`${ROUTES.ORDERS}/${data?.createOrder?.tracking_number}`);
-      }
+      loadRazorpay()
+      // setOrderID(data.createOrder.tracking_number)
+      ORDER_ID = data.createOrder.tracking_number;
+      // console.log("{{{{ORDERID}}}}")
+      // console.log(ORDER_ID);
+      // console.log(data?.createOrder?.tracking_number);
+      // if (data?.createOrder?.tracking_number) {
+      //   router.push(`${ROUTES.ORDERS}/${data?.createOrder?.tracking_number}`);
+      // }
     },
     onError: (error) => {
       toast.error(error.message);
@@ -240,6 +249,40 @@ export function useCreateOrder() {
       },
     });
   }
+
+
+  const displayRazorpay = () => {
+    var options = {
+      "key": "rzp_test_6KeEX1ZjMEQqzq", // Enter the Key ID generated from the Dashboard
+      "name": "Acme Corp",
+      "description": "Test Transaction",
+      "image": "https://example.com/your_logo",
+      "order_id": ORDER_ID, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "handler": function (response: { razorpay_payment_id: any; razorpay_order_id: any; razorpay_signature: any; }){
+          // alert(response.razorpay_payment_id);
+          // alert(response.razorpay_order_id);
+          // alert(response.razorpay_signature);
+          router.push(`${ROUTES.ORDERS}/${ORDER_ID}`);
+      },
+      
+      "theme": {
+          "color": "#3399cc"
+      }
+    };
+    const _window = window as any
+    var paymenytObject = new _window.Razorpay(options);
+    paymenytObject.open();
+    
+  }
+
+  const loadRazorpay  = () =>  {
+    const script = document.createElement('script')
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+    document.body.appendChild(script)
+    script.onload = displayRazorpay
+  }
+
+
   return {
     createOrder: create,
     isLoading,
