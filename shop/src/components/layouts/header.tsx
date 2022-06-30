@@ -37,18 +37,21 @@ const Header = ({ layout }: { layout: string }) => {
     !displayHeaderSearch && isHomePage && layout !== 'classic';
   return (
     <header
-      className={cn('site-header-with-search h-14 md:h-16 lg:h-22', {
+      className={cn('site-header-with-search h-36 md:h-38 lg:h-53', {
         'lg:!h-auto': isFlattenHeader,
       })}
     >
       <div
         className={cn(
-          'fixed flex justify-between items-center w-full h-14 md:h-16 lg:h-22 px-4 lg:px-8 py-5 z-50 bg-light border-b border-border-200 shadow-sm transition-transform duration-300 transform-gpu',
+          'fixed flex justify-between items-center w-full h-14 md:h-14 lg:h-20 px-4 lg:px-8 py-4 z-50 bg-light border-b border-border-200 shadow-sm transition-transform duration-300 transform-gpu',
           {
             'lg:absolute lg:bg-transparent lg:shadow-none lg:border-0':
               isFlattenHeader,
           }
         )}
+        style={{
+          paddingTop: "0", zIndex: "100", paddingBottom: "0", borderBottom: "0", boxShadow: "none"
+        }}
       >
         <div className="flex items-center w-full lg:w-auto">
           <Logo className="mx-auto lg:mx-0" />
@@ -96,12 +99,15 @@ const Header = ({ layout }: { layout: string }) => {
       </div>
       <div
         className={cn(
-          'fixed flex justify-between items-center w-full h-21 md:h-24 lg:h-33 px-4 lg:px-8 py-5 z-50 bg-light border-b border-border-200 shadow-sm transition-transform duration-300 transform-gpu mt-14 md:mt-16 lg:mt-22',
+          'fixed flex justify-between items-center w-full h-23 md:h-26 lg:h-35 px-4 lg:px-8 py-5 z-50 bg-light border-b border-border-200 shadow-sm transition-transform duration-300 transform-gpu mt-14 md:mt-16 lg:mt-22',
           {
             'lg:absolute lg:bg-transparent lg:shadow-none lg:border-0':
               isFlattenHeader,
           }
         )}
+        style={{
+          paddingBottom: "0"
+        }}
       >
         <Categories layout="compactParent" variables={{ limit: 1000, parent: null, type: "products" }} />
       </div>
