@@ -22,13 +22,13 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ item }) => {
         <Image
           src={item?.image?.original! ?? productPlaceholder}
           alt={item?.name!}
-          width={200}
+          width={240}
           height={240}
           layout="responsive"
           className="rounded-md"
         />
       
-        <span className="block mt-2 text-base font-semibold transition-colors text-heading group-hover:text-orange-500 ltr:text-left rtl:text-right">
+        <span className="block mt-2 text-base font-semibold transition-colors text-heading group-hover:text-orange-500 ">
           {item.name}
         </span>
       </div>
