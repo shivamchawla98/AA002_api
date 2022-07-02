@@ -213,10 +213,28 @@ export class OrdersService {
     const startIndex = (page - 1) * first;
     const endIndex = page * first;
     const data: OrderStatus[] = this.orderStatus;
+    var orderStatus = [];
 
     // if (shop_id) {
     //   data = this.orders?.filter((p) => p?.shop?.id === shop_id);
     // }
+    if (text && text!="%%") {
+      data.forEach(element => {
+        var checkOrderstatusName = (element.name.toLowerCase()).includes(text.replace(/%/g, '').toLowerCase())
+        if (checkOrderstatusName == true) {
+          orderStatus.push(element);
+        }
+      });
+      console.log(orderStatus);
+
+      // const results = users.slice(startIndex, endIndex);
+      // console.log(results);
+      return {
+        data: orderStatus,
+        paginatorInfo: paginate(orderStatus.length, page, first, orderStatus.length),
+      }; 
+    }
+    
     const results = data.slice(startIndex, endIndex);
 
     return {

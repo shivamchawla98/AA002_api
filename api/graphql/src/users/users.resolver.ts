@@ -143,7 +143,8 @@ export class UsersResolver {
 
   @Query(() => UserPaginator, { name: 'users' })
   async getUsers(@Args() getUsersArgs: GetUsersArgs): Promise<UserPaginator> {
-    console.log("paginator");
+    console.log("Line 146 Users +++++++");
+    console.log(getUsersArgs);
     return this.usersService.getUsers(getUsersArgs);
   }
 

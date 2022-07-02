@@ -181,13 +181,27 @@ export class UsersService {
     const startIndex = (page - 1) * first;
     const endIndex = page * first;
     let data: User[] = await this.userModel.find();
-    // if (text?.replace(/%/g, '')) {
-    //   data = fuse.search(text)?.map(({ item }) => item);
-    // }
+    let users_ = [];
+    if (text && text!="%%") {
+      data.forEach(element => {
+        var checkTypeSlug = (element.name.toLowerCase()).includes(text.replace(/%/g, '').toLowerCase())
+        if (checkTypeSlug == true) {
+          users_.push(element);
+        }
+      });
+      console.log(users_);
+
+      // const results = users.slice(startIndex, endIndex);
+      // console.log(results);
+      return {
+        data: users_,
+        paginatorInfo: paginate(users_.length, page, first, users_.length),
+      }; 
+    }
     const results = data.slice(startIndex, endIndex);
     return {
       data: results,
-      paginatorInfo: paginate(data.length, page, first, results.length),
+      paginatorInfo: paginate(results.length, page, first, results.length),
     };
   }
 

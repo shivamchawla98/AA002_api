@@ -131,58 +131,57 @@ export class CategoriesService {
     // let data: Category[] = this.categories;
     let data:Category[]=[];
     let a:Category[]=[];
+    var result = [];
     
     let queryResult: Category[] = await this.CategoriesModel.find();
-    // if(hasType){
+    // console.log("CATEGORY ******");
+    // console.log(queryResult);
+  
+    if(hasType){
+      // console.log("into hastype ---------");
       queryResult.forEach(element => {
         if(element.type.slug == hasType?.value){
           data.push(element);
         }
       });
-    // }
-    // if(!hasType){
-    //   data = queryResult;
-    // }
-    
-
-    // console.log("data");
-    // console.log(data);
-    // if (text?.replace(/%/g, '')) {
-    //   data = fuse.search(text)?.map(({ item }) => item);
-    // }
-    // if (hasType?.value) {
-    //   data = fuse.search(hasType.value as unknown)?.map(({ item }) => item);
-    // }
-    // if (parent === null) {
-    //   data = data.filter(({ parent: parentValue }) => parentValue === null);
-    // }
-    //const results = data.slice(startIndex, endIndex);
-    // console.log("result");
-    // console.log(data);
-
-      if(hasType){
-        return {
-          data: queryResult,
-          paginatorInfo: paginate(data.length, page, first, data.length),
-        };
-      }
-      else{
-       
-        console.log("category test");
-        queryResult.forEach(element => {
-          if(element.children){
-            element.children.forEach(child => {
-              console.log(child);
-              a.push(child);
-            });
-            
+      return {
+        data: data,
+        paginatorInfo: paginate(data.length, page, first, data.length),
+      };
+    }
+    if(text && text !="%%"){
+      queryResult.forEach(element => {
+        if(element.children){
+          element.children.forEach(child => {
+            var checkTypeSlug = (child.slug.toLowerCase()).includes(text.replace(/%/g, '').toLowerCase())
+            if (checkTypeSlug == true) {
+            result.push(child);
           }
         });
-        return {
-          data: a,
-          paginatorInfo: paginate(data.length, page, first, data.length),
-        };
-      }
+        }
+      });
+
+      return {
+        data: result,
+        paginatorInfo: paginate(data.length, page, first, data.length),
+      };
+    }
+    else{       
+      // console.log("category test");
+      queryResult.forEach(element => {
+        if(element.children){
+          element.children.forEach(child => {
+            // console.log(child);
+            a.push(child);
+          });
+          
+        }
+      });
+      return {
+        data: a,
+        paginatorInfo: paginate(data.length, page, first, data.length),
+      };
+    }
     
   }
 

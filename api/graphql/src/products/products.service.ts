@@ -44,8 +44,8 @@ export class ProductsService {
 
 
   async create(createProductInput: CreateProductInput) {
-    console.log("create==========================");
-    console.log(createProductInput);
+    // console.log("create==========================");
+    // console.log(createProductInput);
     var typeid = createProductInput.type_id;
     //console.log(typeid);
     var TypeValue = await this.TypesModel.findOne({ "_id": typeid });
@@ -99,15 +99,15 @@ export class ProductsService {
     var v = 0;
     const startIndex = (page - 1) * first;
     const endIndex = page * first;
-    // console.log("{{{{{{{{{{{}}}}}}}}}}}}");
-    // console.log(min_price);
+    console.log("{{{{{{{{{{{}}}}}}}}}}}}");
+    console.log(hasType);
     let data: Product[] = await this.ProductModel.find();
     // console.log("data");
     // console.log(data);
     // console.log("dataend")
     // console.log(text);
     var productSearchResult = [];
-    if (text) {
+    if (text && text!="%%") {
       data.forEach(product => {
         var checkTypeSlug = (product.slug.toLowerCase()).includes(text.replace(/%/g, '').toLowerCase())
         if (checkTypeSlug == true) {
@@ -147,6 +147,7 @@ export class ProductsService {
     // console.log(hasType);
     if (hasType) {
       if (hasType.value != 'Products') {
+        // console.log("line 150");
         data.forEach(product => {
           // var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasCategories.value[0].replace(/%/g,'').toLowerCase())
           var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasType.value.toLowerCase())
@@ -252,6 +253,31 @@ export class ProductsService {
       data.sort((a, b) => {
         return a.sale_price - b.sale_price;
       });
+      return {
+        data: data,
+        paginatorInfo: paginate(data.length, page, first, data.length),
+      };
+    }
+
+    if(hasCategories){
+      var category_name = hasCategories.value[0];
+      // console.log("category");
+      // console.log(category_name);
+      data.forEach(product => {
+        // var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasCategories.value[0].replace(/%/g,'').toLowerCase())
+        var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(category_name.toLowerCase())
+        if (checkCategorySlug == true) {
+          productSearchResult.push(product);
+        }
+      });
+      return {
+        data: productSearchResult,
+        paginatorInfo: paginate(productSearchResult.length, page, first, productSearchResult.length),
+      };
+
+    }
+
+    else{
       return {
         data: data,
         paginatorInfo: paginate(data.length, page, first, data.length),
