@@ -138,15 +138,16 @@ export class CategoriesService {
     // console.log(queryResult);
   
     if(hasType){
-      // console.log("into hastype ---------");
+      console.log(hasType?.value);
       queryResult.forEach(element => {
-        if(element.type.slug == hasType?.value){
-          data.push(element);
+        if(element.type.slug.toLowerCase() == hasType?.value.toLowerCase()){
+          result.push(element);
         }
       });
+      console.log(data);
       return {
-        data: data,
-        paginatorInfo: paginate(data.length, page, first, data.length),
+        data: result,
+        paginatorInfo: paginate(result.length, page, first, result.length),
       };
     }
     if(text && text !="%%"){

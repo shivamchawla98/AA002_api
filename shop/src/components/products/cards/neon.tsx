@@ -116,7 +116,7 @@ const Neon: React.FC<NeonProps> = ({ product, className }) => {
         ) : (
           <>
             {Number(quantity) > 0 && (
-              <AddToCart variant="neon" data={product} />
+              <AddToCart variant="single" data={product} />
             )}
           </>
         )}
