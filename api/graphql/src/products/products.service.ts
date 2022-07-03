@@ -147,7 +147,7 @@ export class ProductsService {
     // console.log(hasType);
 
     if(hasType){
-      if( (hasType.value == 'Electronics') || (hasType.value == 'Beauty') || (hasType.value == 'Entertainment') ){
+      if( (hasType.value == 'Electronics') || (hasType.value == 'Beauty ') || (hasType.value == 'Entertainment') ){
         data.forEach(product => {
           var checkType = (product.type.slug.toLowerCase()).includes(hasType.value.toLowerCase());
           if (checkType == true) {
