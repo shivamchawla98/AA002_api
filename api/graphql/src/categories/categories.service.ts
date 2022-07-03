@@ -178,7 +178,7 @@ export class CategoriesService {
     // }
 
     if(hasType && !text){
-      console.log("condition 2");
+      // console.log("condition 2");
       queryResult.forEach(element => {
         if(element.type.slug.toLowerCase() == hasType?.value.toLowerCase()){
           element.children.forEach(child => {
@@ -194,7 +194,7 @@ export class CategoriesService {
     }
     
     if(text && text !="%%"){
-      console.log("condition 3");
+      // console.log("condition 3");
       queryResult.forEach(element => {
         if(element.children){
           element.children.forEach(child => {
@@ -213,7 +213,7 @@ export class CategoriesService {
     }
 
     else{      
-      console.log("condition 4"); 
+      // console.log("condition 4"); 
       // // console.log("category test");
       // queryResult.forEach(element => {
       //   if(element.children){

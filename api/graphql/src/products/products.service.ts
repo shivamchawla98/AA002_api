@@ -145,12 +145,42 @@ export class ProductsService {
     }
     // console.log("has type loging@@@@@@@@@@@D2@@@@@@@@@")
     // console.log(hasType);
+
+    if(hasType){
+      if( (hasType.value == 'Electronics') || (hasType.value == 'Beauty') || (hasType.value == 'Entertainment') ){
+        data.forEach(product => {
+          var checkType = (product.type.slug.toLowerCase()).includes(hasType.value.toLowerCase());
+          if (checkType == true) {
+            productSearchResult.push(product);
+          }
+        });
+  
+        if (orderBy) {
+          if (orderBy[0].order == 'desc') {
+            productSearchResult.sort((a, b) => {
+              return b.sale_price - a.sale_price;
+            });
+          }
+          if (orderBy[0].order == 'asc') {
+            productSearchResult.sort((a, b) => {
+              return a.sale_price - b.sale_price;
+            });
+          }
+        }
+  
+        return {
+          data: productSearchResult,
+          paginatorInfo: paginate(productSearchResult.length, page, first, productSearchResult.length),
+        };
+      }
+    }
+
     if (hasType) {
       if (hasType.value != 'Products') {
         // console.log("line 150");
         data.forEach(product => {
           // var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasCategories.value[0].replace(/%/g,'').toLowerCase())
-          var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasType.value.toLowerCase())
+          var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasType.value.toLowerCase());
           if (checkCategorySlug == true) {
             productSearchResult.push(product);
           }
