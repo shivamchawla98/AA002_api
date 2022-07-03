@@ -135,9 +135,9 @@ const VerifiedItemList: React.FC<Props> = ({ className }) => {
           walletCurrency={verifiedResponse.wallet_currency}
         />
       )}
-      {use_wallet && !Boolean(payableAmount) ? null : (
+      {/* {use_wallet && !Boolean(payableAmount) ? null : (
         <PaymentGrid className="p-5 mt-10 border border-gray-200 bg-light" />
-      )}
+      )} */}
       <PlaceOrderAction>{t('text-place-order')}</PlaceOrderAction>
     </div>
   );

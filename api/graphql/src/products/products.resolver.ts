@@ -32,8 +32,8 @@ export class ProductsResolver {
   async getProducts(
     @Args() getProductsArgs: GetProductsArgs,
   ): Promise<ProductPaginator> {
-    // console.log("#############GET PRODUCTS LINE 35");
-    // console.log(getProductsArgs);
+    console.log("#############GET PRODUCTS LINE 35");
+    console.log(getProductsArgs);
     return this.productsService.getProducts(getProductsArgs);
   }
 

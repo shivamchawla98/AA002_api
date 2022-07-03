@@ -3,6 +3,9 @@ import AddToCartBtn from '@/components/products/add-to-cart/add-to-cart-btn';
 import { cartAnimation } from '@/lib/cart-animation';
 import { useCart } from '@/store/quick-cart/cart.context';
 import { generateCartItem } from '@/store/quick-cart/generate-cart-item';
+import { useRouter } from 'next/router';
+import { ROUTES } from '@/lib/routes';
+
 
 interface Props {
   data: any;
@@ -44,6 +47,18 @@ export const AddToCart = ({
       cartAnimation(e);
     }
   };
+  const router = useRouter();
+  const handleBuyNowClick = (
+    e: React.MouseEvent<HTMLButtonElement | MouseEvent>
+  ) => {
+    e.stopPropagation();
+    addItemToCart(item, 1);
+    if (!isInCart(item.id)) {
+      cartAnimation(e);
+    }
+    router.push(ROUTES.CHECKOUT);
+  };
+
   const handleRemoveClick = (e: any) => {
     e.stopPropagation();
     removeItemFromCart(item.id);
@@ -54,6 +69,7 @@ export const AddToCart = ({
       disabled={disabled || outOfStock}
       variant={variant}
       onClick={handleAddClick}
+      onClick1={handleBuyNowClick}
     />
   ) : (
     <>

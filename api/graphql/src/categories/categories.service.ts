@@ -29,9 +29,16 @@ export class CategoriesService {
   async create(createCategoryInput: CreateCategoryInput) {
     
     if(createCategoryInput.parent){
+      console.log("=[=[=[=[=[=");
+      console.log(1111);
       var parentCategory = await this.CategoriesModel.findOne({"_id":createCategoryInput.parent});
+      var parentDetails = {
+        name : parentCategory.name,
+        slug : parentCategory.slug,
+        id : parentCategory._id
+      }
       var ParentObj = {
-        parent : parentCategory
+        parent : parentDetails
       }
 
       var x =[];
@@ -58,7 +65,8 @@ export class CategoriesService {
 
       var n = Object.assign(createCategoryInput,SlugObject);
       var l = Object.assign(createCategoryInput,IDCategory);
-      var m = Object.assign(createCategoryInput.type,TypeObj);      
+      var m = Object.assign(createCategoryInput.type,TypeObj);
+      var o = Object.assign(createCategoryInput.parent,ParentObj);      
 
       x.push(createCategoryInput);
       var child = {
@@ -80,6 +88,8 @@ export class CategoriesService {
     }
     if(!createCategoryInput.parent)
     {
+      console.log("=[=[=[=[=[=");
+      console.log(2222);
       var Slug = createCategoryInput.name;
       var SlugObject ={
         slug:Slug
@@ -88,11 +98,12 @@ export class CategoriesService {
       var Type_Id = createCategoryInput.type.connect;
       var TypeObj1 = await this.TypesModel.findOne({"_id":Type_Id});
       var parentCategory = await this.CategoriesModel.findOne({"_id":createCategoryInput.parent});
-      var ParentObj = {
-        parent : parentCategory
+
+      var ParentObj2 = {
+        parent : parentDetails
       }
       
-      var B =Object.assign(createCategoryInput,ParentObj);
+      var B =Object.assign(createCategoryInput,ParentObj2);
       var TypeInput =Object.assign(A.type,TypeObj1);
   
       // console.log("TYPE OBJECT FROM CATEGORIES")
@@ -136,21 +147,53 @@ export class CategoriesService {
     let queryResult: Category[] = await this.CategoriesModel.find();
     // console.log("CATEGORY ******");
     // console.log(queryResult);
-  
-    if(hasType){
-      console.log(hasType?.value);
+    
+    if(hasType?.value=="products"){
+      return {
+        data: queryResult,
+        paginatorInfo: paginate(queryResult.length, page, first, queryResult.length),
+      };
+    }
+    
+    if(hasType && text == "%%"){
+      console.log("condition 1");
       queryResult.forEach(element => {
         if(element.type.slug.toLowerCase() == hasType?.value.toLowerCase()){
           result.push(element);
         }
       });
-      console.log(data);
+      // console.log(data);
       return {
         data: result,
         paginatorInfo: paginate(result.length, page, first, result.length),
       };
     }
+
+    // if(hasType?.value=="Electornics" && !text){
+    //   return {
+    //     data: queryResult,
+    //     paginatorInfo: paginate(queryResult.length, page, first, queryResult.length),
+    //   };
+    // }
+
+    if(hasType && !text){
+      console.log("condition 2");
+      queryResult.forEach(element => {
+        if(element.type.slug.toLowerCase() == hasType?.value.toLowerCase()){
+          element.children.forEach(child => {
+            a.push(child);
+          });
+        }
+      });
+
+      return {
+        data: a,
+        paginatorInfo: paginate(a.length, page, first, a.length),
+      };
+    }
+    
     if(text && text !="%%"){
+      // console.log("condition 3");
       queryResult.forEach(element => {
         if(element.children){
           element.children.forEach(child => {
@@ -167,34 +210,63 @@ export class CategoriesService {
         paginatorInfo: paginate(data.length, page, first, data.length),
       };
     }
-    else{       
-      // console.log("category test");
-      queryResult.forEach(element => {
-        if(element.children){
-          element.children.forEach(child => {
-            // console.log(child);
-            a.push(child);
-          });
+
+    else{      
+      // console.log("condition 4"); 
+      // // console.log("category test");
+      // queryResult.forEach(element => {
+      //   if(element.children){
+      //     element.children.forEach(child => {
+      //       // console.log(child);
+      //       a.push(child);
+      //     });
           
-        }
-      });
+      //   }
+      // });
       return {
-        data: a,
-        paginatorInfo: paginate(data.length, page, first, data.length),
+        data: queryResult,
+        paginatorInfo: paginate(queryResult.length, page, first, queryResult.length),
       };
     }
     
   }
 
   async getCategory({ id, slug }: GetCategoryArgs): Promise<Category> {
-    if (id) {
-      // return this.categories.find((p) => p.id === Number(id));
-      return await this.CategoriesModel.findOne({"_id":id});
+    var Child_Category = {};
+    if(id){
+      try {
+        return await this.CategoriesModel.findOne({"_id":id});
+      } 
+      catch (error) {
+        if (error){
+          var All_Categories = await this.CategoriesModel.find();
+          // console.log("aaaallll categories");
+          All_Categories.forEach(element => {
+            // console.log("Parent category<<<<<<<<<<<<<");
+            // console.log(element);
+            var child_category_array = element.children;
+            child_category_array.forEach(child => {
+              // console.log("childern >>>>>>>>>>>");
+              // console.log(child);
+              // console.log(child.id);
+              if (child.id == id){  
+                // console.log("inside if condition");            
+                Child_Category = child;
+              }
+            });           
+          });
+          // console.log(Child_Category);
+          return Child_Category;
+        }
+      }
     }
+    
     return await this.CategoriesModel.findOne({slug:slug});;
   }
 
   async update(id: number, updateCategoryInput: UpdateCategoryInput) {
+    // console.log(id);
+    // console.log(updateCategoryInput);
     var CategoryId = {"_id":  id };
     var Type_Id = updateCategoryInput.type.connect;
     // console.log(Type_Id);
@@ -218,7 +290,7 @@ export class CategoriesService {
     //this.ShippingModel.findOneAndRemove(ShippingId,{new:true})
     this.CategoriesModel.findOneAndDelete((CategoryId), function (err, docs) {
       if (err){
-          console.log(err)
+          console.log(err);
       }
       else{
           console.log("Deleted User : ", docs);

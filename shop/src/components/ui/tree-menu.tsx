@@ -69,7 +69,6 @@ const TreeMenuItem: React.FC<TreeMenuItemProps> = ({
 
   return (
     <>
-      <a href={`/${name}/search?category=${name}`}>
       <motion.li
         initial={false}
         animate={{ backgroundColor: '#ffffff' }}
@@ -96,7 +95,6 @@ const TreeMenuItem: React.FC<TreeMenuItemProps> = ({
           <span className="ltr:ml-auto rtl:mr-auto">{expandIcon}</span>
         </button>
       </motion.li>
-      </a>
       <AnimatePresence initial={false}>
         {Array.isArray(items) && isOpen ? (
           <li>
@@ -115,16 +113,19 @@ const TreeMenuItem: React.FC<TreeMenuItemProps> = ({
               {items.map((currentItem) => {
                 const childDepth = depth + 1;
                 return (
+                  <a href={`/${name}/search?category=${currentItem.name}&type=${currentItem.name}`}>
                   <TreeMenuItem
                     key={`${currentItem.name}${currentItem.slug}`}
                     item={currentItem}
                     depth={childDepth}
                     className={cn('text-sm text-body ltr:ml-5 rtl:mr-5')}
                   />
+                  </a>
                 );
               })}
             </motion.ul>
           </li>
+          
         ) : null}
       </AnimatePresence>
     </>

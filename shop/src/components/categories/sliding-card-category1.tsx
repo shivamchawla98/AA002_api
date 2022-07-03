@@ -23,8 +23,8 @@ const SlidingCardCategories1: React.FC<SlidingCardCategoriesProps> = ({
       </div>
     );
   }
-  // console.log("6666666666666666");
-  // console.log(categories);
+  console.log("111111111111");
+  console.log(categories);
   return (
     <SectionBlock title="Beauty & Personal Care">
       {!notFound ? (

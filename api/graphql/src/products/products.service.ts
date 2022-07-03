@@ -99,8 +99,8 @@ export class ProductsService {
     var v = 0;
     const startIndex = (page - 1) * first;
     const endIndex = page * first;
-    console.log("{{{{{{{{{{{}}}}}}}}}}}}");
-    console.log(hasType);
+    // console.log("{{{{{{{{{{{}}}}}}}}}}}}");
+    // console.log(hasType);
     let data: Product[] = await this.ProductModel.find();
     // console.log("data");
     // console.log(data);
