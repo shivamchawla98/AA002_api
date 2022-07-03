@@ -41,6 +41,7 @@ export default function PromotionSlider({ sliders }: { sliders: any[] }) {
         >
           {sliders?.map((d) => (
             <SwiperSlide key={d.id}>
+              <a>
               <Image
                 className="w-full h-auto"
                 src={d.original}
@@ -49,6 +50,7 @@ export default function PromotionSlider({ sliders }: { sliders: any[] }) {
                 width="580"
                 height="270"
               />
+              </a>
             </SwiperSlide>
           ))}
         </Swiper>

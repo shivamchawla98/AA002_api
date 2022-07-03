@@ -22,8 +22,8 @@ export class CategoriesResolver {
   async getCategories(
     @Args() getCategoriesArgs: GetCategoriesArgs,
   ): Promise<CategoryPaginator> {
-    // console.log("line 25+++++++++++++++");
-    // console.log(getCategoriesArgs);
+    console.log("line 25+++++++++++++++");
+    console.log(getCategoriesArgs);
     return this.categoriesService.getCategories(getCategoriesArgs);
   }
 

@@ -16,7 +16,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ item }) => {
   // // console.log(item.name);
   // console.log(item);
   return (
-    <Link href={`${item?.slug}/search/?category=${item.slug}`}>
+    <Link href={`${item?.slug}/search/?category=${item.slug}&type=${item?.slug}`}>
       <div className="relative overflow-hidden text-center cursor-pointer group">
       
         <Image

@@ -148,7 +148,8 @@ export class CategoriesService {
     // console.log("CATEGORY ******");
     // console.log(queryResult);
     
-    if(hasType?.value=="products"){
+    if( hasType  && (parent != null) ){
+      console.log("considition 0");
       return {
         data: queryResult,
         paginatorInfo: paginate(queryResult.length, page, first, queryResult.length),
@@ -193,7 +194,7 @@ export class CategoriesService {
     }
     
     if(text && text !="%%"){
-      // console.log("condition 3");
+      console.log("condition 3");
       queryResult.forEach(element => {
         if(element.children){
           element.children.forEach(child => {
@@ -212,7 +213,7 @@ export class CategoriesService {
     }
 
     else{      
-      // console.log("condition 4"); 
+      console.log("condition 4"); 
       // // console.log("category test");
       // queryResult.forEach(element => {
       //   if(element.children){
