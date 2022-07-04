@@ -11,7 +11,7 @@ import {
   calculateItemTotals,
   calculateTotalItems,
   calculateTotal,
-} from './cart.utils';
+} from './wishlist.utils';
 
 interface Metadata {
   [key: string]: any;
@@ -19,7 +19,7 @@ interface Metadata {
 
 type Action =
   | { type: 'ADD_ITEM_WITH_QUANTITY'; item: Item; quantity: number }
-  | { type: 'ADD_ITEM_WISHLIST'; item: Item}
+  | { type: 'ADD_ITEM_WISHLIST'; item: Item; }
   | { type: 'REMOVE_ITEM_OR_QUANTITY'; id: Item['id']; quantity?: number }
   | { type: 'ADD_ITEM'; id: Item['id']; item: Item }
   | { type: 'UPDATE_ITEM'; id: Item['id']; item: UpdateItemInput }
@@ -42,7 +42,7 @@ export const initialState: State = {
   total: 0,
   meta: null,
 };
-export function cartReducer(state: State, action: Action): State {
+export function wishlistReducer(state: State, action: Action): State {
   switch (action.type) {
     case 'ADD_ITEM_WITH_QUANTITY': {
       const items = addItemWithQuantity(
@@ -55,7 +55,7 @@ export function cartReducer(state: State, action: Action): State {
     case 'ADD_ITEM_WISHLIST': {
       const items = addItemWishlist(
         state.items,
-        action.item,
+        action.item
       );
       return generateFinalState(state, items);
     }

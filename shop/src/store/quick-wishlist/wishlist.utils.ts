@@ -14,7 +14,7 @@ export function addItemWithQuantity(
   quantity: number
 ) {
   if (quantity <= 0)
-    throw new Error("cartQuantity can't be zero or less than zero");
+    throw new Error("wishlistQuantity can't be zero or less than zero");
   const existingItemIndex = items.findIndex(
     (existingItem) => existingItem.id === item.id
   );
@@ -32,7 +32,7 @@ export function addItemWishlist(
   item: Item
 ) {
   // if (quantity <= 0)
-    // throw new Error("cartQuantity can't be zero or less than zero");
+    // throw new Error("wishlistQuantity can't be zero or less than zero");
   const existingItemIndex = items.findIndex(
     (existingItem) => existingItem.id === item.id
   );
@@ -42,7 +42,7 @@ export function addItemWishlist(
     // newItems[existingItemIndex].quantity! += quantity;
     return newItems;
   }
-  return [...items, { ...item}];
+  return [...items, { ...item }];
 }
 
 export function removeItemOrQuantity(

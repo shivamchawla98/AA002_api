@@ -6,6 +6,9 @@ import Drawer from './drawer';
 const CartSidebarView = dynamic(
   () => import('@/components/cart/cart-sidebar-view')
 );
+const WishlistSidebarView = dynamic(
+  () => import('@/components/wishlist/wishlist-sidebar-view')
+);
 const MobileAuthorizedMenu = dynamic(
   () => import('@/components/layouts/mobile-menu/mobile-authorized-menu')
 );
@@ -34,6 +37,7 @@ export default function ManagedDrawer() {
       }
     >
       {view === 'cart' && <CartSidebarView />}
+      {view === 'wishlist' && <WishlistSidebarView />}
       {view === 'FILTER_VIEW' && <MobileCategoryMenu variables={data} />}
       {view === 'MAIN_MENU_VIEW' && <MobileMainMenu />}
       {view === 'AUTH_MENU_VIEW' && <MobileAuthorizedMenu />}

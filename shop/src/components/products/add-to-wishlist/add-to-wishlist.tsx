@@ -1,8 +1,8 @@
 import Counter from '@/components/ui/counter';
-import AddToCartBtn from '@/components/products/add-to-cart/add-to-cart-btn';
+import AddToWishlistBtn from '@/components/products/add-to-wishlist/add-to-wishlist-btn';
 import { cartAnimation } from '@/lib/cart-animation';
-import { useCart } from '@/store/quick-cart/cart.context';
-import { generateCartItem } from '@/store/quick-cart/generate-cart-item';
+import { useWishlist } from '@/store/quick-wishlist/wishlist.context';
+import { generateWishlistItem } from '@/store/quick-wishlist/generate-wishlist-item';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
 
@@ -22,7 +22,7 @@ interface Props {
   disabled?: boolean;
 }
 
-export const AddToCart = ({
+export const AddToWishlist = ({
   data,
   variant = 'helium',
   counterVariant,
@@ -31,30 +31,19 @@ export const AddToCart = ({
   disabled,
 }: Props) => {
   const {
-    addItemToCart,
     addItemToWishlist,
-    removeItemFromCart,
+    removeItemFromWishlist,
     isInStock,
-    getItemFromCart,
-    isInCart,
-  } = useCart();
-  const item = generateCartItem(data, variation);
-  const handleAddClick = (
-    e: React.MouseEvent<HTMLButtonElement | MouseEvent>
-  ) => {
-    e.stopPropagation();
-    console.log("add clicked");
-    addItemToCart(item, 1);
-    if (!isInCart(item.id)) {
-      cartAnimation(e);
-    }
-  };
+    getItemFromWishlist,
+    isInWishlist,
+  } = useWishlist();
+  const item = generateWishlistItem(data, variation);
   const handleAddWishlistClick = (
     e: React.MouseEvent<HTMLButtonElement | MouseEvent>
   ) => {
     e.stopPropagation();
     addItemToWishlist(item);
-    if (!isInCart(item.id)) {
+    if (!isInWishlist(item.id)) {
       cartAnimation(e);
     }
   };
@@ -63,8 +52,8 @@ export const AddToCart = ({
     e: React.MouseEvent<HTMLButtonElement | MouseEvent>
   ) => {
     e.stopPropagation();
-    addItemToCart(item, 1);
-    if (!isInCart(item.id)) {
+    addItemToWishlist(item, 1);
+    if (!isInWishlist(item.id)) {
       cartAnimation(e);
     }
     router.push(ROUTES.CHECKOUT);
@@ -72,27 +61,27 @@ export const AddToCart = ({
 
   const handleRemoveClick = (e: any) => {
     e.stopPropagation();
-    removeItemFromCart(item.id);
+    removeItemFromWishlist(item.id);
   };
-  const outOfStock = isInCart(item?.id) && !isInStock(item.id);
-  return !isInCart(item?.id) ? (
+  const outOfStock = isInWishlist(item?.id) && !isInStock(item.id);
+  return !isInWishlist(item?.id) ? (
     <>
-      <AddToCartBtn
+      <AddToWishlistBtn
         disabled={disabled || outOfStock}
         variant={variant}
-        onClick={handleAddClick}
+        onClick={handleAddWishlistClick}
       />
     </>
   ) : (
     <>
-      <Counter
-        value={getItemFromCart(item.id).quantity}
+      {/* <Counter
+        value={getItemFromWishlist(item.id).quantity}
         onDecrement={handleRemoveClick}
-        onIncrement={handleAddClick}
+        onIncrement={handleAddWishlistClick}
         variant={counterVariant || variant}
         className={counterClass}
         disabled={outOfStock}
-      />
+      /> */}
     </>
   );
 };

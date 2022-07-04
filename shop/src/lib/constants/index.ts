@@ -1,4 +1,5 @@
 export const CART_KEY = 'pick-cart';
+export const WISHLIST_KEY = 'pick-wishlist';
 export const TOKEN = 'token';
 export const AUTH_TOKEN_KEY = 'auth_token';
 export const AUTH_PERMISSIONS = 'auth_permissions';

@@ -1,0 +1,8 @@
+.w-full.h-52.flex.justify-center.mt-8.px-2 {
+  height: 20%;
+}
+
+.w-full.h-52.flex.justify-center.mt-8.px-2 svg {
+  width: 30%;
+  height: 50%;
+}
