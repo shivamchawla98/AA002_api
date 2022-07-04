@@ -8,6 +8,7 @@ import { useModalAction } from '@/components/ui/modal/modal.context';
 import { Product } from '@/framework/types';
 import { productPlaceholder } from '@/lib/placeholders';
 import { PlusIcon } from '@/components/icons/plus-icon';
+import { AddToBuyNow } from '../add-to-buynow/add-to-buynow';
 
 type NeonProps = {
   product: any;
@@ -128,6 +129,12 @@ const Neon: React.FC<NeonProps> = ({ product, className }) => {
         {/* {Number(quantity) > 0 && ( */}
           <>
             <AddToWishlist variant="single" data={product} />
+          </>
+        {/* )} */}
+
+        {/* {Number(quantity) > 0 && ( */}
+          <>
+            <AddToBuyNow variant="single" data={product} />
           </>
         {/* )} */}
 

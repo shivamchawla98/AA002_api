@@ -18,6 +18,7 @@ import QueryProvider from '@/framework/client/query-provider';
 import CartCounterButton from '@/components/cart/cart-counter-button';
 import WishlistCounterButton from '@/components/wishlist/wishlist-counter-button';
 import Footer from '@/components/layouts/footer';
+import { BuyNowProvider } from '@/store/quick-buynow/buynow.context';
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -37,23 +38,25 @@ function CustomApp({
           <ModalProvider>
             <CartProvider>
               <WishlistProvider>
-                <CartCounterButton />
-                <WishlistCounterButton />
-                <>
-                  <DefaultSeo />
-                  {authenticationRequired ? (
-                    <PrivateRoute>
-                      {getLayout(<Component {...pageProps} />)}
-                    </PrivateRoute>
-                  ) : (
-                    getLayout(<Component {...pageProps} />)
-                  )}
-                  <Footer />
-                  <ManagedModal />
-                  <ManagedDrawer />
-                  <ToastContainer autoClose={2000} theme="colored" />
-                  <SocialLogin />
-                </>
+                <BuyNowProvider >
+                  <CartCounterButton />
+                  <WishlistCounterButton />
+                  <>
+                    <DefaultSeo />
+                    {authenticationRequired ? (
+                      <PrivateRoute>
+                        {getLayout(<Component {...pageProps} />)}
+                      </PrivateRoute>
+                    ) : (
+                      getLayout(<Component {...pageProps} />)
+                    )}
+                    <Footer />
+                    <ManagedModal />
+                    <ManagedDrawer />
+                    <ToastContainer autoClose={2000} theme="colored" />
+                    <SocialLogin />
+                  </>
+                </BuyNowProvider>
               </WishlistProvider>
             </CartProvider>
           </ModalProvider>
