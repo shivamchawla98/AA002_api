@@ -46,8 +46,8 @@ export class OrdersResolver {
 
   @Query(() => OrderPaginator, { name: 'orders' })
   getOrders(@Args() ordersArgs: GetOrdersArgs) {
-    // console.log("########GET order");
-    // console.log(ordersArgs);
+    console.log("########GET order");
+    console.log(ordersArgs);
     return this.ordersService.getOrders(ordersArgs);
   }
 

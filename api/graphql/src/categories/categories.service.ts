@@ -157,7 +157,7 @@ export class CategoriesService {
     }
     
     if(hasType && text == "%%"){
-      console.log("condition 1");
+      // console.log("condition 1");
       queryResult.forEach(element => {
         if(element.type.slug.toLowerCase() == hasType?.value.toLowerCase()){
           result.push(element);

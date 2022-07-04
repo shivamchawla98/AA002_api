@@ -79,6 +79,7 @@ export class OrdersService {
       var customerInfo={
         customer:await this.userModel.findOne(IDuser0)
       }
+      createOrderInput.customer_id = 1;
       // console.log(customerInfo);
     }
     if(createOrderInput.customer_id){
@@ -162,14 +163,22 @@ export class OrdersService {
     const endIndex = page * first;
     //let data: Order[] = this.orders;
     let data: Order[] = await this.OrdersModel.find();
+    var order_list = [];
+    if(tracking_number && tracking_number != "%%"){
+      data.forEach(element => {
+        if((element.tracking_number.toLowerCase()).includes(tracking_number.replace(/%/g, '').toLowerCase())){
+          order_list.push(element);
+        }
+      });
+    const results = order_list.slice(startIndex, endIndex);
 
-    // if (shop_id) {
-    //   data = this.orders?.filter((p) => p?.shop?.id === Number(shop_id));
-    // }
+    return {
+      data: order_list,
+      paginatorInfo: paginate(order_list.length, page, first, order_list.length),
+    };
+    }
+    
     const results = data.slice(startIndex, endIndex);
-    // console.log("************************** Order list")
-    // console.log(results);
-    // console.log("************************** Order list")
 
     return {
       data: results,
