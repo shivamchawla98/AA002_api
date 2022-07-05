@@ -35,6 +35,7 @@ export const AddToBuyNow = ({
     removeItemFromBuyNow,
     isInStock,
     getItemFromBuyNow,
+    resetBuyNow,
     isInBuyNow,
   } = useBuyNow();
   const item = generateBuyNowItem(data, variation);
@@ -43,6 +44,7 @@ export const AddToBuyNow = ({
   ) => {
     e.stopPropagation();
     console.log("add clicked");
+    resetBuyNow();
     addItemToBuyNow(item, 1);
     if (!isInBuyNow(item.id)) {
       // alert("hello");
@@ -53,11 +55,18 @@ export const AddToBuyNow = ({
   const { items, totalUniqueItems, total } = useBuyNow();
   function handleCheckout() {
     const isRegularCheckout = items.find((item) => !Boolean(item.is_digital));
-    if (isRegularCheckout) {
-      router.push(ROUTES.CHECKOUT);
-    } else {
-      router.push(ROUTES.CHECKOUT_DIGITAL);
-    }
+    // if (isRegularCheckout) {
+    router.push(
+      {
+        pathname: ROUTES.CHECKOUT,
+        query: {
+          checkoutType: "buynow"
+        }
+      }
+    );
+    // } else {
+    // router.push(ROUTES.CHECKOUT_DIGITAL);
+    // }
 
     // closeSidebar({ display: false, view: '' });
   }
@@ -71,7 +80,7 @@ export const AddToBuyNow = ({
       // cartAnimation(e);
       handleCheckout();
       // removeItemFromBuyNow();
-      
+
     }
     router.push(ROUTES.CHECKOUT);
   };
@@ -91,13 +100,18 @@ export const AddToBuyNow = ({
     </>
   ) : (
     <>
-      <Counter
+      {/* <Counter
         value={getItemFromBuyNow(item.id).quantity}
         onDecrement={handleRemoveClick}
         onIncrement={handleAddClick}
         variant={counterVariant || variant}
         className={counterClass}
         disabled={outOfStock}
+      /> */}
+      <AddToBuyNowBtn
+        disabled={disabled || outOfStock}
+        variant={variant}
+        onClick={handleAddClick}
       />
     </>
   );

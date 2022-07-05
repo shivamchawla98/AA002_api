@@ -12,9 +12,10 @@ import {
   calculatePaidTotal,
   calculateTotal,
 } from '@/store/quick-cart/cart.utils';
+import { useBuyNow } from '@/store/quick-buynow/buynow.context';
 // const Razorpay = require('razorpay'); 
 
-export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
+export const PlaceOrderAction: React.FC<{ className?: string, checkoutType: string }> = (props) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { createOrder, isLoading } = useCreateOrder();
   console.log("#################3");
@@ -24,7 +25,7 @@ export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
     limit: 1,
   });
 
-  const { items } = useCart();
+  const { items } = (props.checkoutType == 'cart') ? useCart() : useBuyNow();
   const [
     {
       billing_address,

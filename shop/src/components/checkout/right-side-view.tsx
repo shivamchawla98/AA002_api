@@ -11,14 +11,16 @@ const VerifiedItemList = dynamic(
 
 export const RightSideView = ({
   hideTitle = false,
+  checkoutType = 'cart',
 }: {
   hideTitle?: boolean;
+  checkoutType?: string
 }) => {
   const [verifiedResponse] = useAtom(verifiedResponseAtom);
   if (isEmpty(verifiedResponse)) {
-    return <UnverifiedItemList hideTitle={hideTitle} />;
+    return <UnverifiedItemList hideTitle={hideTitle} checkoutType={checkoutType} />;
   }
-  return <VerifiedItemList />;
+  return <VerifiedItemList checkoutType={checkoutType} />;
 };
 
 export default RightSideView;

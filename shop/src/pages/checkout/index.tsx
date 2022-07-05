@@ -5,6 +5,7 @@ import { getLayout } from '@/components/layouts/layout';
 import { AddressType } from '@/framework/utils/constants';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
+import { useRouter } from 'next/router';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ScheduleGrid = dynamic(
@@ -26,6 +27,10 @@ export default function CheckoutPage() {
   const { t } = useTranslation();
   const { me } = useUser();
   const { id, address, profile } = me ?? {};
+  const router = useRouter()
+  console.log("checkoutType on checkout index.ts")
+  const checkType = router.query?.checkoutType;
+  console.log(typeof(checkType));
   return (
     <>
       <Seo noindex={true} nofollow={true} />
@@ -70,7 +75,7 @@ export default function CheckoutPage() {
             /> */}
           </div>
           <div className="w-full mt-10 mb-10 sm:mb-12 lg:mb-0 lg:w-96">
-            <RightSideView />
+            <RightSideView checkoutType={checkType} />
           </div>
         </div>
       </div>

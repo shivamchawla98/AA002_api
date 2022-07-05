@@ -21,13 +21,17 @@ import { ItemInfoRow } from '@/components/checkout/item/item-info-row';
 import PaymentGrid from '@/components/checkout/payment/payment-grid';
 import { PlaceOrderAction } from '@/components/checkout/place-order-action';
 import Wallet from '@/components/checkout/wallet/wallet';
+import { useBuyNow } from '@/store/quick-buynow/buynow.context';
 
 interface Props {
   className?: string;
+  checkoutType?: string;
 }
-const VerifiedItemList: React.FC<Props> = ({ className }) => {
+const VerifiedItemList: React.FC<Props> = ({ className, checkoutType }) => {
   const { t } = useTranslation('common');
-  const { items, isEmpty: isEmptyCart } = useCart();
+  console.log("checkout type");
+  console.log(checkoutType);
+  const { items, isEmpty: isEmptyCart } = (checkoutType == 'cart') ? useCart() : useBuyNow();
   const [verifiedResponse] = useAtom(verifiedResponseAtom);
   const [coupon, setCoupon] = useAtom(couponAtom);
   const [discount] = useAtom(discountAtom);
@@ -138,7 +142,7 @@ const VerifiedItemList: React.FC<Props> = ({ className }) => {
       {/* {use_wallet && !Boolean(payableAmount) ? null : (
         <PaymentGrid className="p-5 mt-10 border border-gray-200 bg-light" />
       )} */}
-      <PlaceOrderAction>{t('text-place-order')}</PlaceOrderAction>
+      <PlaceOrderAction checkoutType={checkoutType}>{t('text-place-order')}</PlaceOrderAction>
     </div>
   );
 };

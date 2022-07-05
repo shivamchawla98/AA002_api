@@ -1,5 +1,5 @@
 import { PlusIcon } from '@/components/icons/plus-icon';
-import CartIcon from '@/components/icons/cart';
+import WishlistIcon from '@/components/icons/wishlist';
 import { useTranslation } from 'next-i18next';
 import cn from 'classnames';
 
@@ -55,7 +55,7 @@ const AddToBuyNowBtn: React.FC<Props> = ({ variant, onClick, disabled }) => {
           disabled={disabled}
           className="flex items-center justify-center order-5 px-3 py-2 text-sm font-semibold transition-colors duration-300 border-2 rounded-full sm:order-4 sm:px-5 border-border-100 sm:justify-start text-accent hover:text-light bg-light hover:bg-accent hover:border-accent focus:outline-none focus:bg-accent focus:border-accent focus:text-light"
         >
-          {/* <CartIcon className="w-4 h-4 ltr:mr-2.5 rtl:ml-2.5" /> */}
+          {/* <WishlistIcon className="w-4 h-4 ltr:mr-2.5 rtl:ml-2.5" /> */}
           <span>
             Buy Now  
           </span>

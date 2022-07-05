@@ -5,10 +5,12 @@ import EmptyCartIcon from '@/components/icons/empty-cart';
 import usePrice from '@/lib/use-price';
 import { ItemInfoRow } from './item-info-row';
 import { CheckAvailabilityAction } from '@/components/checkout/check-availability-action';
+import { useBuyNow } from '@/store/quick-buynow/buynow.context';
 
-const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
+const UnverifiedItemList = ({ hideTitle = false, checkoutType = 'cart' }: { hideTitle?: boolean, checkoutType?: string }) => {
   const { t } = useTranslation('common');
-  const { items, total, isEmpty } = useCart();
+  const { items, total, isEmpty } = (checkoutType == 'cart') ? useCart() : useBuyNow();
+
   console.log('isEmpty:', isEmpty);
   const { price: subtotal } = usePrice(
     items && {
@@ -47,7 +49,7 @@ const UnverifiedItemList = ({ hideTitle = false }: { hideTitle?: boolean }) => {
           value={t('text-calculated-checkout')}
         />
       </div>
-      <CheckAvailabilityAction>
+      <CheckAvailabilityAction checkoutType={checkoutType} >
         {t('text-check-availability')}
       </CheckAvailabilityAction>
     </div>
