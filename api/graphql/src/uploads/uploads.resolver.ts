@@ -66,7 +66,7 @@ export class UploadsResolver {
     console.log(x.filename);
     x.createReadStream()
       // .pipe(createWriteStream(`/Uploads/${x.filename}`))
-      .pipe(createWriteStream(`C://Users//rahul//OneDrive//Desktop//GraphQl//shop//public//img//${x.filename}`))
+      .pipe(createWriteStream(`http://38.242.199.115:3000/img/${x.filename}`))
     // return new Promise (async (resolve, rejects) =>
     // attachment.createReadStream()
     //   .pipe(createWriteStream(`C:/Users/rahul/OneDrive/Desktop/GraphQl/Image/${attachment.filename}`))
@@ -78,9 +78,9 @@ export class UploadsResolver {
       {
         id: randomString,
         original:
-          `http://38.242.199.115:3001/img/${x.filename}`,
+          `http://38.242.199.115:3000/img/${x.filename}`,
         thumbnail:
-          `http://localhost:3001/img/${x.filename}`
+          `http://38.242.199.115:3000/img/${x.filename}`
       }
     ]
   }

@@ -95,10 +95,26 @@ export class Products extends Document{
   @Prop()
   price?: number;
   @Prop()
- 
   quantity: number;
   @Prop()
   unit: string;
+
+  @Prop()
+  sellersku?: string;
+  @Prop()
+  hsn?: string;
+  @Prop()
+  tax_code?: string;
+  @Prop()
+  ISO_code?: string;
+  @Prop()
+  manufacture_date?: string;
+  @Prop()
+  weight?: string;
+  @Prop()
+  importer?: string;
+  @Prop()
+  packer?: string;
 
 }
 

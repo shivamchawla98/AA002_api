@@ -25,6 +25,8 @@ export class ProductsResolver {
 
   @Mutation(() => Product)
   createProduct(@Args('input') createProductInput: CreateProductInput) {
+    console.log("Create Products ^^^^^^^^^^^");
+    console.log(createProductInput);
     return this.productsService.create(createProductInput);
   }
 
@@ -32,8 +34,8 @@ export class ProductsResolver {
   async getProducts(
     @Args() getProductsArgs: GetProductsArgs,
   ): Promise<ProductPaginator> {
-    console.log("#############GET PRODUCTS LINE 35");
-    console.log(getProductsArgs);
+    // console.log("#############GET PRODUCTS LINE 35");
+    // console.log(getProductsArgs);
     return this.productsService.getProducts(getProductsArgs);
   }
 
@@ -61,6 +63,8 @@ export class ProductsResolver {
 
   @Mutation(() => Product)
   updateProduct(@Args('input') updateProductInput: UpdateProductInput) {
+    console.log("Lineeeeeeeee66");
+    console.log(updateProductInput);
     return this.productsService.update(
       updateProductInput.id,
       updateProductInput,

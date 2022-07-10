@@ -69,13 +69,39 @@ export class ProductsService {
       shop: this.shops[0]
     }
     var C = Object.assign(createProductInput, ShopObject);
-    var Category = await this.CategoriesModel.findOne({ "_id": createProductInput.categories[0] });
-    var CatObj = {
-      categories: Category
-    }
+    var Categories = await this.CategoriesModel.find();
+    var CatObj = {};
 
+    Categories.forEach(element => {
+      if(element.children){
+        element.children.forEach(subcategory => {
+          if(subcategory.id.toString() == createProductInput.categories[0]){
+            CatObj = {
+              categories: subcategory
+            }
+          }
+        });
+      }
+    });
+    console.log("CatObj");
+
+    console.log(CatObj);
     var D = Object.assign(createProductInput, CatObj);
 
+    var manufacturer1 ={};
+    var manufacturer_details ={};
+    if(createProductInput.manufacturer_id = 1){
+      console.log("inside manufacturer details if");
+      manufacturer_details = {
+        id : 1,
+        name : "Pick Ur Needs Delhi India"
+      }
+    }
+
+    manufacturer1 ={
+      manufacturer:manufacturer_details
+    }
+    var E = Object.assign(createProductInput, manufacturer1);
     const createproduct = new this.ProductModel(createProductInput);
 
     createproduct.save();
@@ -147,14 +173,15 @@ export class ProductsService {
     // console.log(hasType);
 
     if(hasType){
-      if( (hasType.value == 'Electronics') || (hasType.value == 'Beauty ') || (hasType.value == 'Entertainment') ){
+      // console.log("Has type");
+      if( (hasType.value == 'Electronics') || (hasType.value == 'Beauty & Personal Care') || (hasType.value == 'Entertainment') ){
         data.forEach(product => {
           var checkType = (product.type.slug.toLowerCase()).includes(hasType.value.toLowerCase());
           if (checkType == true) {
             productSearchResult.push(product);
           }
         });
-  
+        // console.log(productSearchResult);
         if (orderBy) {
           if (orderBy[0].order == 'desc') {
             productSearchResult.sort((a, b) => {
@@ -321,13 +348,14 @@ export class ProductsService {
     if (id) {
       // return this.products.find((p) => p.id === Number(id));
       var ID_ = { "_id": id };
-      // console.log(a)
-      // console.log(await this.ProductModel.findOne(ID_));
+      console.log("Product details");
+      console.log(await this.ProductModel.findOne(ID_));
       return await this.ProductModel.findOne(ID_);
 
     }
     if (slug) {
-      // console.log(await this.ProductModel.findOne({"slug":slug}));
+      console.log("Product details");
+      console.log(await this.ProductModel.findOne({"slug":slug}));
       return await this.ProductModel.findOne({ "slug": slug });
     }
 
@@ -371,22 +399,40 @@ export class ProductsService {
       id: 1
     }
 
-    var Category = await this.CategoriesModel.findOne({ "_id": newValues.categories[0] });
-    var CatObj = {
-      categories: Category
-    }
+    var Categories = await this.CategoriesModel.find();
+    var CatObj = {};
+
+    Categories.forEach(element => {
+      if(element.children){
+        element.children.forEach(subcategory => {
+          if(subcategory.id.toString() == updateProductInput.categories[0]){
+            CatObj = {
+              categories: subcategory
+            }
+          }
+        });
+      }
+    });
 
     var D = Object.assign(newValues, CatObj);
 
     var B = Object.assign(newValues.variation_options, variation_options);
-    //  console.log(ProductId);
-    //  console.log(newValues);
-    // this.ProductModel.findByIdAndUpdate({name:"One Plus 1+"},{slug: "CCC"},{upsert:true});
-    // console.log(await this.ProductModel.findOne(a));
-    // return await this.ProductModel.findOne(a);
-    // console.log(await this.ProductModel.findById({"_id":  id }));
-    // this.ProductModel.findByIdAndUpdate({"_id":  id},{},{})
-    // return await this.ProductModel.findOne({"_id":  id });
+
+    var manufacturer1 ={};
+    var manufacturer_details ={};
+    if(newValues.manufacturer_id = 1){
+      console.log("inside manufacturer details if");
+      manufacturer_details = {
+        id : 1,
+        name : "Pick Ur Needs Delhi India"
+      }
+    }
+
+    manufacturer1 ={
+      manufacturer:manufacturer_details
+    }
+    var E = Object.assign(newValues, manufacturer1);
+    
     return await this.ProductModel.findByIdAndUpdate(ProductId, newValues, { new: true })
   }
   async remove(id: number) {
