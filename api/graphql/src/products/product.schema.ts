@@ -115,6 +115,33 @@ export class Products extends Document{
   importer?: string;
   @Prop()
   packer?: string;
+  @Prop()
+  brand_name?:  string;
+  @Prop()
+  color?:  string;
+  @Prop()
+  rechargeable?:  string;
+  @Prop()
+  Bulb_Type?:  string;
+  @Prop()
+  Power_Consumption?:  string;
+  @Prop()
+  Power_Requirement?:  string;
+  @Prop()
+  Material?:  string;
+  @Prop()
+  Battery_Type?:  string;
+  @Prop()
+  Range?:  string;
+  @Prop()
+  Charging_Time?:  string;
+  @Prop()
+  Charging_Time_Measuring_Unit?:  string;
+  @Prop()
+  Battery_Included?:  string;
+  @Prop()
+  Backup_Time?:  string;
+
 
 }
 

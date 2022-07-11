@@ -118,6 +118,20 @@ export class Product extends CoreEntity {
   weight?: string;
   importer?: string;
   packer?: string;
+
+  brand_name?:  string;
+  color?:  string;
+  rechargeable?:  string;
+  Bulb_Type?:  string;
+  Power_Consumption?:  string;
+  Power_Requirement?:  string;
+  Material?:  string;
+  Battery_Type?:  string;
+  Range?:  string;
+  Charging_Time?:  string;
+  Charging_Time_Measuring_Unit?:  string;
+  Battery_Included?:  string;
+  Backup_Time?:  string;
   // importer?: Manufacturer;
   
 }
