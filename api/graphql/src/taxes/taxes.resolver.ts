@@ -16,11 +16,13 @@ export class TaxesResolver {
 
   @Query(() => [Tax], { name: 'taxClasses' })
   findAll(@Args() getTaxesArgs: GetTaxesArgs) {
+    // console.log(getTaxesArgs);
     return this.taxesService.findAll(getTaxesArgs);
   }
 
   @Query(() => Tax, { name: 'taxClass' })
   findOne(@Args('id', { type: () => ID }) id: number) {
+    console.log("Tax class");
     return this.taxesService.findOne(id);
   }
 

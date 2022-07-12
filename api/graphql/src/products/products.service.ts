@@ -343,8 +343,8 @@ export class ProductsService {
   }
 
   async getProduct({ id, slug }: GetProductArgs): Promise<Product> {
-    // console.log("id#####");
-    // console.log(id);
+    console.log("id#####");
+    console.log(id);
     if (id) {
       // return this.products.find((p) => p.id === Number(id));
       var ID_ = { "_id": id };

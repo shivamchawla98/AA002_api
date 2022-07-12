@@ -5,7 +5,8 @@ export class AnalyticsService {
   findAll() {
     var totalOrders = 2;
     var analytics = {
-      totalOrders:totalOrders
+      totalOrders:totalOrders,
+      total_revenue:3
     }
     var data = {
       analytics:analytics

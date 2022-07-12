@@ -71,7 +71,7 @@ const VerifiedItemList: React.FC<Props> = ({ className, checkoutType }) => {
     ? calculatePaidTotal(
         {
           totalAmount: base_amount,
-          tax: 0,
+          tax: verifiedResponse.total_tax,
           shipping_charge: 0,
         },
         Number(discount)

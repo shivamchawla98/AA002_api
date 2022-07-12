@@ -277,15 +277,37 @@ export class OrdersService {
   }
 
   async verifyCheckout(input: CheckoutVerificationInput): Promise<VerifiedCheckoutData> {
+    console.log("Checkout input");
     console.log(input);
     var orderAmount = input.amount;
-
+    var taxAmount = 0;
     var stateNameForTax = "Haryana";
     var cityNameForShipping = "Gurgaon";
+
+    let products_list = [];
     
-    var taxObj =await this.TAXESModel.findOne({"state":stateNameForTax});
-    var taxRate = taxObj.rate;
-    var taxAmount = 0;
+    if(input.products){
+      for (let index = 0; index < input.products.length; index++) {
+        var ID_ = { "_id": input.products[index].product_id};
+        var product = await this.ProductModel.findOne(ID_);
+        products_list.push(product);
+        // console.log(products_list);
+      }
+    }
+    
+    for (let index = 0; index < products_list.length; index++) {
+      if(products_list[index].tax_code){
+        var taxObj =await this.TAXESModel.findOne({"name":products_list[index].tax_code});
+        var taxrate = taxObj.rate;
+        taxAmount = (taxAmount + (products_list[index].sale_price*(taxrate/100)));
+      }
+      
+    }
+
+
+    // var taxObj =await this.TAXESModel.findOne({"state":stateNameForTax});
+    // var taxRate = taxObj.rate;
+    // var taxAmount = 0;
     // console.log("@@@@@@@@@@@@@@@@@@@@@@ Tax amount");
     // console.log(taxAmount); 
 

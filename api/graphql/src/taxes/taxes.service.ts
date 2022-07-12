@@ -23,6 +23,16 @@ export class TaxesService {
 
   async findAll(getTaxesArgs: GetTaxesArgs) {
     let data: Tax[] = await this.TAXESModel.find();
+    var taxarray = [];
+    if (getTaxesArgs.text && getTaxesArgs.text!="%%"){
+      data.forEach(tax => {
+        var checkTypeSlug = (tax.name.toLowerCase()).includes(getTaxesArgs.text.replace(/%/g, '').toLowerCase())
+        if (checkTypeSlug == true) {
+          taxarray.push(tax);
+        }
+      });
+      return taxarray;
+    }
     return data;
   }
 
