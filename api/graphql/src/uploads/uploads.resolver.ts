@@ -66,13 +66,14 @@ export class UploadsResolver {
     console.log(x.filename);
     x.createReadStream()
       // .pipe(createWriteStream(`/Uploads/${x.filename}`))
-      .pipe(createWriteStream(`http://38.242.199.115:3000/img/${x.filename}`))
+      .pipe(createWriteStream(`./../../shop/public/img/${x.filename}`))
     // return new Promise (async (resolve, rejects) =>
     // attachment.createReadStream()
     //   .pipe(createWriteStream(`C:/Users/rahul/OneDrive/Desktop/GraphQl/Image/${attachment.filename}`))
     //   .on("finish", () => resolve(true))
     //   .on("error",()=>rejects(false))
     // );
+    console.log("after upload");
       var randomString = Math.random().toString(36).slice(2);
     return[
       {
