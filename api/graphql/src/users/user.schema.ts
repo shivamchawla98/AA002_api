@@ -17,6 +17,8 @@ export class Users extends Document{
     id:number;
     @Prop()
     name: string;
+    @Prop()
+    GST_Number: string;
     
     @Prop()
     email: string;

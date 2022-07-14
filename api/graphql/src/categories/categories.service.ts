@@ -139,27 +139,6 @@ export class CategoriesService {
           data.push(element);
         }
       });
-    // }
-    // if(!hasType){
-    //   data = queryResult;
-    // }
-    
-
-    // console.log("data");
-    // console.log(data);
-    // if (text?.replace(/%/g, '')) {
-    //   data = fuse.search(text)?.map(({ item }) => item);
-    // }
-    // if (hasType?.value) {
-    //   data = fuse.search(hasType.value as unknown)?.map(({ item }) => item);
-    // }
-    // if (parent === null) {
-    //   data = data.filter(({ parent: parentValue }) => parentValue === null);
-    // }
-    //const results = data.slice(startIndex, endIndex);
-    // console.log("result");
-    // console.log(data);
-
       if(hasType){
         return {
           data: queryResult,

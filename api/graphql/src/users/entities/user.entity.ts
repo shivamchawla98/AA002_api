@@ -23,6 +23,7 @@ export class User extends CoreEntity {
   orders?: Order[];
   wallet?: Wallet;
   permissions: Permissions[];
+  GST_Number: string;
 }
 
 @InputType('PermissionsInputType', { isAbstract: true })

@@ -199,9 +199,7 @@ export class UsersService {
   }
 
   async me(): Promise<User> {
-    //console.log(users[0]);
-    //return this.users[0];
-    //  console.log("Me Query");
+    console.log(await this.userModel.findById({"_id":'626eca0fd4c3ecb0f7eda827'}));
      return await this.userModel.findById({"_id":'626eca0fd4c3ecb0f7eda827'});
   }
 

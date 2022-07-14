@@ -20,6 +20,7 @@ export class RegisterInput extends PickType(User, [
   'name',
   'email',
   'password',
+  'GST_Number',
 ]) {
   permission: Permission = Permission.CUSTOMER;
 }
