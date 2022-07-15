@@ -109,6 +109,31 @@ export class Product extends CoreEntity {
   unit?: string;
   created_at?: Date;
   updated_at?: Date;
+
+  sellersku?: string;
+  hsn?: string;
+  tax_code?: string;
+  ISO_code?: string;
+  manufacture_date?: string;
+  weight?: string;
+  importer?: string;
+  packer?: string;
+
+  brand_name?:  string;
+  color?:  string;
+  rechargeable?:  string;
+  Bulb_Type?:  string;
+  Power_Consumption?:  string;
+  Power_Requirement?:  string;
+  Material?:  string;
+  Battery_Type?:  string;
+  Range?:  string;
+  Charging_Time?:  string;
+  Charging_Time_Measuring_Unit?:  string;
+  Battery_Included?:  string;
+  Backup_Time?:  string;
+  // importer?: Manufacturer;
+  
 }
 
 @InputType('PivotInputType', { isAbstract: true })
@@ -148,6 +173,6 @@ export class VariationInput extends Variation {}
 @InputType('VariationOptionInputType', { isAbstract: true })
 @ObjectType()
 export class VariationOption {
-  name: string;
-  value: string;
+  name?: string;
+  value?: string;
 }

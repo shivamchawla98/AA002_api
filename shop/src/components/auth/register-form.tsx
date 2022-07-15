@@ -17,6 +17,7 @@ const registerFormSchema = yup.object().shape({
     .email('error-email-format')
     .required('error-email-required'),
   password: yup.string().required('error-password-required'),
+  GST_Number:yup.string().notRequired(),
 });
 
 function RegisterForm() {
@@ -24,11 +25,12 @@ function RegisterForm() {
   const { openModal } = useModalAction();
   const { mutate, isLoading, formError } = useRegister();
 
-  function onSubmit({ name, email, password }: RegisterUserInput) {
+  function onSubmit({ name, email, password, GST_Number }: RegisterUserInput) {
     mutate({
       name,
       email,
       password,
+      GST_Number,
     });
   }
 
@@ -63,6 +65,13 @@ function RegisterForm() {
               variant="outline"
               className="mb-5"
             />
+            <Input
+          label={t("GST Number")}
+          {...register("GST_Number")}
+          variant="outline"
+          className="mb-4"
+          error={t(errors?.GST_Number?.message!)}
+        />
             <div className="mt-8">
               <Button
                 className="h-12 w-full"

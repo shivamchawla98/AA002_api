@@ -32,11 +32,11 @@ export default function ClassicLayout({ variables }: HomePageProps) {
           variables={variables.products}
         />
       </Element> */}
-       <Categories layout="compact" variables={variables.categories} />
+       <Categories layout="compact" variables={{ limit: 1000, parent: 1, type: "Electronics" }} />
        <PromotionSliders1 variables={variables.types} />
-       <Categories layout="compact1" variables={variables.categories} />
+       <Categories layout="compact1" variables={{ limit: 1000, parent: 1, type: "Beauty & Personal Care" }} />
        <PromotionSliders2 variables={variables.types} />
-       <Categories layout="compact2" variables={variables.categories} />
+       <Categories layout="compact2" variables={{ limit: 1000, parent: 1, type: "Entertainment" }} />
        {/* <Categories layout="compact" variables={variables.categories} /> */}
        <PopularProductsGrid variables={variables.popularProducts} />
       </main>

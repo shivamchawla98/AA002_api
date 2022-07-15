@@ -41,7 +41,20 @@ export class TypesService {
 
   async getTypes({ text }: GetTypesArgs) {
     // let data: Type[] = this.types;
+    // console.log(text);
+
     let data: Type[] = await this.TypesModel.find();
+    var types = [];
+
+    if (text && text!="%%") {
+      data.forEach(type => {
+        var checkTypeSlug = (type.slug.toLowerCase()).includes(text.replace(/%/g, '').toLowerCase())
+        if (checkTypeSlug == true) {
+          types.push(type);
+        }
+      });
+      return types;
+    }
     // if (text?.replace(/%/g, '')) {
     //   data = fuse.search(text)?.map(({ item }) => item);
     // }
@@ -60,13 +73,13 @@ export class TypesService {
       //return this.types.find((p) => p.id === Number(id));
       // console.log(await this.TypesModel.findById({"_id":id}))
       var data = await this.TypesModel.findById({"_id":id});
-      console.log("###################getTypes#########################");
+      // console.log("###################getTypes#########################");
       // console.log(data.banners);
       return await this.TypesModel.findById({"_id":id});
     }
     // console.log(await this.TypesModel.findOne({"slug":slug}));
     var data = await this.TypesModel.findOne({"slug":slug});
-    console.log("###################getTypes#########################");
+    // console.log("###################getTypes#########################");
     //  console.log(data.banners);
     return await this.TypesModel.findOne({"slug":slug});
   }

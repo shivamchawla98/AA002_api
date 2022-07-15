@@ -2,11 +2,13 @@ import { Image } from '@/components/ui/image';
 import cn from 'classnames';
 import usePrice from '@/lib/use-price';
 import { AddToCart } from '@/components/products/add-to-cart/add-to-cart';
+import { AddToWishlist } from '@/components/products/add-to-wishlist/add-to-wishlist';
 import { useTranslation } from 'next-i18next';
 import { useModalAction } from '@/components/ui/modal/modal.context';
 import { Product } from '@/framework/types';
 import { productPlaceholder } from '@/lib/placeholders';
 import { PlusIcon } from '@/components/icons/plus-icon';
+import { AddToBuyNow } from '../add-to-buynow/add-to-buynow';
 
 type NeonProps = {
   product: any;
@@ -116,10 +118,25 @@ const Neon: React.FC<NeonProps> = ({ product, className }) => {
         ) : (
           <>
             {Number(quantity) > 0 && (
-              <AddToCart variant="neon" data={product} />
+              <>
+                <AddToCart variant="single" data={product} />
+              </>
             )}
+
           </>
         )}
+
+        {/* {Number(quantity) > 0 && ( */}
+          <>
+            <AddToWishlist variant="single" data={product} />
+          </>
+        {/* )} */}
+
+        {/* {Number(quantity) > 0 && ( */}
+          <>
+            <AddToBuyNow variant="single" data={product} />
+          </>
+        {/* )} */}
 
         {Number(quantity) <= 0 && (
           <div className="bg-red-500 rounded text-xs text-center text-light px-2 py-1.5 sm:py-2.5">

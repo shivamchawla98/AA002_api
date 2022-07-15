@@ -12,9 +12,10 @@ import {
   calculatePaidTotal,
   calculateTotal,
 } from '@/store/quick-cart/cart.utils';
+import { useBuyNow } from '@/store/quick-buynow/buynow.context';
 // const Razorpay = require('razorpay'); 
 
-export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
+export const PlaceOrderAction: React.FC<{ className?: string, checkoutType: string }> = (props) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { createOrder, isLoading } = useCreateOrder();
   console.log("#################3");
@@ -24,7 +25,7 @@ export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
     limit: 1,
   });
 
-  const { items } = useCart();
+  const { items } = (props.checkoutType == 'cart') ? useCart() : useBuyNow();
   const [
     {
       billing_address,
@@ -66,10 +67,10 @@ export const PlaceOrderAction: React.FC<{ className?: string }> = (props) => {
       setErrorMessage('Gateway Is Required');
       return;
     }
-    if (!use_wallet_points && payment_gateway === 'STRIPE' && !token) {
-      setErrorMessage('Please Pay First');
-      return;
-    }
+    // if (!use_wallet_points && payment_gateway === 'STRIPE' && !token) {
+    //   setErrorMessage('Please Pay First');
+    //   return;
+    // }
     let input = {
       //@ts-ignore
       products: available_items?.map((item) => formatOrderedProduct(item)),

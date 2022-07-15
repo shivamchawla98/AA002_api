@@ -311,6 +311,7 @@ export interface RegisterUserInput {
   name: string;
   email: string;
   password: string;
+  GST_Number?:string;
 }
 
 export interface ForgotPasswordUserInput {

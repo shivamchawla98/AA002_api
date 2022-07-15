@@ -44,8 +44,8 @@ export class ProductsService {
 
 
   async create(createProductInput: CreateProductInput) {
-    console.log("create==========================");
-    console.log(createProductInput);
+    // console.log("create==========================");
+    // console.log(createProductInput);
     var typeid = createProductInput.type_id;
     //console.log(typeid);
     var TypeValue = await this.TypesModel.findOne({ "_id": typeid });
@@ -69,13 +69,39 @@ export class ProductsService {
       shop: this.shops[0]
     }
     var C = Object.assign(createProductInput, ShopObject);
-    var Category = await this.CategoriesModel.findOne({ "_id": createProductInput.categories[0] });
-    var CatObj = {
-      categories: Category
-    }
+    var Categories = await this.CategoriesModel.find();
+    var CatObj = {};
 
+    Categories.forEach(element => {
+      if(element.children){
+        element.children.forEach(subcategory => {
+          if(subcategory.id.toString() == createProductInput.categories[0]){
+            CatObj = {
+              categories: subcategory
+            }
+          }
+        });
+      }
+    });
+    console.log("CatObj");
+
+    console.log(CatObj);
     var D = Object.assign(createProductInput, CatObj);
 
+    var manufacturer1 ={};
+    var manufacturer_details ={};
+    if(createProductInput.manufacturer_id = 1){
+      console.log("inside manufacturer details if");
+      manufacturer_details = {
+        id : 1,
+        name : "Pick Ur Needs Delhi India"
+      }
+    }
+
+    manufacturer1 ={
+      manufacturer:manufacturer_details
+    }
+    var E = Object.assign(createProductInput, manufacturer1);
     const createproduct = new this.ProductModel(createProductInput);
 
     createproduct.save();
@@ -100,14 +126,14 @@ export class ProductsService {
     const startIndex = (page - 1) * first;
     const endIndex = page * first;
     // console.log("{{{{{{{{{{{}}}}}}}}}}}}");
-    // console.log(min_price);
+    // console.log(hasType);
     let data: Product[] = await this.ProductModel.find();
     // console.log("data");
     // console.log(data);
     // console.log("dataend")
     // console.log(text);
     var productSearchResult = [];
-    if (text) {
+    if (text && text!="%%") {
       data.forEach(product => {
         var checkTypeSlug = (product.slug.toLowerCase()).includes(text.replace(/%/g, '').toLowerCase())
         if (checkTypeSlug == true) {
@@ -145,11 +171,43 @@ export class ProductsService {
     }
     // console.log("has type loging@@@@@@@@@@@D2@@@@@@@@@")
     // console.log(hasType);
+
+    if(hasType){
+      // console.log("Has type");
+      if( (hasType.value == 'Electronics') || (hasType.value == 'Beauty & Personal Care') || (hasType.value == 'Entertainment') ){
+        data.forEach(product => {
+          var checkType = (product.type.slug.toLowerCase()).includes(hasType.value.toLowerCase());
+          if (checkType == true) {
+            productSearchResult.push(product);
+          }
+        });
+        // console.log(productSearchResult);
+        if (orderBy) {
+          if (orderBy[0].order == 'desc') {
+            productSearchResult.sort((a, b) => {
+              return b.sale_price - a.sale_price;
+            });
+          }
+          if (orderBy[0].order == 'asc') {
+            productSearchResult.sort((a, b) => {
+              return a.sale_price - b.sale_price;
+            });
+          }
+        }
+  
+        return {
+          data: productSearchResult,
+          paginatorInfo: paginate(productSearchResult.length, page, first, productSearchResult.length),
+        };
+      }
+    }
+
     if (hasType) {
       if (hasType.value != 'Products') {
+        // console.log("line 150");
         data.forEach(product => {
           // var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasCategories.value[0].replace(/%/g,'').toLowerCase())
-          var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasType.value.toLowerCase())
+          var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasType.value.toLowerCase());
           if (checkCategorySlug == true) {
             productSearchResult.push(product);
           }
@@ -257,21 +315,47 @@ export class ProductsService {
         paginatorInfo: paginate(data.length, page, first, data.length),
       };
     }
+
+    if(hasCategories){
+      var category_name = hasCategories.value[0];
+      // console.log("category");
+      // console.log(category_name);
+      data.forEach(product => {
+        // var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(hasCategories.value[0].replace(/%/g,'').toLowerCase())
+        var checkCategorySlug = (product.categories.slug.toLowerCase()).includes(category_name.toLowerCase())
+        if (checkCategorySlug == true) {
+          productSearchResult.push(product);
+        }
+      });
+      return {
+        data: productSearchResult,
+        paginatorInfo: paginate(productSearchResult.length, page, first, productSearchResult.length),
+      };
+
+    }
+
+    else{
+      return {
+        data: data,
+        paginatorInfo: paginate(data.length, page, first, data.length),
+      };
+    }
   }
 
   async getProduct({ id, slug }: GetProductArgs): Promise<Product> {
-    // console.log("id#####");
-    // console.log(id);
+    console.log("id#####");
+    console.log(id);
     if (id) {
       // return this.products.find((p) => p.id === Number(id));
       var ID_ = { "_id": id };
-      // console.log(a)
-      // console.log(await this.ProductModel.findOne(ID_));
+      console.log("Product details");
+      console.log(await this.ProductModel.findOne(ID_));
       return await this.ProductModel.findOne(ID_);
 
     }
     if (slug) {
-      // console.log(await this.ProductModel.findOne({"slug":slug}));
+      console.log("Product details");
+      console.log(await this.ProductModel.findOne({"slug":slug}));
       return await this.ProductModel.findOne({ "slug": slug });
     }
 
@@ -315,22 +399,40 @@ export class ProductsService {
       id: 1
     }
 
-    var Category = await this.CategoriesModel.findOne({ "_id": newValues.categories[0] });
-    var CatObj = {
-      categories: Category
-    }
+    var Categories = await this.CategoriesModel.find();
+    var CatObj = {};
+
+    Categories.forEach(element => {
+      if(element.children){
+        element.children.forEach(subcategory => {
+          if(subcategory.id.toString() == updateProductInput.categories[0]){
+            CatObj = {
+              categories: subcategory
+            }
+          }
+        });
+      }
+    });
 
     var D = Object.assign(newValues, CatObj);
 
     var B = Object.assign(newValues.variation_options, variation_options);
-    //  console.log(ProductId);
-    //  console.log(newValues);
-    // this.ProductModel.findByIdAndUpdate({name:"One Plus 1+"},{slug: "CCC"},{upsert:true});
-    // console.log(await this.ProductModel.findOne(a));
-    // return await this.ProductModel.findOne(a);
-    // console.log(await this.ProductModel.findById({"_id":  id }));
-    // this.ProductModel.findByIdAndUpdate({"_id":  id},{},{})
-    // return await this.ProductModel.findOne({"_id":  id });
+
+    var manufacturer1 ={};
+    var manufacturer_details ={};
+    if(newValues.manufacturer_id = 1){
+      console.log("inside manufacturer details if");
+      manufacturer_details = {
+        id : 1,
+        name : "Pick Ur Needs Delhi India"
+      }
+    }
+
+    manufacturer1 ={
+      manufacturer:manufacturer_details
+    }
+    var E = Object.assign(newValues, manufacturer1);
+    
     return await this.ProductModel.findByIdAndUpdate(ProductId, newValues, { new: true })
   }
   async remove(id: number) {

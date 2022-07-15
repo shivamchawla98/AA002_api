@@ -34,7 +34,7 @@ export class UploadsService {
     console.log(attachment);
     return new Promise (async (resolve, rejects) =>
     createReadStream()
-      .pipe(createWriteStream(__dirname+`C:/Users/rahul/OneDrive/Desktop/GraphQl/Image${filename}`))
+      .pipe(createWriteStream(`http://38.242.199.115:3001/img/${filename}`))
       .on("finish", () => resolve(true))
       .on("error",()=>rejects(false))
     );

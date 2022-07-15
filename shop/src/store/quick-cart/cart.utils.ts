@@ -27,6 +27,24 @@ export function addItemWithQuantity(
   return [...items, { ...item, quantity }];
 }
 
+export function addItemWishlist(
+  items: Item[],
+  item: Item
+) {
+  // if (quantity <= 0)
+    // throw new Error("cartQuantity can't be zero or less than zero");
+  const existingItemIndex = items.findIndex(
+    (existingItem) => existingItem.id === item.id
+  );
+
+  if (existingItemIndex > -1) {
+    const newItems = [...items];
+    // newItems[existingItemIndex].quantity! += quantity;
+    return newItems;
+  }
+  return [...items, { ...item}];
+}
+
 export function removeItemOrQuantity(
   items: Item[],
   id: Item["id"],

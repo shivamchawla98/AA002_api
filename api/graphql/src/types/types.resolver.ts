@@ -17,12 +17,14 @@ export class TypesResolver {
 
   @Query(() => [Type], { name: 'types' })
   async getTypes(@Args() getTypesArgs: GetTypesArgs): Promise<Type[]> {
-    // console.log("Query types @@@@@@@@@@@");
+    // console.log("Line 20 Query types @@@@@@@@@@@");
+    // console.log(getTypesArgs);
     return this.typesService.getTypes(getTypesArgs);
   }
 
   @Query(() => Type, { name: 'type' })
   async getType(@Args() getTypeArgs: GetTypeArgs): Promise<Type> {
+    // console.log("Line 26 Query types @@@@@@@@@@@");
     return this.typesService.getType(getTypeArgs);
   }
 

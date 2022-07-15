@@ -109,7 +109,7 @@ const Header = ({ layout }: { layout: string }) => {
           paddingBottom: "0"
         }}
       >
-        <Categories layout="compactParent" variables={{ limit: 1000, parent: null, type: "products" }} />
+        <Categories layout="compactParent" variables={{ limit: 1000, parent: null}} />
       </div>
     </header>
   );

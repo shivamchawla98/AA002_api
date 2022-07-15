@@ -79,6 +79,7 @@ export class OrdersService {
       var customerInfo={
         customer:await this.userModel.findOne(IDuser0)
       }
+      createOrderInput.customer_id = 1;
       // console.log(customerInfo);
     }
     if(createOrderInput.customer_id){
@@ -162,14 +163,22 @@ export class OrdersService {
     const endIndex = page * first;
     //let data: Order[] = this.orders;
     let data: Order[] = await this.OrdersModel.find();
+    var order_list = [];
+    if(tracking_number && tracking_number != "%%"){
+      data.forEach(element => {
+        if((element.tracking_number.toLowerCase()).includes(tracking_number.replace(/%/g, '').toLowerCase())){
+          order_list.push(element);
+        }
+      });
+    const results = order_list.slice(startIndex, endIndex);
 
-    // if (shop_id) {
-    //   data = this.orders?.filter((p) => p?.shop?.id === Number(shop_id));
-    // }
+    return {
+      data: order_list,
+      paginatorInfo: paginate(order_list.length, page, first, order_list.length),
+    };
+    }
+    
     const results = data.slice(startIndex, endIndex);
-    // console.log("************************** Order list")
-    // console.log(results);
-    // console.log("************************** Order list")
 
     return {
       data: results,
@@ -213,10 +222,28 @@ export class OrdersService {
     const startIndex = (page - 1) * first;
     const endIndex = page * first;
     const data: OrderStatus[] = this.orderStatus;
+    var orderStatus = [];
 
     // if (shop_id) {
     //   data = this.orders?.filter((p) => p?.shop?.id === shop_id);
     // }
+    if (text && text!="%%") {
+      data.forEach(element => {
+        var checkOrderstatusName = (element.name.toLowerCase()).includes(text.replace(/%/g, '').toLowerCase())
+        if (checkOrderstatusName == true) {
+          orderStatus.push(element);
+        }
+      });
+      console.log(orderStatus);
+
+      // const results = users.slice(startIndex, endIndex);
+      // console.log(results);
+      return {
+        data: orderStatus,
+        paginatorInfo: paginate(orderStatus.length, page, first, orderStatus.length),
+      }; 
+    }
+    
     const results = data.slice(startIndex, endIndex);
 
     return {
@@ -250,15 +277,44 @@ export class OrdersService {
   }
 
   async verifyCheckout(input: CheckoutVerificationInput): Promise<VerifiedCheckoutData> {
+    console.log("Checkout input");
     console.log(input);
     var orderAmount = input.amount;
-
+    var taxAmount = 0;
     var stateNameForTax = "Haryana";
     var cityNameForShipping = "Gurgaon";
+
+    let products_list = [];
+    let products_for_discount = [];
+
+    input.products.forEach(element => {
+      if (element.order_quantity > 9){
+        products_for_discount.push(element);
+      }
+    });
     
-    var taxObj =await this.TAXESModel.findOne({"state":stateNameForTax});
-    var taxRate = taxObj.rate;
-    var taxAmount = 0;
+    if(input.products){
+      for (let index = 0; index < input.products.length; index++) {
+        var ID_ = { "_id": input.products[index].product_id};
+        var product = await this.ProductModel.findOne(ID_);
+        products_list.push(product);
+        // console.log(products_list);
+      }
+    }
+    
+    for (let index = 0; index < products_list.length; index++) {
+      if(products_list[index].tax_code){
+        var taxObj =await this.TAXESModel.findOne({"name":products_list[index].tax_code});
+        var taxrate = taxObj.rate;
+        taxAmount = (taxAmount + (products_list[index].sale_price*(taxrate/100)));
+      }
+      
+    }
+
+
+    // var taxObj =await this.TAXESModel.findOne({"state":stateNameForTax});
+    // var taxRate = taxObj.rate;
+    // var taxAmount = 0;
     // console.log("@@@@@@@@@@@@@@@@@@@@@@ Tax amount");
     // console.log(taxAmount); 
 

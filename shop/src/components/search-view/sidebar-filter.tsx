@@ -15,6 +15,7 @@ import ArrowNarrowLeft from '@/components/icons/arrow-narrow-left';
 import { useIsRTL } from '@/lib/locals';
 import Button from '@/components/ui/button';
 import CartCounterButton from '../cart/cart-counter-button';
+import WishlistCounterButton from '../wishlist/wishlist-counter-button';
 import Categories from '../categories/categories';
 import categories from '../categories/categories';
 import Footer from '../layouts/footer';

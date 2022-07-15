@@ -95,10 +95,53 @@ export class Products extends Document{
   @Prop()
   price?: number;
   @Prop()
- 
   quantity: number;
   @Prop()
   unit: string;
+
+  @Prop()
+  sellersku?: string;
+  @Prop()
+  hsn?: string;
+  @Prop()
+  tax_code?: string;
+  @Prop()
+  ISO_code?: string;
+  @Prop()
+  manufacture_date?: string;
+  @Prop()
+  weight?: string;
+  @Prop()
+  importer?: string;
+  @Prop()
+  packer?: string;
+  @Prop()
+  brand_name?:  string;
+  @Prop()
+  color?:  string;
+  @Prop()
+  rechargeable?:  string;
+  @Prop()
+  Bulb_Type?:  string;
+  @Prop()
+  Power_Consumption?:  string;
+  @Prop()
+  Power_Requirement?:  string;
+  @Prop()
+  Material?:  string;
+  @Prop()
+  Battery_Type?:  string;
+  @Prop()
+  Range?:  string;
+  @Prop()
+  Charging_Time?:  string;
+  @Prop()
+  Charging_Time_Measuring_Unit?:  string;
+  @Prop()
+  Battery_Included?:  string;
+  @Prop()
+  Backup_Time?:  string;
+
 
 }
 

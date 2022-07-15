@@ -6,13 +6,14 @@ import { useCart } from '@/store/quick-cart/cart.context';
 import classNames from 'classnames';
 import { useVerifyOrder } from '@/framework/order';
 import omit from 'lodash/omit';
+import { useBuyNow } from '@/store/quick-buynow/buynow.context';
 
-export const CheckAvailabilityAction: React.FC<{ className?: string }> = (
+export const CheckAvailabilityAction: React.FC<{ className?: string, checkoutType?: string }> = (
   props
 ) => {
   const [billing_address] = useAtom(billingAddressAtom);
   const [shipping_address] = useAtom(shippingAddressAtom);
-  const { items, total, isEmpty } = useCart();
+  const { items, total, isEmpty } = (props.checkoutType == 'cart') ? useCart() : useBuyNow();
 
   const { mutate: verifyCheckout, isLoading: loading } = useVerifyOrder();
 

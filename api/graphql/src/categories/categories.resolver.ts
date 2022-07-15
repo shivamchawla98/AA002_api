@@ -15,6 +15,8 @@ export class CategoriesResolver {
 
   @Mutation(() => Category)
   createCategory(@Args('input') createCategoryInput: CreateCategoryInput) {
+    console.log("create category input");
+    console.log(createCategoryInput);
     return this.categoriesService.create(createCategoryInput);
   }
 
@@ -22,7 +24,8 @@ export class CategoriesResolver {
   async getCategories(
     @Args() getCategoriesArgs: GetCategoriesArgs,
   ): Promise<CategoryPaginator> {
-    
+    console.log("line 25+++++++++++++++");
+    console.log(getCategoriesArgs);
     return this.categoriesService.getCategories(getCategoriesArgs);
   }
 
@@ -30,6 +33,7 @@ export class CategoriesResolver {
   async getCategory(
     @Args() getCategoryArgs: GetCategoryArgs,
   ): Promise<Category> {
+    // console.log("line 34+++++++++++++++");
     return this.categoriesService.getCategory(getCategoryArgs);
   }
 

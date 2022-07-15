@@ -7,10 +7,12 @@ import { useAtom } from 'jotai';
 import { verifiedResponseAtom } from '@/store/checkout';
 interface CartProviderState extends State {
   addItemToCart: (item: Item, quantity: number) => void;
+  addItemToWishlist: (item: Item) => void;
   removeItemFromCart: (id: Item['id']) => void;
   clearItemFromCart: (id: Item['id']) => void;
   getItemFromCart: (id: Item['id']) => any | undefined;
   isInCart: (id: Item['id']) => boolean;
+  isInWishlist: (id: Item['id']) => boolean;
   isInStock: (id: Item['id']) => boolean;
   resetCart: () => void;
 }
@@ -48,11 +50,17 @@ export const CartProvider: React.FC = (props) => {
 
   const addItemToCart = (item: Item, quantity: number) =>
     dispatch({ type: 'ADD_ITEM_WITH_QUANTITY', item, quantity });
+  const addItemToWishlist = (item: Item) =>
+    dispatch({ type: 'ADD_ITEM_WISHLIST', item });
   const removeItemFromCart = (id: Item['id']) =>
     dispatch({ type: 'REMOVE_ITEM_OR_QUANTITY', id });
   const clearItemFromCart = (id: Item['id']) =>
     dispatch({ type: 'REMOVE_ITEM', id });
   const isInCart = useCallback(
+    (id: Item['id']) => !!getItem(state.items, id),
+    [state.items]
+  );
+  const isInWishlist = useCallback(
     (id: Item['id']) => !!getItem(state.items, id),
     [state.items]
   );
@@ -69,14 +77,16 @@ export const CartProvider: React.FC = (props) => {
     () => ({
       ...state,
       addItemToCart,
+      addItemToWishlist,
       removeItemFromCart,
       clearItemFromCart,
       getItemFromCart,
       isInCart,
+      isInWishlist,
       isInStock,
       resetCart,
     }),
-    [getItemFromCart, isInCart, isInStock, state]
+    [getItemFromCart, isInCart, isInWishlist, isInStock, state]
   );
   return <cartContext.Provider value={value} {...props} />;
 };

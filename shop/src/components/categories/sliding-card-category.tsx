@@ -23,8 +23,8 @@ const SlidingCardCategories: React.FC<SlidingCardCategoriesProps> = ({
       </div>
     );
   }
-  // console.log("6666666666666666");
-  // console.log(categories);
+  console.log("222222222222");
+  console.log(categories);
   return (
     <SectionBlock title="Electronics">
       {!notFound ? (
