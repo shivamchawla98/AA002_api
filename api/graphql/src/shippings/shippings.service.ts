@@ -23,8 +23,28 @@ export class ShippingsService {
   }
 
   async findAll(getShippingsArgs: GetShippingsArgs) {
+    console.log(getShippingsArgs);  
     let data: Shipping[] = await this.ShippingModel.find();
-    return data;
+    let filteredData = [];
+    if (getShippingsArgs.text == '%%'){
+      console.log("1");
+      return data;
+    }
+    if (getShippingsArgs.text && getShippingsArgs.text != '%%'){
+      console.log("2");
+      data.forEach(element => {
+        if ((element.name.toLowerCase()).includes(getShippingsArgs.text.replace(/%/g, '').toLowerCase())){
+          filteredData.push(element);
+        }
+      });
+
+      return filteredData
+    }
+    else {
+      console.log("3");
+      return data;
+    }
+
   }
 
   async findOne(id: number) {

@@ -155,6 +155,46 @@ export class CategoriesService {
         paginatorInfo: paginate(queryResult.length, page, first, queryResult.length),
       };
     }
+
+    if( hasType  && (parent == null)  ){
+      // console.log("160");
+      queryResult.forEach(element => {
+        if(element.type.slug.toLowerCase() == hasType?.value.toLowerCase()){
+          if(element.children){
+                element.children.forEach(child => {
+                  // console.log(child);
+                  a.push(child);
+                });
+          }
+          else{
+            a.push(element);
+          }
+        }
+      });
+      return {
+        data: a,
+        paginatorInfo: paginate(a.length, page, first, a.length),
+      };
+    }
+
+    if( hasType  && (parent == null) && text && text != "%%"){ 
+      // console.log("160");
+      queryResult.forEach(element => {
+        if(element.type.slug.toLowerCase() == hasType?.value.toLowerCase()){
+          if(element.children){
+                element.children.forEach(child => {
+                  if ((child.name.toLowerCase()).includes(text.replace(/%/g, '').toLowerCase())){
+                    a.push(child);
+                  }                  
+                });
+          }
+        }
+      });
+      return {
+        data: a,
+        paginatorInfo: paginate(a.length, page, first, a.length),
+      };
+    }
     
     if(hasType && text == "%%"){
       console.log("condition 1");
@@ -163,7 +203,7 @@ export class CategoriesService {
           result.push(element);
         }
       });
-      if(hasType){
+      if(!hasType){
         return {
           data: queryResult,
           paginatorInfo: paginate(data.length, page, first, data.length),

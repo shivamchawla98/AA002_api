@@ -343,19 +343,19 @@ export class ProductsService {
   }
 
   async getProduct({ id, slug }: GetProductArgs): Promise<Product> {
-    console.log("id#####");
-    console.log(id);
+    // console.log("id#####");
+    // console.log(id);
     if (id) {
       // return this.products.find((p) => p.id === Number(id));
       var ID_ = { "_id": id };
-      console.log("Product details");
-      console.log(await this.ProductModel.findOne(ID_));
+      // console.log("Product details");
+      // console.log(await this.ProductModel.findOne(ID_));
       return await this.ProductModel.findOne(ID_);
 
     }
     if (slug) {
-      console.log("Product details");
-      console.log(await this.ProductModel.findOne({"slug":slug}));
+      // console.log("Product details");
+      // console.log(await this.ProductModel.findOne({"slug":slug}));
       return await this.ProductModel.findOne({ "slug": slug });
     }
 
