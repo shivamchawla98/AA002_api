@@ -23,6 +23,7 @@ import { stickyShortDetailsAtom } from '@/store/sticky-short-details-atom';
 import { useAttributes } from './attributes.context';
 import classNames from 'classnames';
 import { displayImage } from '@/lib/display-product-preview-images';
+import { AddToBuyNow } from '../add-to-buynow/add-to-buynow';
 
 type Props = {
   product: Product;
@@ -185,22 +186,27 @@ const Details: React.FC<Props> = ({
                 </span>
               )}
 
-              <div className="flex flex-col items-center mt-4 md:mt-6 lg:flex-row">
-                <div className="mb-3 lg:mb-0 w-full lg:max-w-[400px]">
+              <div className="flex flex-col items-center mt-4 md:mt-6 mr-40 lg:flex-row">
+                <div className="mb-3 lg:mb-0 w-full lg:max-w-[400px] mr-4">
                   <AddToCart
                     data={product}
                     variant="big"
                     variation={selectedVariation}
                     disabled={selectedVariation?.is_disable || !isSelected}
                   />
+                  {/* <AddToBuyNow variant="big" data={product} /> */}
+                </div>
+                <div className="mb-3 lg:mb-0 w-full lg:max-w-[400px] ml-4">
+                  <AddToBuyNow variant="big" data={product} />
                 </div>
 
                 {!hasVariations && (
                   <>
                     {Number(quantity) > 0 ? (
-                      <span className="text-base text-body whitespace-nowrap ltr:lg:ml-7 rtl:lg:mr-7">
-                        {quantity} {t('text-pieces-available')}
-                      </span>
+                      <></>
+                      // <span className="text-base text-body whitespace-nowrap ltr:lg:ml-7 rtl:lg:mr-7">
+                      //   {quantity} {t('text-pieces-available')}
+                      // </span>
                     ) : (
                       <div className="text-base text-red-500 whitespace-nowrap ltr:lg:ml-7 rtl:lg:mr-7">
                         {t('text-out-stock')}
@@ -211,11 +217,11 @@ const Details: React.FC<Props> = ({
                 {!isEmpty(selectedVariation) && (
                   <span className="text-base text-body whitespace-nowrap ltr:lg:ml-7 rtl:lg:mr-7">
                     {selectedVariation?.is_disable ||
-                    selectedVariation.quantity === 0
+                      selectedVariation.quantity === 0
                       ? t('text-out-stock')
                       : `${selectedVariation.quantity} ${t(
-                          'text-pieces-available'
-                        )}`}
+                        'text-pieces-available'
+                      )}`}
                   </span>
                 )}
               </div>

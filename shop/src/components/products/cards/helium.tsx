@@ -7,6 +7,9 @@ import { useModalAction } from '@/components/ui/modal/modal.context';
 import { Product } from '@/framework/types';
 import { productPlaceholder } from '@/lib/placeholders';
 import CartIcon from '@/components/icons/cart';
+import { AddToWishlist } from '../add-to-wishlist/add-to-wishlist';
+import { ROUTES } from '@/lib/routes';
+import router from 'next/router';
 
 type HeliumProps = {
   product: any;
@@ -40,6 +43,10 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
     return openModal('PRODUCT_DETAILS', product.slug);
   }
 
+  function handleProductView() {
+    router.push(`${ROUTES.PRODUCT}/${product.slug}`);
+  }
+
   return (
     <article
       className={cn(
@@ -47,8 +54,11 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
         className
       )}
     >
+      <div style={{position: "absolute", paddingTop: "1vh", paddingLeft: "1vh", zIndex: "10"}}>
+        <AddToWishlist variant="single" data={product} />
+      </div>
       <div
-        onClick={handleProductQuickView}
+        onClick={handleProductView}
         className="relative flex items-center justify-center w-auto h-48 sm:h-64"
         role="button"
       >
@@ -70,7 +80,7 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
 
       <header className="p-3 md:py-6 md:p-5 relative">
         <h3
-          onClick={handleProductQuickView}
+          onClick={handleProductView}
           role="button"
           className="text-heading text-sm font-semibold truncate mb-2"
         >
@@ -94,7 +104,7 @@ const Helium: React.FC<HeliumProps> = ({ product, className }) => {
 
               {Number(quantity) > 0 && (
                 <button
-                  onClick={handleProductQuickView}
+                  onClick={handleProductView}
                   className="order-5 sm:order-4 py-2 px-3 sm:px-4 border-2 border-border-100 flex items-center justify-center sm:justify-start text-sm font-semibold rounded-full text-accent hover:text-light bg-light hover:bg-accent hover:border-accent transition-colors duration-300 focus:outline-none focus:bg-accent focus:border-accent focus:text-light"
                 >
                   <CartIcon className="w-4 h-4 ltr:mr-2 rtl:ml-2" />

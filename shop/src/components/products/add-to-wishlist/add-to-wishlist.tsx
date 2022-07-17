@@ -5,6 +5,7 @@ import { useWishlist } from '@/store/quick-wishlist/wishlist.context';
 import { generateWishlistItem } from '@/store/quick-wishlist/generate-wishlist-item';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/lib/routes';
+import AddToWishlistBtnFilled from './add-to-wishlist-btn-filled';
 
 
 interface Props {
@@ -52,7 +53,7 @@ export const AddToWishlist = ({
     e: React.MouseEvent<HTMLButtonElement | MouseEvent>
   ) => {
     e.stopPropagation();
-    addItemToWishlist(item, 1);
+    addItemToWishlist(item);
     if (!isInWishlist(item.id)) {
       cartAnimation(e);
     }
@@ -64,6 +65,9 @@ export const AddToWishlist = ({
     removeItemFromWishlist(item.id);
   };
   const outOfStock = isInWishlist(item?.id) && !isInStock(item.id);
+  console.log("ittttttteeeeeeeeeeeeeeeeemmmmmmmmmmmm");
+  console.log(item);
+  console.log(isInWishlist(item.id));
   return !isInWishlist(item?.id) ? (
     <>
       <AddToWishlistBtn
@@ -74,14 +78,11 @@ export const AddToWishlist = ({
     </>
   ) : (
     <>
-      {/* <Counter
-        value={getItemFromWishlist(item.id).quantity}
-        onDecrement={handleRemoveClick}
-        onIncrement={handleAddWishlistClick}
-        variant={counterVariant || variant}
-        className={counterClass}
-        disabled={outOfStock}
-      /> */}
+      <AddToWishlistBtnFilled
+        disabled={disabled || outOfStock}
+        variant={variant}
+        onClick={handleAddWishlistClick}
+      />
     </>
   );
 };

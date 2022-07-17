@@ -118,7 +118,7 @@ const FilterCategoryGrid: React.FC<FilterCategoryGridProps> = ({
 
       <div className="p-5 !pt-0 md:p-8 lg:p-12 2xl:p-16" >
         
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-5">
           {Array.isArray(renderCategories) &&
             renderCategories?.map((item: any, idx: number) => (
 

@@ -10,9 +10,8 @@ type Props = {
   disabled?: boolean;
 };
 
-const AddToWishlistBtn: React.FC<Props> = ({ variant, onClick, disabled }) => {
+const AddToWishlistBtnFilled: React.FC<Props> = ({ variant, onClick, disabled }) => {
   const { t } = useTranslation('common');
-
 
   switch (variant) {
     case 'neon':
@@ -57,9 +56,10 @@ const AddToWishlistBtn: React.FC<Props> = ({ variant, onClick, disabled }) => {
             onClick={onClick}
             disabled={disabled}
             className="flex items-center justify-center order-5 px-3 py-2 text-sm font-semibold transition-colors duration-300 border-2 rounded-full sm:order-4 sm:px-5 border-border-100 sm:justify-start text-accent hover:text-light bg-light hover:bg-accent hover:border-accent focus:outline-none focus:bg-accent focus:border-accent focus:text-light"
+            style={{backgroundColor: "rgba(var(--color-accent), var(--tw-bg-opacity))", margin: "auto"}}
           >
             <>
-              <WishlistIcon className="w-4 h-4 ltr:mr-2.5 rtl:ml-2.5" />
+              <WishlistFilled className="w-4 h-4 ltr:mr-2.5 rtl:ml-2.5" />
             </>
             {/* <span>Wishlist</span> */}
           </button>
@@ -96,4 +96,4 @@ const AddToWishlistBtn: React.FC<Props> = ({ variant, onClick, disabled }) => {
   }
 };
 
-export default AddToWishlistBtn;
+export default AddToWishlistBtnFilled;

@@ -33,8 +33,8 @@ const CartSidebarView = () => {
     amount: total,
   });
   return (
-    <section className="flex flex-col h-full relative">
-      <header className="fixed max-w-md w-full top-0 z-10 bg-light py-4 px-6 flex items-center justify-between border-b border-border-200 border-opacity-75">
+    <section className="flex flex-col h-full relative top-20">
+      <header className="fixed max-w-md w-full top-20 z-10 bg-light py-4 px-6 flex items-center justify-between border-b border-border-200 border-opacity-75">
         <div className="flex text-accent font-semibold">
           <CartCheckBagIcon className="shrink-0" width={24} height={22} />
           <span className="flex ltr:ml-2 rtl:mr-2">

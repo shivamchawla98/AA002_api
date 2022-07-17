@@ -38,6 +38,10 @@ const Neon: React.FC<NeonProps> = ({ product, className }) => {
 
   const { openModal } = useModalAction();
 
+  function handleProductView() {
+    return openModal('PRODUCT_DETAILS', product.slug);
+  }
+
   function handleProductQuickView() {
     return openModal('PRODUCT_DETAILS', product.slug);
   }
@@ -48,9 +52,10 @@ const Neon: React.FC<NeonProps> = ({ product, className }) => {
         className
       )}
     >
+      <AddToWishlist variant="single" data={product} />
       <div
         className="relative flex items-center justify-center cursor-pointer w-auto h-48 sm:h-64"
-        onClick={handleProductQuickView}
+        onClick={handleProductView}
       >
         <span className="sr-only">{t('text-product-image')}</span>
         <Image
@@ -127,15 +132,15 @@ const Neon: React.FC<NeonProps> = ({ product, className }) => {
         )}
 
         {/* {Number(quantity) > 0 && ( */}
-          <>
+        {/* <>
             <AddToWishlist variant="single" data={product} />
-          </>
+          </> */}
         {/* )} */}
 
         {/* {Number(quantity) > 0 && ( */}
-          <>
+        {/* <>
             <AddToBuyNow variant="single" data={product} />
-          </>
+          </> */}
         {/* )} */}
 
         {Number(quantity) <= 0 && (
