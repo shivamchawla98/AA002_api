@@ -17,6 +17,7 @@ import { Types } from 'src/types/types.schema';
 import shopsJson from 'src/shops/shops.json';
 import { Shop } from 'src/shops/entities/shop.entity';
 import { Categories_ } from 'src/categories/categories.schema';
+import { isFunctionOrConstructorTypeNode } from '@ts-morph/common/lib/typescript';
 
 
 const products = plainToClass(Product, productsJson);
@@ -61,10 +62,77 @@ export class ProductsService {
       slug: Slug
     }
     var A = Object.assign(createProductInput, SlugObject);
-    var variation_options = {
+
+    var options_for_variations = [];
+
+    if(createProductInput.variation_options.upsert[0].sale_price){
+      createProductInput.sale_price = createProductInput.variation_options.upsert[0].sale_price;
+    }
+
+    if(createProductInput.variation_options.upsert){
+      
+
+      createProductInput.variation_options.upsert.forEach(element => {
+        
+        
+        
+        element.options.forEach(element12 => {
+          var randomString = Math.random().toString(36).slice(2);
+          var randomString2 = Math.random().toString(36).slice(2);
+          console.log(options_for_variations);
+          if(options_for_variations[0]){
+            console.log("121221212121212121121221");
+            options_for_variations.forEach(element13 => {
+              console.log(element13.value);
+              console.log(element12.value);
+              if(element13.value != element12.value){
+                console.log("values matched");
+                var a = {
+                  id:randomString,
+                  value:element12.value,
+                  attribute:{
+                    id:randomString2,
+                    slug:element12.name,
+                    name:element12.name,
+                    values:[]
+                  }
+                }
+      
+                options_for_variations.push(a);
+              }
+            });
+
+          }
+
+          else{
+            console.log("elese23232323")
+            var a = {
+              id:randomString,
+              value:element12.value,
+              attribute:{
+                id:randomString2,
+                slug:element12.name,
+                name:element12.name,
+                values:[]
+              }
+            }
+  
+            options_for_variations.push(a);
+          }
+          
+        });        
+      });
+    }
+    else{
+      var variation_options = {
       id: 1
     }
+    }
+    
+    console.log("final variation values");
+    console.log(options_for_variations);
     var B = Object.assign(createProductInput.variation_options, variation_options);
+    var M = Object.assign(createProductInput.variations , options_for_variations);
     var ShopObject = {
       shop: this.shops[0]
     }
@@ -83,9 +151,9 @@ export class ProductsService {
         });
       }
     });
-    console.log("CatObj");
+    // console.log("CatObj");
 
-    console.log(CatObj);
+    // console.log(CatObj);
     var D = Object.assign(createProductInput, CatObj);
 
     var manufacturer1 ={};

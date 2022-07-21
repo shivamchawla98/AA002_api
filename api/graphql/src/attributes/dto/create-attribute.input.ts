@@ -11,7 +11,7 @@ export class CreateAttributeInput extends PickType(Attribute, [
 @InputType()
 export class AttributeValueInput {
   @Field(() => ID)
-  id?: number;
+  id?: string;
   value: string;
   meta?: string;
 }

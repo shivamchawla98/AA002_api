@@ -26,7 +26,7 @@ export class ProductsResolver {
   @Mutation(() => Product)
   createProduct(@Args('input') createProductInput: CreateProductInput) {
     console.log("Create Products ^^^^^^^^^^^");
-    console.log(createProductInput);
+    console.log(createProductInput.variation_options);
     return this.productsService.create(createProductInput);
   }
 

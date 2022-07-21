@@ -6,8 +6,8 @@ import { Attribute } from './attribute.entity';
 @ObjectType()
 export class AttributeValue extends CoreEntity {
   @Field(() => Int)
-  shop_id: number;
-  value: string;
+  shop_id?: number;
+  value?: string;
   meta?: string;
-  attribute: Attribute;
+  attribute?: Attribute;
 }

@@ -18,9 +18,10 @@ export class AttributesService {
   create(createAttributeInput: CreateAttributeInput) {
     // console.log(createAttributeInput);
     
-    var num = 0;
+    
     createAttributeInput.values.forEach(element => {
-      element.id=num+1
+      var randomString = Math.random().toString(36).slice(2);
+      element.id=randomString
     });
 
     var SlugObject = {
@@ -66,6 +67,12 @@ export class AttributesService {
     console.log(id);
     console.log(updateAttributeInput);
     var AttributeID = { "_id": id };
+
+    updateAttributeInput.values.forEach(element => {
+      var randomString = Math.random().toString(36).slice(2);
+      element.id=randomString
+    });
+
     await this.AttributesModel.findByIdAndUpdate(AttributeID, updateAttributeInput, { new: true })
     return this.attributes[0];
   }
