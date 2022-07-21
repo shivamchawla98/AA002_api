@@ -40,6 +40,7 @@ const fuse = new Fuse(products, options);
 export class ProductsService {
   private products: Product[] = products;
   private shops: Shop[] = shops;
+  public a ={};
   constructor(@InjectModel(Products.name) private ProductModel: Model<Products>, @InjectModel(Types.name) private TypesModel: Model<Types>, @InjectModel(Categories_.name) private CategoriesModel: Model<Categories_>) { }
 
 
@@ -77,36 +78,49 @@ export class ProductsService {
         
         
         element.options.forEach(element12 => {
+          
           var randomString = Math.random().toString(36).slice(2);
           var randomString2 = Math.random().toString(36).slice(2);
-          console.log(options_for_variations);
+          var count = 0;
           if(options_for_variations[0]){
-            console.log("121221212121212121121221");
+            // console.log("121221212121212121121221");
+            
             options_for_variations.forEach(element13 => {
-              console.log(element13.value);
-              console.log(element12.value);
-              if(element13.value != element12.value){
-                console.log("values matched");
-                var a = {
-                  id:randomString,
-                  value:element12.value,
-                  attribute:{
-                    id:randomString2,
-                    slug:element12.name,
-                    name:element12.name,
-                    values:[]
-                  }
+              // console.log(element13.value);
+              // console.log(element12.value);
+              
+
+              this.a = {
+                id:randomString,
+                value:element12.value,
+                attribute:{
+                  id:randomString2,
+                  slug:element12.name,
+                  name:element12.name,
+                  values:[]
                 }
-      
-                options_for_variations.push(a);
               }
+              // console.log(count);
+
+              if((element13.attribute.name == element12.name) && (element13.value == element12.value)){
+                count = count + 1;
+                // console.log(count);
+                // options_for_variations.push(a);
+              }
+              
             });
+
+            if(count == 0){
+              // console.log("count 0")
+              options_for_variations.push(this.a);
+              // console.log(options_for_variations);
+            }
 
           }
 
           else{
             console.log("elese23232323")
-            var a = {
+            this.a = {
               id:randomString,
               value:element12.value,
               attribute:{
@@ -117,7 +131,7 @@ export class ProductsService {
               }
             }
   
-            options_for_variations.push(a);
+            options_for_variations.push(this.a);
           }
           
         });        
@@ -129,8 +143,8 @@ export class ProductsService {
     }
     }
     
-    console.log("final variation values");
-    console.log(options_for_variations);
+    // console.log("final variation values");
+    // console.log(options_for_variations);
     var B = Object.assign(createProductInput.variation_options, variation_options);
     var M = Object.assign(createProductInput.variations , options_for_variations);
     var ShopObject = {
@@ -159,7 +173,7 @@ export class ProductsService {
     var manufacturer1 ={};
     var manufacturer_details ={};
     if(createProductInput.manufacturer_id = 1){
-      console.log("inside manufacturer details if");
+      // console.log("inside manufacturer details if");
       manufacturer_details = {
         id : 1,
         name : "Pick Ur Needs Delhi India"
