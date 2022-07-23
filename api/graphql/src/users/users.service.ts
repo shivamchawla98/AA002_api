@@ -230,7 +230,7 @@ export class UsersService {
 
   async me(getuserToken: GetUserArgs_token): Promise<User> {
     console.log(await this.userModel.findOne({"token":getuserToken.token}));
-    return await this.userModel.findById({"_id":'626eca0fd4c3ecb0f7eda827'});
+    return await this.userModel.findOne({"token":getuserToken.token});
   }
 
   async updateUser(id: number, updateUserInput: UpdateUserInput) {
