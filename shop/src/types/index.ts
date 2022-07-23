@@ -281,6 +281,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  token: string;
   profile: {
     id?: string;
     contact?: string;
@@ -292,6 +293,10 @@ export interface User {
 
 export interface UpdateUserInput extends Partial<User> {
   id: string;
+}
+
+export interface GetUserArgs_token extends Partial<User> {
+  token: string;
 }
 
 export interface LoginUserInput {

@@ -27,6 +27,8 @@ import { isEmail } from 'class-validator';
 import { Profile } from './profile.schema';
 import { ProfileInput } from './dto/create-profile.input';
 import { generateToken } from 'src/utils/jwt.utils';
+import { GetUserArgs_token } from './dto/get-user_token.args';
+
 
 const users = plainToClass(User, usersJson);
 const options = {
@@ -226,9 +228,9 @@ export class UsersService {
     return await this.userModel.findOne(getUserArgs);
   }
 
-  async me(token): Promise<User> {
-    console.log(await this.userModel.findById({"token":token}));
-     return await this.userModel.findById({"_id":'626eca0fd4c3ecb0f7eda827'});
+  async me(getuserToken: GetUserArgs_token): Promise<User> {
+    console.log(await this.userModel.findOne({"token":getuserToken.token}));
+    return await this.userModel.findById({"_id":'626eca0fd4c3ecb0f7eda827'});
   }
 
   async updateUser(id: number, updateUserInput: UpdateUserInput) {

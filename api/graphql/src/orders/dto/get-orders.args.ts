@@ -14,8 +14,9 @@ export class GetOrdersArgs extends PaginationArgs {
   tracking_number?: string;
   orderBy?: string;
   sortedBy?: string;
-  @Field(() => ID)
-  customer_id?: number;
+  // @Field(() => ID)
+  customer_id?: string;
   @Field(() => ID)
   shop_id?: number;
+  token?: string;
 }

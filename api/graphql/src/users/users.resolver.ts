@@ -21,6 +21,7 @@ import {
 import { UpdateUserInput } from './dto/update-user.input';
 import { GetUserArgs } from './dto/get-user.args';
 import { GetUsersArgs, UserPaginator } from './dto/get-users.args';
+import { GetUserArgs_token } from './dto/get-user_token.args';
 import { SuccessResponse } from 'src/common/dto/success-response.model';
 import { ProfileInput } from './dto/create-profile.input';
 import { Profile } from './entities/profile.entity';
@@ -151,10 +152,10 @@ export class UsersResolver {
   }
 
   @Query(() => User, { name: 'me' })
-  async me(token: string): Promise<User> {
+  async me(@Args() getuserToken:GetUserArgs_token): Promise<User> {
     console.log("me ************************* query");
-    console.log(token)
-    return this.usersService.me(token);
+    console.log(getuserToken)
+    return this.usersService.me(getuserToken);
   }
 
   @Query(() => User, { name: 'user', nullable: true })

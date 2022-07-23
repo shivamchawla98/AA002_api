@@ -136,6 +136,7 @@ export class ProductsService {
           
         });        
       });
+      
     }
     else{
       var variation_options = {

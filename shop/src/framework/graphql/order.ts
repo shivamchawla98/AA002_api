@@ -32,6 +32,7 @@ import { useAtom } from 'jotai';
 import { verifiedResponseAtom } from '@/store/checkout';
 import { ROUTES } from '@/lib/routes';
 import { useState } from 'react';
+import { getToken } from 'next-auth/jwt';
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
   const {
@@ -43,6 +44,7 @@ export function useOrders(options?: Partial<OrderQueryOptions>) {
   } = useOrdersQuery({
     variables: {
       first: 10,
+      customer_id: getToken(),
     },
     notifyOnNetworkStatusChange: true,
   });

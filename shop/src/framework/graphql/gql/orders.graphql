@@ -85,7 +85,7 @@ query Orders(
   $tracking_number: String
   $orderBy: String
   $sortedBy: String
-  $customer_id: ID
+  $customer_id: String
   $shop_id: ID
   $first: Int = 10
   $page: Int

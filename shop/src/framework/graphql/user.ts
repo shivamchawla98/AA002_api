@@ -35,7 +35,7 @@ import {
   VerifyForgetPasswordTokenInput,
   VerifyOtpInput,
 } from '__generated__/__types__';
-import type { RegisterUserInput, UpdateUserInput } from '@/types';
+import type { RegisterUserInput, UpdateUserInput,  GetUserArgs_token} from '@/types';
 import { useApolloClient } from '@apollo/client';
 import { useState } from 'react';
 import { getErrorMessage } from './utils/form-error';
@@ -47,7 +47,7 @@ import {
 import { initialOtpState, optAtom } from '@/components/otp/atom';
 import { clearCheckoutAtom } from "@/store/checkout";
 
-export function useUser(genToken: string) {
+export function useUser(genToken: GetUserArgs_token) {
   const [isAuthorized] = useAtom(authorizationAtom);
   const {
     data,
@@ -55,7 +55,9 @@ export function useUser(genToken: string) {
     error,
   } = useCustomerQuery({
     variables: {
-      token: genToken
+      input:{
+        token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQW5kcsOpcyBSZWFsZXMiLCJ1c2VySWQiOjEyMywiYWNjZXNzVHlwZXMiOlsiZ2V0VGVhbXMiLCJhZGRUZWFtcyIsInVwZGF0ZVRlYW1zIiwiZGVsZXRlVGVhbXMiXSwiaWF0IjoxNjU4NTYwNzAzLCJleHAiOjE2NTg1NjQzMDN9.d_rcgVhF6cyp5OUfYh1ZR2WkaQvrTuU8319VzU1s-6s_c9JTnxIiuNwbZwqw182Vdx4N0fnRWx5nrhxP0oK4rBySS3cLfEF4U-N3tFsZ7qnA0TTNxl_ljoO9_bGiz8NxaLcOO2Vt9585OjjO1S1e9KxIS_6DpRYq4PSbr51zdDogtR3Bs3IKxct5tfa3hq1B_qn6IUe5pT0_hvcQE59MtG6U35ghSRzZquFZaTuAtQCD_JGf0TaE24UfyK1wfvubuWRafQ8YTLAwfoihq-wX9Dhvqo6ojGzunqOrzOeIG15Q7ePj8TdRDEBuuSj9GPEorIj6cNpjk2lInTYxx4yokg",
+      }
     },
     fetchPolicy: 'network-only',
     skip: !isAuthorized,

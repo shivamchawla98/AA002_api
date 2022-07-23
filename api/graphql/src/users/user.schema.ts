@@ -60,7 +60,7 @@ export class Users extends Document{
 
     @Prop()
     wallet?: Wallet;
-
+    
     @Prop()
     token: String;
 
