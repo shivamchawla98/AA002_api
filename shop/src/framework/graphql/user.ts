@@ -47,13 +47,16 @@ import {
 import { initialOtpState, optAtom } from '@/components/otp/atom';
 import { clearCheckoutAtom } from "@/store/checkout";
 
-export function useUser() {
+export function useUser(genToken: string) {
   const [isAuthorized] = useAtom(authorizationAtom);
   const {
     data,
     loading: isLoading,
     error,
   } = useCustomerQuery({
+    variables: {
+      token: genToken
+    },
     fetchPolicy: 'network-only',
     skip: !isAuthorized,
     onError: (err) => {
@@ -155,8 +158,11 @@ export function useLogin() {
   const { closeModal } = useModalAction();
   const { setToken } = useToken();
   let [serverError, setServerError] = useState<string | null>(null);
+  console.log("inside use login function ");
   const [mutate, { loading: isLoading }] = useLoginMutation({
     onCompleted: (data) => {
+      console.log("after completion of login")
+      console.log(data);
       if (!data.login?.token) {
         setServerError('error-credential-wrong');
         return;
@@ -170,11 +176,12 @@ export function useLogin() {
     },
   });
   function login(values: LoginInput) {
+    console.log("inse login function in use login");
+    
+    console.log(values);
     mutate({
       variables: {
-        input: {
-          ...values,
-        },
+        ...values
       },
     });
   }
@@ -336,6 +343,9 @@ export function useRegister() {
   );
   const [registerUser, { loading: isLoading }] = useRegisterMutation({
     onCompleted: (data) => {
+      console.log("dataaaaaaaaaaaaaa");
+      console.log(data);
+      
       if (data?.register?.token && data?.register?.permissions?.length) {
         setToken(data?.register?.token);
         setAuthorized(true);
@@ -357,6 +367,9 @@ export function useRegister() {
     },
   });
   function register(values: RegisterInput) {
+    console.log("valuesssssssssssss");
+    
+    console.log(values);
     registerUser({
       variables: {
         input: {

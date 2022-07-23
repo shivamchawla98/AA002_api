@@ -26,6 +26,7 @@ import { Users } from './user.schema';
 import { isEmail } from 'class-validator';
 import { Profile } from './profile.schema';
 import { ProfileInput } from './dto/create-profile.input';
+import { generateToken } from 'src/utils/jwt.utils';
 
 const users = plainToClass(User, usersJson);
 const options = {
@@ -40,20 +41,23 @@ export class UsersService {
   constructor( @InjectModel(Users.name) private userModel:Model<Users> ,@InjectModel(Profile.name) private profileModel:Model<Profile>){}
 
   async register(createUserInput: RegisterInput): Promise<AuthResponse> {
+    console.log(".................................");
+    // console.log(createUserInput);
     const user: User = {
       ...users[0],
      // id: uuidv4(),
       ...createUserInput,
       created_at: new Date(),
       updated_at: new Date(),
+      token: generateToken()
     };
-    // console.log(user);
+    console.log(user);
     const createUser = new this.userModel(user);
     createUser.save();
 
     this.users.push(user);
     return {
-      token: 'jwt token',
+      token: user.token,
       permissions: ['super_admin', 'customer'],
     };
   }
@@ -73,6 +77,7 @@ export class UsersService {
     // this.userModel.findOne(loginInput);
     var email = {"email":  loginInput.email };
     var user = await this.userModel.findOne(email);
+    var genTok = generateToken()
         // console.log("hello");
         // if (err) {
         //   return;
@@ -104,10 +109,19 @@ export class UsersService {
             };
             // return;
           } else {
+
+            var UserId = email;
+            var newValues = {
+              token: genTok
+            }
+
+            await this.userModel.findOneAndUpdate(UserId,newValues,{new:true})
+
             return {
-              token: 'jwt token',
+              token: genTok,
               permissions: ['super_admin', 'store_owner', 'customer'],
             };
+
           }
         }
         // var token = jwt.sign({ id: user.id }, config.secret, {
@@ -212,8 +226,8 @@ export class UsersService {
     return await this.userModel.findOne(getUserArgs);
   }
 
-  async me(): Promise<User> {
-    console.log(await this.userModel.findById({"_id":'626eca0fd4c3ecb0f7eda827'}));
+  async me(token): Promise<User> {
+    console.log(await this.userModel.findById({"token":token}));
      return await this.userModel.findById({"_id":'626eca0fd4c3ecb0f7eda827'});
   }
 

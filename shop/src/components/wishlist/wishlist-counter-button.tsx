@@ -5,6 +5,8 @@ import { drawerAtom } from '@/store/drawer-atom';
 import { useWishlist } from '@/store/quick-wishlist/wishlist.context';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'next-i18next';
+import Wishlist from '../icons/wishlist';
+import WishlistCheckBag from '../icons/wishlist-check-bag';
 
 const WishlistCounterButton = () => {
   const { t } = useTranslation();
@@ -23,7 +25,7 @@ const WishlistCounterButton = () => {
       style={{marginTop: "4rem"}}
     >
       <span className="flex pb-0.5">
-        <WishlistCheckBagIcon className="shrink-0" width={14} height={16} />
+        <Wishlist className="shrink-0" width={14} height={16} />
         <span className="flex ltr:ml-2 rtl:mr-2">
           {formatString(totalUniqueItems, t('common:text-item'))}
         </span>

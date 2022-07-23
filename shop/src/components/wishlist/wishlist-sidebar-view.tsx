@@ -12,6 +12,7 @@ import { formatString } from '@/lib/format-string';
 import { useTranslation } from 'next-i18next';
 import { useAtom } from 'jotai';
 import { drawerAtom } from '@/store/drawer-atom';
+import WishlistCheckBag from '../icons/wishlist-check-bag';
 
 const WishlistSidebarView = () => {
   const { t } = useTranslation('common');
@@ -49,7 +50,7 @@ const WishlistSidebarView = () => {
     <section className="flex flex-col h-full relative top-20">
       <header className="fixed max-w-md w-full top-20 z-10 bg-light py-4 px-6 flex items-center justify-between border-b border-border-200 border-opacity-75">
         <div className="flex text-accent font-semibold">
-          <WishlistCheckBagIcon className="shrink-0" width={24} height={22} />
+          <WishlistCheckBag className="shrink-0" width={24} height={22} />
           <span className="flex ltr:ml-2 rtl:mr-2">
             {formatString(totalUniqueItems, t('text-item'))}
           </span>

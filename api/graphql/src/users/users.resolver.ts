@@ -43,8 +43,8 @@ export class UsersResolver {
   async register(
     @Args('input') createUserInput: RegisterInput,
   ): Promise<AuthResponse> {
-    // console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-    // console.log(createUserInput);
+    console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+    console.log(createUserInput);
     return this.usersService.register(createUserInput);
   }
 
@@ -151,9 +151,10 @@ export class UsersResolver {
   }
 
   @Query(() => User, { name: 'me' })
-  async me(): Promise<User> {
-    console.log("me query");
-    return this.usersService.me();
+  async me(token: string): Promise<User> {
+    console.log("me ************************* query");
+    console.log(token)
+    return this.usersService.me(token);
   }
 
   @Query(() => User, { name: 'user', nullable: true })

@@ -108,8 +108,8 @@ mutation UpdateCustomer($input: UpdateUserInput!) {
   }
 }
 
-query Customer {
-  me {
+query Customer($token: String) {
+  me(token: $token) {
     id
     name
     email

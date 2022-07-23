@@ -22,6 +22,7 @@ export class User extends CoreEntity {
   address?: Address[];
   orders?: Order[];
   wallet?: Wallet;
+  token?: string;
   permissions: Permissions[];
   GST_Number: string;
 }

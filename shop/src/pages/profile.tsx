@@ -6,11 +6,12 @@ import ProfileContact from '@/components/profile/profile-contact';
 import Seo from '@/components/seo/seo';
 import { useUser } from '@/framework/user';
 import DashboardLayout from '@/layouts/_dashboard';
+import { getToken } from 'next-auth/jwt';
 export { getStaticProps } from '@/framework/general.ssr';
 
 const ProfilePage = () => {
   const { t } = useTranslation('common');
-  const { me } = useUser();
+  const { me } = useUser(getToken());
   console.log('me:', me);
   if (!me) return null;
   return (

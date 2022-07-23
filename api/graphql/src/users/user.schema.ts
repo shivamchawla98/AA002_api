@@ -15,8 +15,10 @@ export class Users extends Document{
 
     @Prop()
     id:number;
+    
     @Prop()
     name: string;
+
     @Prop()
     GST_Number: string;
     
@@ -60,11 +62,10 @@ export class Users extends Document{
     wallet?: Wallet;
 
     @Prop()
-    token: 'abs';
+    token: String;
+
     @Prop()
     permissions:Permissions[];
-
-    
 
 }
 
