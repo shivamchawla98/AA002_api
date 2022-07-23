@@ -73,21 +73,14 @@ export class OrdersService {
     })
 
 
-    if(!createOrderInput.customer_id){
-      // console.log("inside if loooooooop");
-      var IDuser0 = {"id":34};
-      var customerInfo={
-        customer:await this.userModel.findOne(IDuser0)
-      }
-      createOrderInput.customer_id = 1;
-      // console.log(customerInfo);
-    }
-    if(createOrderInput.customer_id){
-      var IDuser = {"id":createOrderInput.customer_id};
+    if(createOrderInput.token){
+      var IDuser = {"token":createOrderInput.token};
+
+      var userDetails = await this.userModel.findOne(IDuser);
     // console.log("000000000000000000000000 Inside if loop where ID PRESENTTTT");
     // console.log(IDuser);
     var customerInfo={
-      customer:await this.userModel.findOne(IDuser)
+      customer:userDetails
     }
     }
 
@@ -128,12 +121,18 @@ export class OrdersService {
       id:randomString
     }
 
+    var dates = {
+      created_at: new Date(),
+      updated_at: new Date(),
+    }
+
     var A =Object.assign(input,customerInfo);
     console.log("continue");
     var B =Object.assign(input,trackingNumberObj);
     var C =Object.assign(input,StatusOtder);
     var D =Object.assign(input,ProductInput);
     var E =Object.assign(input,IDObject);
+    var F =Object.assign(input,dates);
     
     // console.log(cc);
     // console.log("000000000000000000000000");
@@ -171,12 +170,34 @@ export class OrdersService {
         }
       });
     const results = order_list.slice(startIndex, endIndex);
-
     return {
       data: order_list,
       paginatorInfo: paginate(order_list.length, page, first, order_list.length),
     };
     }
+
+    if(customer_id){
+      // console.log("line 174");
+      var IDuser = {"token":customer_id};
+      var userDetails = await this.userModel.findOne(IDuser);
+      // console.log(userDetails.id);
+      data.forEach(element => {
+        if((element.customer.id == userDetails.id )){
+          order_list.push(element);
+        }
+        // console.log(element.tracking_number);
+        // console.log(element.customer.id);
+      });
+      // console.log("data");
+      // console.log(order_list);
+
+      const results = order_list.slice(startIndex, endIndex);
+      return {
+      data: order_list,
+      paginatorInfo: paginate(order_list.length, page, first, order_list.length),
+    };
+    }
+
     
     const results = data.slice(startIndex, endIndex);
 

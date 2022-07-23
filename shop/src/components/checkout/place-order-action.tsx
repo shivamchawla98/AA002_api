@@ -13,6 +13,8 @@ import {
   calculateTotal,
 } from '@/store/quick-cart/cart.utils';
 import { useBuyNow } from '@/store/quick-buynow/buynow.context';
+import { useToken } from '@/lib/hooks/use-token';
+
 // const Razorpay = require('razorpay'); 
 
 export const PlaceOrderAction: React.FC<{ className?: string, checkoutType: string }> = (props) => {
@@ -71,8 +73,12 @@ export const PlaceOrderAction: React.FC<{ className?: string, checkoutType: stri
     //   setErrorMessage('Please Pay First');
     //   return;
     // }
+    const { getToken } = useToken()
+    var genToken = getToken();
+
     let input = {
       //@ts-ignore
+      token:genToken,
       products: available_items?.map((item) => formatOrderedProduct(item)),
       status: orderStatuses[0]?.id ?? '1',
       amount: subtotal,
@@ -95,7 +101,7 @@ export const PlaceOrderAction: React.FC<{ className?: string, checkoutType: stri
     };
     if (payment_gateway === 'STRIPE') {
       //@ts-ignore
-      input.token = token;
+      input.token = genToken;
     }
 
     delete input.billing_address.__typename;

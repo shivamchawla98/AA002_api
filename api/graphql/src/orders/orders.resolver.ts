@@ -40,7 +40,8 @@ export class OrdersResolver {
 
   @Mutation(() => Order)
   createOrder(@Args('input') createOrderInput: CreateOrderInput) {
-    
+    // console.log("Create order Input ++++++++++++++++");
+    // console.log(createOrderInput);
     return this.ordersService.create(createOrderInput);
   }
 

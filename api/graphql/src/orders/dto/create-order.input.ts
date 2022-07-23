@@ -26,6 +26,7 @@ export class CreateOrderInput {
   use_wallet_points?: boolean;
   @Field(() => ID)
   customer_id?: number;
+  token?: string;
 }
 
 @InputType()

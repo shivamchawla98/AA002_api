@@ -153,8 +153,8 @@ export class UsersResolver {
 
   @Query(() => User, { name: 'me' })
   async me(@Args() getuserToken:GetUserArgs_token): Promise<User> {
-    console.log("me ************************* query");
-    console.log(getuserToken)
+    // console.log("me ************************* query");
+    // console.log(getuserToken)
     return this.usersService.me(getuserToken);
   }
 

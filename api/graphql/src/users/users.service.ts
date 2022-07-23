@@ -229,7 +229,7 @@ export class UsersService {
   }
 
   async me(getuserToken: GetUserArgs_token): Promise<User> {
-    console.log(await this.userModel.findOne({"token":getuserToken.token}));
+    // console.log(await this.userModel.findOne({"token":getuserToken.token}));
     return await this.userModel.findOne({"token":getuserToken.token});
   }
 

@@ -51,8 +51,8 @@ import { clearCheckoutAtom } from "@/store/checkout";
 export function useUser() {
   const { getToken } = useToken()
   var genToken = getToken();
-  console.log("GEN TOKEN{{{{{{{{{}}}}}}}}}");
-  console.log(genToken);
+  // console.log("GEN TOKEN{{{{{{{{{}}}}}}}}}");
+  // console.log(genToken);
   const [isAuthorized] = useAtom(authorizationAtom);
   const {
     data,

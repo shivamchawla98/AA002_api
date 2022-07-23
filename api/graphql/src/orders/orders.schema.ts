@@ -73,6 +73,13 @@ export class Orders_ extends Document{
   refund?: Refund;
   @Prop()
   wallet_point?: WalletPoint;
+  // @Prop()
+  // token: string;
+  @Prop()
+    created_at: Date;
+
+  @Prop()
+    updated_at:Date;
     
 }
 

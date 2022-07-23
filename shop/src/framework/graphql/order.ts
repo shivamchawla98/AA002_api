@@ -32,9 +32,11 @@ import { useAtom } from 'jotai';
 import { verifiedResponseAtom } from '@/store/checkout';
 import { ROUTES } from '@/lib/routes';
 import { useState } from 'react';
-import { getToken } from 'next-auth/jwt';
+import { useToken } from '@/lib/hooks/use-token';
 
 export function useOrders(options?: Partial<OrderQueryOptions>) {
+  const { getToken } = useToken()
+  var genToken = getToken();
   const {
     data,
     loading: isLoading,
@@ -231,14 +233,8 @@ export function useCreateOrder() {
   const [createOrder, { loading: isLoading }] = useCreateOrderMutation({
     onCompleted: (data) => {
       loadRazorpay()
-      // setOrderID(data.createOrder.tracking_number)
       ORDER_ID = data.createOrder.tracking_number;
-      // console.log("{{{{ORDERID}}}}")
-      // console.log(ORDER_ID);
-      // console.log(data?.createOrder?.tracking_number);
-      // if (data?.createOrder?.tracking_number) {
-      //   router.push(`${ROUTES.ORDERS}/${data?.createOrder?.tracking_number}`);
-      // }
+      
     },
     onError: (error) => {
       toast.error(error.message);
@@ -256,9 +252,9 @@ export function useCreateOrder() {
   const displayRazorpay = () => {
     var options = {
       "key": "rzp_test_6KeEX1ZjMEQqzq", // Enter the Key ID generated from the Dashboard
-      "name": "Acme Corp",
+      "name": "PICKURNEEDS",
       "description": "Test Transaction",
-      "image": "https://example.com/your_logo",
+      "image": "http://38.242.199.115:3000/img/pickneeds.png",
       "order_id": ORDER_ID, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       "handler": function (response: { razorpay_payment_id: any; razorpay_order_id: any; razorpay_signature: any; }){
           // alert(response.razorpay_payment_id);
