@@ -12,7 +12,9 @@ export { getStaticProps } from '@/framework/general.ssr';
 const ProfilePage = () => {
   const { t } = useTranslation('common');
   const { getToken } = useToken()
-  const { me } = useUser(getToken());
+  console.log("Line 15*******************");
+  console.log(getToken());
+  const { me } = useUser();
   console.log('me:', me);
   if (!me) return null;
   return (
