@@ -86,7 +86,7 @@ function OrderView({ order }: any) {
               {t('text-payment-method')}
             </h3>
             <p className="text-sm text-body-dark">
-              {order?.payment_gateway ?? 'N/A'}
+              {order?.PaymentMode ?? 'N/A'}
             </p>
           </div>
         </div>

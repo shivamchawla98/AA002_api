@@ -18,7 +18,7 @@ const ProfileContact = ({ userId, profileId, contact }: Props) => {
     openModal('ADD_OR_UPDATE_PROFILE_CONTACT', {
       customerId: userId,
       profileId,
-      contact,
+      contact: contact,
     });
   }
   return (

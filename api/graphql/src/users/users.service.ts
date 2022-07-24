@@ -9,6 +9,7 @@ import {
   RegisterInput,
   ResetPasswordInput,
   VerifyForgetPasswordTokenInput,
+  VerifyOtpInput,
 } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User, Permissions } from './entities/user.entity';
@@ -51,6 +52,12 @@ export class UsersService {
     var address2 = {
     }
 
+    var profileValues = {
+      bio: "",
+      contact: "",
+      created_at: new Date(),
+    }
+
     const user: User = {
       ...users[0],
      // id: uuidv4(),
@@ -58,6 +65,7 @@ export class UsersService {
       created_at: new Date(),
       updated_at: new Date(),
       token: generateToken(),
+      profile: profileValues,
       address: [address1 , address2]
     };
     console.log(user);
@@ -167,6 +175,12 @@ export class UsersService {
   async changePassword(
     changePasswordInput: ChangePasswordInput,
   ): Promise<PasswordChangeResponse> {
+
+    var newValues = {
+      password: changePasswordInput.newPassword
+    }
+    var IDuser = {"token":changePasswordInput.token};
+    await this.userModel.findOneAndUpdate(IDuser,newValues,{new:true})
     return {
       success: true,
       message: 'Password change successful',
@@ -245,28 +259,49 @@ export class UsersService {
     var UserId = {"id":  id };
     var userdetail = await this.userModel.findOne(UserId);
     // console.log(userdetail.address);
-    var randomID=Math.random().toString(36).slice(2);
-    var newaddress = {
-      title:updateUserInput.address.upsert[0].title,
-      type:updateUserInput.address.upsert[0].type,
-      id:randomID,
-      address:updateUserInput.address.upsert[0].address
+
+    if(updateUserInput.address){
+      var randomID=Math.random().toString(36).slice(2);
+      var newaddress = {
+        title:updateUserInput.address.upsert[0].title,
+        type:updateUserInput.address.upsert[0].type,
+        id:randomID,
+        address:updateUserInput.address.upsert[0].address
+      }
+  
+      var addressinput = {};
+      if(updateUserInput.address.upsert[0].type == "billing"){
+        addressinput={
+          address:[newaddress,userdetail.address[1]]
+        }
+      }
+      
+      if(updateUserInput.address.upsert[0].type == "shipping"){
+        addressinput={
+          address:[userdetail.address[0],newaddress]
+        }
+      }
+      
+      var newValues = addressinput;
+    }
+    // console.log(updateUserInput.profile);
+    // console.log(updateUserInput.profile.upsert);
+    if(updateUserInput.profile){
+      var profileValues = {};
+      if(updateUserInput.profile.upsert[0].bio){
+        profileValues = {
+          profile: {
+            bio: updateUserInput.profile.upsert[0].bio,
+            contact: userdetail.profile.contact,
+            customer_id: id,
+            updated_at: new Date()
+          }
+        }
+      }
+      var newValues = profileValues;
+      // console.log(newValues);
     }
 
-    var addressinput = {};
-    if(updateUserInput.address.upsert[0].type == "billing"){
-      addressinput={
-        address:[newaddress,userdetail.address[1]]
-      }
-    }
-    
-    if(updateUserInput.address.upsert[0].type == "shipping"){
-      addressinput={
-        address:[userdetail.address[0],newaddress]
-      }
-    }
-    
-    var newValues = addressinput;
     
     return await this.userModel.findOneAndUpdate(UserId,newValues,{new:true})
   }
@@ -294,4 +329,27 @@ export class UsersService {
   async subscribeToNewsletter(email: string) {
     return true;
   }
+
+  async updateNumber(verifyOtpInput: VerifyOtpInput){
+    var UserId = {"token":  verifyOtpInput.token };
+    var userdetail = await this.userModel.findOne(UserId);
+
+    var profileValues = {};
+    profileValues = {
+      profile: {
+        bio: userdetail.profile.bio,
+        contact: verifyOtpInput.phone_number,
+        customer_id: userdetail.id,
+        updated_at: new Date()
+      }
+    }
+    var newValues = profileValues;
+    await this.userModel.findOneAndUpdate(UserId,newValues,{new:true})
+
+    return {
+      message: 'success',
+      success: true,
+    };
+  }
+
 }

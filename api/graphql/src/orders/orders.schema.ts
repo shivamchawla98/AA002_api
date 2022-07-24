@@ -80,6 +80,12 @@ export class Orders_ extends Document{
 
   @Prop()
     updated_at:Date;
+
+  @Prop()
+  PaymentMode:string;
+
+  @Prop()
+  PaymentStatus:string;
     
 }
 

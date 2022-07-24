@@ -3,6 +3,8 @@ fragment OrderParts on Order {
   id
   tracking_number
   customer_contact
+  PaymentMode
+  PaymentStatus
   customer {
     name
   }

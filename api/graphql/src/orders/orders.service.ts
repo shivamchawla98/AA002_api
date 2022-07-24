@@ -53,7 +53,12 @@ export class OrdersService {
     this.ProductList = [];
     console.log("000000000000000000000000 USER ID");
     console.log(createOrderInput);
-    var trackingNumberObj ={};  
+    var trackingNumberObj ={}; 
+    
+    var payment_details = {
+      PaymentMode: "COD",
+      PaymentStatus:"Pending"
+    }
 
     var instance = new Razorpay({ key_id: 'rzp_test_6KeEX1ZjMEQqzq', key_secret: 'M9B8Cad10RpKr5D3O2PuQKlY' })
     await instance.orders.create({
@@ -68,8 +73,14 @@ export class OrdersService {
       trackingNumberObj={
         tracking_number:a
       }
+
+      payment_details = {
+        PaymentMode: "Razorpay",
+        PaymentStatus:"Fully Paid"
+      }
+  
       console.log("test");
-      console.log(trackingNumberObj);
+      console.log(payment_details);
     })
 
 
@@ -126,6 +137,7 @@ export class OrdersService {
       updated_at: new Date(),
     }
 
+
     var A =Object.assign(input,customerInfo);
     console.log("continue");
     var B =Object.assign(input,trackingNumberObj);
@@ -133,6 +145,7 @@ export class OrdersService {
     var D =Object.assign(input,ProductInput);
     var E =Object.assign(input,IDObject);
     var F =Object.assign(input,dates);
+    var G =Object.assign(input,payment_details);
     
     // console.log(cc);
     // console.log("000000000000000000000000");

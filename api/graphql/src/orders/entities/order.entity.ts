@@ -55,6 +55,8 @@ export class Order extends CoreEntity {
   shipping_address?: UserAddress;
   refund?: Refund;
   wallet_point?: WalletPoint;
+  PaymentMode:string;
+  PaymentStatus:string;
 }
 
 @InputType('WalletPointInputType', { isAbstract: true })

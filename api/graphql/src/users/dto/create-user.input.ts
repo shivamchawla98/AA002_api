@@ -49,6 +49,7 @@ export class SocialLoginInput {
 export class ChangePasswordInput {
   oldPassword: string;
   newPassword: string;
+  token?: string;
 }
 @InputType()
 export class ForgetPasswordInput {
@@ -81,6 +82,7 @@ export class VerifyOtpInput {
   otp_id: string;
   code: string;
   phone_number: string;
+  token?: string;
 }
 @ObjectType()
 export class OtpResponse {

@@ -5,6 +5,7 @@ import PhoneNumberForm from '@/components/otp/phone-number-form';
 import { optAtom } from '@/components/otp/atom';
 import OtpCodeForm from '@/components/otp/code-verify-form';
 import { useSendOtpCode, useVerifyOtpCode } from '@/framework/user';
+import { useToken } from '@/lib/hooks/use-token';
 
 interface OtpFormProps {
   phoneNumber: string | undefined;
@@ -32,11 +33,15 @@ export default function OtpForm({
     });
   }
 
+  const { getToken } = useToken()
+  var genToken = getToken();
+
   function onVerifyCodeSubmission({ code }: { code: string }) {
     verifyOtpCode({
       code,
       phone_number: otpState.phoneNumber,
       otp_id: otpState.otpId!,
+      token: genToken,
     });
   }
 

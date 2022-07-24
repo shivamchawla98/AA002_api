@@ -255,6 +255,7 @@ export function useOtpLogin() {
     },
   });
   function handleSubmit(input: OtpLoginInput) {
+    
     otpLogin({
       variables: {
         input: {
@@ -328,10 +329,13 @@ export function useVerifyOtpCode({
     },
   });
   function onVerify(input: VerifyOtpInput) {
+    const { getToken } = useToken()
+    var genToken = getToken();
     mutate({
       variables: {
         input: {
           ...input,
+          token: genToken,
         },
       },
     });

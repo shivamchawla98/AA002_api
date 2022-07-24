@@ -337,6 +337,7 @@ export interface VerifyForgotPasswordUserInput {
 export interface ChangePasswordUserInput {
   oldPassword: string;
   newPassword: string;
+  token: string;
 }
 
 export interface PasswordChangeResponse {

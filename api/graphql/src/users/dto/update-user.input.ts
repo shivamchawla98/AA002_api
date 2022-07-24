@@ -2,6 +2,15 @@ import { RegisterInput } from './create-user.input';
 import { InputType, Field, PartialType, ID } from '@nestjs/graphql';
 import { UserAddressInput } from '../../orders/dto/create-order.input';
 import { AddressType } from '../../addresses/entities/address.entity';
+import { Profile } from './../entities/profile.entity';
+
+@InputType()
+class ProfileUpsertInput {
+  @Field(() => ID, { nullable: true })
+  id?: number;
+  bio?: string;
+  contact?: string;
+}
 
 @InputType()
 export class UpdateUserInput extends PartialType(RegisterInput) {
@@ -9,6 +18,7 @@ export class UpdateUserInput extends PartialType(RegisterInput) {
   id: number;
   name?: string;
   address?: AddressHasMany;
+  profile?: ProfileHasMany;
 }
 
 @InputType()
@@ -16,6 +26,13 @@ class AddressHasMany {
   @Field(() => [UserAddressUpsertInput], { nullable: 'itemsAndList' })
   upsert?: UserAddressUpsertInput[];
 }
+@InputType()
+class ProfileHasMany {
+  profile?: Profile;
+  @Field(() => [ProfileUpsertInput], { nullable: 'itemsAndList' })
+  upsert?: ProfileUpsertInput;
+}
+
 
 @InputType()
 class UserAddressUpsertInput {
@@ -26,3 +43,4 @@ class UserAddressUpsertInput {
   address: UserAddressInput;
   type: AddressType;
 }
+

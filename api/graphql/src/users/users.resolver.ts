@@ -44,7 +44,7 @@ export class UsersResolver {
   async register(
     @Args('input') createUserInput: RegisterInput,
   ): Promise<AuthResponse> {
-    console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+    console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT Line 47");
     console.log(createUserInput);
     return this.usersService.register(createUserInput);
   }
@@ -52,9 +52,9 @@ export class UsersResolver {
   @Mutation(() => Profile)
   createProfile(
     @Args('input') profileInput: ProfileInput) {
-      console.log("profileInput +++++++++++++++++++");
-    console.log(profileInput);
-    return this.usersService.CreateProfileRecord(profileInput);
+      console.log("profileInput +++++++++++++++++++ Line 55");
+      console.log(profileInput);
+      return this.usersService.CreateProfileRecord(profileInput);
   }
 
   @Mutation(() => AuthResponse) 
@@ -88,22 +88,25 @@ export class UsersResolver {
   async verifyOtpCode(
     @Args('input') verifyOtpInput: VerifyOtpInput,
   ): Promise<SuccessResponse> {
+    console.log("verifyOtpInput +++++++++++++++++++ Line 91");
     console.log(verifyOtpInput);
-    return {
-      message: 'success',
-      success: true,
-    };
+    return this.usersService.updateNumber(verifyOtpInput);
+    // return {
+    //   message: 'success',
+    //   success: true,
+    // };
   }
 
   @Mutation(() => OtpResponse)
   async sendOtpCode(@Args('input') otpInput: OtpInput): Promise<OtpResponse> {
+    console.log("sendOtpCode +++++++++++++++++++ Line 101");
     console.log(otpInput);
     return {
       message: 'success',
       success: true,
       id: '1',
       provider: 'google',
-      phone_number: '+919494949494',
+      phone_number: otpInput.phone_number,
       is_contact_exist: true,
     };
   }
@@ -117,6 +120,8 @@ export class UsersResolver {
   async changePassword(
     @Args('input') changePasswordInput: ChangePasswordInput,
   ): Promise<PasswordChangeResponse> {
+    console.log("change password+++++++++++ line 147");
+    console.log(changePasswordInput);
     return this.usersService.changePassword(changePasswordInput);
   }
 
@@ -142,13 +147,15 @@ export class UsersResolver {
     @Args('input')
     resetPasswordInput: ResetPasswordInput,
   ): Promise<PasswordChangeResponse> {
+    console.log("reset password+++++++++++ line 147");
+    console.log(resetPasswordInput);
     return this.usersService.resetPassword(resetPasswordInput);
   }
 
   @Query(() => UserPaginator, { name: 'users' })
   async getUsers(@Args() getUsersArgs: GetUsersArgs): Promise<UserPaginator> {
-    console.log("Line 146 Users +++++++");
-    console.log(getUsersArgs);
+    // console.log("Line 146 Users +++++++");
+    // console.log(getUsersArgs);
     return this.usersService.getUsers(getUsersArgs);
   }
 
@@ -168,8 +175,8 @@ export class UsersResolver {
 
   @Mutation(() => User)
   updateUser(@Args('input') updateUserInput: UpdateUserInput) {
-    console.log("UPDATE ++++++++++++++++++++");
-    console.log(updateUserInput.address);
+    console.log("updateUserInput ++++++++++++++++++++ Line 173");
+    console.log(updateUserInput);
     return this.usersService.updateUser(updateUserInput.id, updateUserInput);
   }
 
@@ -192,7 +199,7 @@ export class UsersResolver {
 
   @Mutation(() => Profiledto)
   updateProfile(@Args() updateProfileArgs: UpdateProfileArgs) {
-    console.log("@@@@22222222222222222222222");
+    console.log("updateProfileArgs =========== Line 197");
     console.log(updateProfileArgs);
   }
 

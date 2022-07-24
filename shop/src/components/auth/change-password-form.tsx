@@ -5,6 +5,7 @@ import { useTranslation } from 'next-i18next';
 import { Form } from '@/components/ui/forms/form';
 import { useChangePassword } from '@/framework/user';
 import * as yup from 'yup';
+import { useToken } from '@/lib/hooks/use-token';
 
 export const changePasswordSchema = yup.object().shape({
   oldPassword: yup.string().required('error-old-password-required'),
@@ -23,10 +24,14 @@ export default function ChangePasswordForm() {
     formError,
   } = useChangePassword();
 
+  const { getToken } = useToken()
+  var genToken = getToken();
+
   function onSubmit({ newPassword, oldPassword }: ChangePasswordUserInput) {
     changePassword({
       oldPassword,
       newPassword,
+      token: genToken,
     });
   }
 

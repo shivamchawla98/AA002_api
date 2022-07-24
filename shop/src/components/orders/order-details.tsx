@@ -62,7 +62,7 @@ function RefundView({ status, orderId }: { status: string; orderId: string }) {
 
   return (
     <>
-      {status ? (
+      {/* {status ? (
         <RenderStatusBadge status={status} />
       ) : (
         <button
@@ -73,7 +73,7 @@ function RefundView({ status, orderId }: { status: string; orderId: string }) {
           <SadFaceIcon width={18} className="ltr:mr-2 rtl:ml-2" />
           {t('text-ask-refund')}
         </button>
-      )}
+      )} */}
     </>
   );
 }
