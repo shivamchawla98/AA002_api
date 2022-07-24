@@ -35,7 +35,7 @@ const ProfileForm = ({ user }: { user: User }) => {
       onSubmit={onSubmit}
       useFormProps={{
         ...(user && {
-          defaultValues: pick(user, ['name', 'profile.bio', 'profile.avatar']),
+          defaultValues: pick(user, ['name', 'profile.bio', 'profile.avatar', 'GST_Number']),
         }),
       }}
     >
@@ -63,6 +63,15 @@ const ProfileForm = ({ user }: { user: User }) => {
                 variant="outline"
                 className="mb-6"
               />
+
+              <div className="mb-6 flex flex-row">
+                <Input
+                  className="flex-1"
+                  label={t('GST_Number (Optional)')}
+                  {...register('GST_Number')}
+                  variant="outline"
+                />
+              </div>
 
               <div className="flex">
                 <Button

@@ -44,8 +44,49 @@ export class UsersService {
   constructor( @InjectModel(Users.name) private userModel:Model<Users> ,@InjectModel(Profile.name) private profileModel:Model<Profile>){}
 
   async register(createUserInput: RegisterInput): Promise<AuthResponse> {
-    console.log(".................................");
+    // console.log(".................................");
     // console.log(createUserInput);
+    var userPermission = {
+      id: 2,
+        name: 'customer',
+        guard_name: 'api',
+        created_at: '2021-06-27T04:13:00.000000Z',
+        updated_at: '2021-06-27T04:13:00.000000Z',
+        pivot: {
+          model_id:2,
+          permission_id:1,
+          model_type:"Marvel//Database//Models//User"
+        }
+    };
+    if(createUserInput.permission == 'Store owner'){
+      userPermission = {
+        id: 1,
+        name: 'super_admin',
+        guard_name: 'api',
+        created_at: '2021-06-27T04:13:00.000000Z',
+        updated_at: '2021-06-27T04:13:00.000000Z',
+        pivot: {
+          model_id:2,
+          permission_id:1,
+          model_type:"Marvel//Database//Models//User"
+        }
+      }
+    }
+
+    if(createUserInput.permission == 'Customer'){
+      userPermission = {
+        id: 2,
+        name: 'customer',
+        guard_name: 'api',
+        created_at: '2021-06-27T04:13:00.000000Z',
+        updated_at: '2021-06-27T04:13:00.000000Z',
+        pivot: {
+          model_id:2,
+          permission_id:1,
+          model_type:"Marvel//Database//Models//User"
+        }
+      }
+    }
 
     var address1 = {
     }
@@ -66,9 +107,10 @@ export class UsersService {
       updated_at: new Date(),
       token: generateToken(),
       profile: profileValues,
-      address: [address1 , address2]
+      address: [address1 , address2],
+      permissions: [userPermission]
     };
-    console.log(user);
+    // console.log(user);
     const createUser = new this.userModel(user);
     createUser.save();
 
@@ -88,88 +130,53 @@ export class UsersService {
   }
 
   async login(loginInput: finduser): Promise<AuthResponse> {
-    // console.log(loginInput.password);
-    // const userlogin = new this.userModel(loginInput);
-    // console.log(this.userModel.findOne(loginInput));
-    // this.userModel.findOne(loginInput);
     var email = {"email":  loginInput.email };
     var user = await this.userModel.findOne(email);
     var genTok = generateToken()
-        // console.log("hello");
-        // if (err) {
-        //   return;
-        // }
-        // console.log("rahul");
+
+    if(!loginInput.type){
+      loginInput.type == "super_admin";
+      console.log(loginInput.type);
+    }
+        
         if (!user) {
           return {
             token: '',
             permissions: ['super_admin', 'store_owner', 'customer'],
           };
         }
-        // console.log("ooooo");
-        // var passwordIsValid = bcrypt.compareSync(
-        //   loginInput.password,
-        //   user.password
-        // );
-        // console.log("rrrr");
+        
         if (user) {
-          var passwordIsValid = (loginInput.password == user.password) ? true : false;
-          // console.log(passwordIsValid);
-          if (!passwordIsValid) {
-            // return res.status(401).send({
-            //   accessToken: null,
-            //   message: "Invalid Password!"
-            // });
+          if(user.permissions[0].name == loginInput.type){
+            var passwordIsValid = (loginInput.password == user.password) ? true : false;
+            if (!passwordIsValid) {
+              return {
+                token: '',
+                permissions: ['super_admin', 'store_owner', 'customer'],
+              };
+            } else {
+  
+              var UserId = email;
+              var newValues = {
+                token: genTok
+              }
+  
+              await this.userModel.findOneAndUpdate(UserId,newValues,{new:true})
+  
+              return {
+                token: genTok,
+                permissions: ['super_admin', 'store_owner', 'customer'],
+              };
+  
+            }
+          }
+          else{
             return {
               token: '',
               permissions: ['super_admin', 'store_owner', 'customer'],
             };
-            // return;
-          } else {
-
-            var UserId = email;
-            var newValues = {
-              token: genTok
-            }
-
-            await this.userModel.findOneAndUpdate(UserId,newValues,{new:true})
-
-            return {
-              token: genTok,
-              permissions: ['super_admin', 'store_owner', 'customer'],
-            };
-
           }
         }
-        // var token = jwt.sign({ id: user.id }, config.secret, {
-        //   expiresIn: 86400 // 24 hours
-        // });
-        // var authorities = [];
-        // for (let i = 0; i < user.roles.length; i++) {
-        //   authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
-        // }
-        // res.status(200).send({
-        //   id: user._id,
-        //   username: user.username,
-        //   email: user.email,
-        //   roles: authorities,
-        //   accessToken: token
-        // });
-
-        // authenticated = true;
-
-    // console.log(authenticated);
-    // if (authenticated == true) {
-    //   return {
-    //     token: 'jwt token',
-    //     permissions: ['super_admin', 'store_owner', 'customer'],
-    //   }
-    // } else {
-    //   return {
-    //     token: 'token',
-    //     permissions: ['super_admin', 'store_owner', 'customer'],
-    //   }
-    // }
   }
 
   async changePassword(
@@ -180,11 +187,22 @@ export class UsersService {
       password: changePasswordInput.newPassword
     }
     var IDuser = {"token":changePasswordInput.token};
-    await this.userModel.findOneAndUpdate(IDuser,newValues,{new:true})
-    return {
-      success: true,
-      message: 'Password change successful',
-    };
+
+    var user = await this.userModel.findOne(IDuser);
+    if(user.password == changePasswordInput.oldPassword){
+      await this.userModel.findOneAndUpdate(IDuser,newValues,{new:true})
+      return {
+        success: true,
+        message: 'Password change successful',
+      };
+    }
+    else{
+      return {
+        success: false,
+        message: 'Old Password Not Found',
+      };
+    }
+    
   }
 
   async forgetPassword(
@@ -226,7 +244,7 @@ export class UsersService {
           users_.push(element);
         }
       });
-      console.log(users_);
+      // console.log(users_);
 
       // const results = users.slice(startIndex, endIndex);
       // console.log(results);

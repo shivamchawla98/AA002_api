@@ -282,6 +282,7 @@ export interface User {
   name: string;
   email: string;
   token: string;
+  GST_Number?: string;
   profile: {
     id?: string;
     contact?: string;
@@ -302,6 +303,7 @@ export interface GetUserArgs_token extends Partial<User> {
 export interface LoginUserInput {
   email: string;
   password: string;
+  type: string
 }
 
 export type SocialLoginInputType = {

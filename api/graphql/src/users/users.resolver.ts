@@ -44,21 +44,23 @@ export class UsersResolver {
   async register(
     @Args('input') createUserInput: RegisterInput,
   ): Promise<AuthResponse> {
-    console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT Line 47");
-    console.log(createUserInput);
+    // console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT Line 47");
+    // console.log(createUserInput);
     return this.usersService.register(createUserInput);
   }
 
   @Mutation(() => Profile)
   createProfile(
     @Args('input') profileInput: ProfileInput) {
-      console.log("profileInput +++++++++++++++++++ Line 55");
-      console.log(profileInput);
+      // console.log("profileInput +++++++++++++++++++ Line 55");
+      // console.log(profileInput);
       return this.usersService.CreateProfileRecord(profileInput);
   }
 
   @Mutation(() => AuthResponse) 
   async login(@Args('input') loginInput: finduser){
+    console.log("Login Mutation line 62");
+    console.log(loginInput)
     return this.usersService.login(loginInput);
   }
 
@@ -66,7 +68,7 @@ export class UsersResolver {
   async socialLogin(
     @Args('input') socialLoginInput: SocialLoginInput,
   ): Promise<AuthResponse> {
-    console.log(socialLoginInput);
+    // console.log(socialLoginInput);
     return {
       token: 'jwt token',
       permissions: ['super_admin', 'customer'],
@@ -77,7 +79,7 @@ export class UsersResolver {
   async otpLogin(
     @Args('input') otpLoginInput: OtpLoginInput,
   ): Promise<AuthResponse> {
-    console.log(otpLoginInput);
+    // console.log(otpLoginInput);
     return {
       token: 'jwt token',
       permissions: ['super_admin', 'customer'],
@@ -88,8 +90,8 @@ export class UsersResolver {
   async verifyOtpCode(
     @Args('input') verifyOtpInput: VerifyOtpInput,
   ): Promise<SuccessResponse> {
-    console.log("verifyOtpInput +++++++++++++++++++ Line 91");
-    console.log(verifyOtpInput);
+    // console.log("verifyOtpInput +++++++++++++++++++ Line 91");
+    // console.log(verifyOtpInput);
     return this.usersService.updateNumber(verifyOtpInput);
     // return {
     //   message: 'success',
@@ -99,8 +101,8 @@ export class UsersResolver {
 
   @Mutation(() => OtpResponse)
   async sendOtpCode(@Args('input') otpInput: OtpInput): Promise<OtpResponse> {
-    console.log("sendOtpCode +++++++++++++++++++ Line 101");
-    console.log(otpInput);
+    // console.log("sendOtpCode +++++++++++++++++++ Line 101");
+    // console.log(otpInput);
     return {
       message: 'success',
       success: true,
@@ -120,8 +122,8 @@ export class UsersResolver {
   async changePassword(
     @Args('input') changePasswordInput: ChangePasswordInput,
   ): Promise<PasswordChangeResponse> {
-    console.log("change password+++++++++++ line 147");
-    console.log(changePasswordInput);
+    // console.log("change password+++++++++++ line 147");
+    // console.log(changePasswordInput);
     return this.usersService.changePassword(changePasswordInput);
   }
 
@@ -147,8 +149,8 @@ export class UsersResolver {
     @Args('input')
     resetPasswordInput: ResetPasswordInput,
   ): Promise<PasswordChangeResponse> {
-    console.log("reset password+++++++++++ line 147");
-    console.log(resetPasswordInput);
+    // console.log("reset password+++++++++++ line 147");
+    // console.log(resetPasswordInput);
     return this.usersService.resetPassword(resetPasswordInput);
   }
 
@@ -175,20 +177,20 @@ export class UsersResolver {
 
   @Mutation(() => User)
   updateUser(@Args('input') updateUserInput: UpdateUserInput) {
-    console.log("updateUserInput ++++++++++++++++++++ Line 173");
-    console.log(updateUserInput);
+    // console.log("updateUserInput ++++++++++++++++++++ Line 173");
+    // console.log(updateUserInput);
     return this.usersService.updateUser(updateUserInput.id, updateUserInput);
   }
 
   @Mutation(() => User)
   activeUser(@Args('id', { type: () => ID }) id: number) {
-    console.log(id);
+    // console.log(id);
     // return this.usersService.getUsers(updateUserInput.id);
   }
 
   @Mutation(() => User)
   banUser(@Args('id', { type: () => ID }) id: number) {
-    console.log(id);
+    // console.log(id);
     // return this.usersService.getUsers(updateUserInput.id);
   }
 
@@ -199,8 +201,8 @@ export class UsersResolver {
 
   @Mutation(() => Profiledto)
   updateProfile(@Args() updateProfileArgs: UpdateProfileArgs) {
-    console.log("updateProfileArgs =========== Line 197");
-    console.log(updateProfileArgs);
+    // console.log("updateProfileArgs =========== Line 197");
+    // console.log(updateProfileArgs);
   }
 
   @Mutation(() => Profile)

@@ -51,8 +51,8 @@ export class OrdersService {
 
   async create(createOrderInput: CreateOrderInput) {
     this.ProductList = [];
-    console.log("000000000000000000000000 USER ID");
-    console.log(createOrderInput);
+    // console.log("000000000000000000000000 USER ID");
+    // console.log(createOrderInput);
     var trackingNumberObj ={}; 
     
     var payment_details = {
@@ -65,11 +65,11 @@ export class OrdersService {
       amount: createOrderInput.amount*100,
       currency: "INR"
       },function(err: any, order: { id: any; }){
-      console.log(createOrderInput.total*100);
-      console.log(")))))********ORDER RAZORPAY(((((");
-      console.log(order.id);
+      // console.log(createOrderInput.total*100);
+      // console.log(")))))********ORDER RAZORPAY(((((");
+      // console.log(order.id);
       var a = order.id
-      console.log(a);
+      // console.log(a);
       trackingNumberObj={
         tracking_number:a
       }
@@ -79,8 +79,8 @@ export class OrdersService {
         PaymentStatus:"Fully Paid"
       }
   
-      console.log("test");
-      console.log(payment_details);
+      // console.log("test");
+      // console.log(payment_details);
     })
 
 
@@ -139,7 +139,7 @@ export class OrdersService {
 
 
     var A =Object.assign(input,customerInfo);
-    console.log("continue");
+    // console.log("continue");
     var B =Object.assign(input,trackingNumberObj);
     var C =Object.assign(input,StatusOtder);
     var D =Object.assign(input,ProductInput);
@@ -167,10 +167,10 @@ export class OrdersService {
     tracking_number,
     shop_id,
   }: GetOrdersArgs): Promise<OrderPaginator> {
-    console.log(")()()()()()()()()()(()");
-    console.log(customer_id);
-    console.log(tracking_number);
-    console.log(shop_id);
+    // console.log(")()()()()()()()()()(()");
+    // console.log(customer_id);
+    // console.log(tracking_number);
+    // console.log(shop_id);
     const startIndex = (page - 1) * first;
     const endIndex = page * first;
     //let data: Order[] = this.orders;
@@ -240,7 +240,7 @@ export class OrdersService {
       return await this.OrdersModel.findOne({"id":id});
     }
     if(tracking_number){
-      console.log(await this.OrdersModel.findOne({"tracking_number":tracking_number}));
+      // console.log(await this.OrdersModel.findOne({"tracking_number":tracking_number}));
       // return this.orders[0];
       return await this.OrdersModel.findOne({"tracking_number":tracking_number});
 
@@ -268,7 +268,7 @@ export class OrdersService {
           orderStatus.push(element);
         }
       });
-      console.log(orderStatus);
+      // console.log(orderStatus);
 
       // const results = users.slice(startIndex, endIndex);
       // console.log(results);
@@ -311,8 +311,8 @@ export class OrdersService {
   }
 
   async verifyCheckout(input: CheckoutVerificationInput): Promise<VerifiedCheckoutData> {
-    console.log("Checkout input");
-    console.log(input);
+    // console.log("Checkout input");
+    // console.log(input);
     var orderAmount = input.amount;
     var taxAmount = 0;
     var stateNameForTax = "Haryana";

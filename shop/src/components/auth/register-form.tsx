@@ -66,7 +66,7 @@ function RegisterForm() {
               className="mb-5"
             />
             <Input
-          label={t("GST Number")}
+          label={t("GST Number (Optional)")}
           {...register("GST_Number")}
           variant="outline"
           className="mb-4"

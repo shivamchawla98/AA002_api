@@ -33,6 +33,9 @@ export class finduser{
 
   @Field()
   readonly password:string;
+
+  @Field()
+  readonly type?:string;
 }
 
 @InputType()

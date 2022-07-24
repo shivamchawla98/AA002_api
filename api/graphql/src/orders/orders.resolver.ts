@@ -47,15 +47,15 @@ export class OrdersResolver {
 
   @Query(() => OrderPaginator, { name: 'orders' })
   getOrders(@Args() ordersArgs: GetOrdersArgs) {
-    console.log("########GET order");
-    console.log(ordersArgs);
+    // console.log("########GET order");
+    // console.log(ordersArgs);
     return this.ordersService.getOrders(ordersArgs);
   }
 
   @Query(() => OrderStatusPaginator, { name: 'orderStatuses' })
   getOrderStatuses(@Args() orderStatusesArgs: GetOrderStatusesArgs) {
-    console.log("Line 56");
-    console.log(orderStatusesArgs);
+    // console.log("Line 56");
+    // console.log(orderStatusesArgs);
     return this.ordersService.getOrderStatuses(orderStatusesArgs);
   }
 

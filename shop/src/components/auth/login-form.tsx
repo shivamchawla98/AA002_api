@@ -30,10 +30,11 @@ function LoginForm() {
   const isCheckout = router.pathname.includes('checkout');
   const { mutate: login, isLoading, serverError, setServerError } = useLogin();
 
-  function onSubmit({ email, password }: LoginUserInput) {
+  function onSubmit({ email, password, type }: LoginUserInput) {
     login({
       email,
       password,
+      type: "customer",
     });
   }
 
@@ -81,13 +82,13 @@ function LoginForm() {
         )}
       </Form>
       {/* //===============// */}
-      <div className="relative mt-8 mb-6 flex flex-col items-center justify-center text-sm text-heading sm:mt-11 sm:mb-8">
+      {/* <div className="relative mt-8 mb-6 flex flex-col items-center justify-center text-sm text-heading sm:mt-11 sm:mb-8">
         <hr className="w-full" />
         <span className="absolute -top-2.5 bg-light px-2 ltr:left-2/4 ltr:-ml-4 rtl:right-2/4 rtl:-mr-4">
           {t('text-or')}
         </span>
-      </div>
-      <div className="mt-2 grid grid-cols-1 gap-4">
+      </div> */}
+      {/* <div className="mt-2 grid grid-cols-1 gap-4">
         <Button
           className="!bg-social-google !text-light hover:!bg-social-google-hover"
           disabled={isLoading}
@@ -118,7 +119,7 @@ function LoginForm() {
             {t('text-guest-checkout')}
           </Button>
         )}
-      </div>
+      </div> */}
       <div className="relative mt-8 mb-6 flex flex-col items-center justify-center text-sm text-heading sm:mt-11 sm:mb-8">
         <hr className="w-full" />
       </div>

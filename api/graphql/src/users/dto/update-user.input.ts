@@ -3,6 +3,7 @@ import { InputType, Field, PartialType, ID } from '@nestjs/graphql';
 import { UserAddressInput } from '../../orders/dto/create-order.input';
 import { AddressType } from '../../addresses/entities/address.entity';
 import { Profile } from './../entities/profile.entity';
+import { Attachment } from 'src/common/entities/attachment.entity';
 
 @InputType()
 class ProfileUpsertInput {
@@ -10,12 +11,14 @@ class ProfileUpsertInput {
   id?: number;
   bio?: string;
   contact?: string;
+  avatar?: Attachment;
 }
 
 @InputType()
 export class UpdateUserInput extends PartialType(RegisterInput) {
   @Field(() => ID)
   id: number;
+  GST_Number?: string;
   name?: string;
   address?: AddressHasMany;
   profile?: ProfileHasMany;
