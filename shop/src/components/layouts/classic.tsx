@@ -19,7 +19,10 @@ export default function ClassicLayout({ variables }: HomePageProps) {
           
           <Banner layout="classic" variables={variables.types} />
       </SectionBlock> */}
+      <a href='http://localhost:3001/Electronics/search?category=Electronics&type=Electronics'>
       <PromotionSliders variables={variables.types} />
+      </a>
+      
       
       <FilterBar variables={variables.categories} />
       {/* <Element
@@ -33,9 +36,13 @@ export default function ClassicLayout({ variables }: HomePageProps) {
         />
       </Element> */}
        <Categories layout="compact" variables={{ limit: 1000, parent: 1, type: "Electronics" }} />
+       <a href='http://localhost:3001/Beauty%20&%20Personal%20Care/search?category=Beauty%20&%20Personal%20Care&type=Beauty%20&%20Personal%20Care'>
        <PromotionSliders1 variables={variables.types} />
+       </a>
        <Categories layout="compact1" variables={{ limit: 1000, parent: 1, type: "Beauty & Personal Care" }} />
+       <a href='http://localhost:3001/Entertainment/search?category=Entertainment&type=Entertainment'>
        <PromotionSliders2 variables={variables.types} />
+       </a>
        <Categories layout="compact2" variables={{ limit: 1000, parent: 1, type: "Entertainment" }} />
        {/* <Categories layout="compact" variables={variables.categories} /> */}
        <PopularProductsGrid variables={variables.popularProducts} />
