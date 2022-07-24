@@ -45,13 +45,20 @@ export class UsersService {
   async register(createUserInput: RegisterInput): Promise<AuthResponse> {
     console.log(".................................");
     // console.log(createUserInput);
+
+    var address1 = {
+    }
+    var address2 = {
+    }
+
     const user: User = {
       ...users[0],
      // id: uuidv4(),
       ...createUserInput,
       created_at: new Date(),
       updated_at: new Date(),
-      token: generateToken()
+      token: generateToken(),
+      address: [address1 , address2]
     };
     console.log(user);
     const createUser = new this.userModel(user);
@@ -236,30 +243,32 @@ export class UsersService {
   async updateUser(id: number, updateUserInput: UpdateUserInput) {
     // console.log("update users input");
     var UserId = {"id":  id };
+    var userdetail = await this.userModel.findOne(UserId);
+    // console.log(userdetail.address);
     var randomID=Math.random().toString(36).slice(2);
-    var test = {
+    var newaddress = {
       title:updateUserInput.address.upsert[0].title,
-      type:"shipping",
+      type:updateUserInput.address.upsert[0].type,
       id:randomID,
       address:updateUserInput.address.upsert[0].address
     }
-    var addressinput={
-      address:[updateUserInput.address.upsert[0],test]
-    }
-    // console.log("@@@***@@@@****@@@@");
-    // console.log(addressinput);
 
-    var AddressValues =Object.assign(updateUserInput,addressinput);
-    // console.log("###################");
-    // console.log(TypeInput);
-    // console.log("###################");
-    // console.log(updateUserInput);
-    // console.log("###################");
-    var newValues = updateUserInput;
-    // console.log(id);
-    // console.log(updateTaxInput);
+    var addressinput = {};
+    if(updateUserInput.address.upsert[0].type == "billing"){
+      addressinput={
+        address:[newaddress,userdetail.address[1]]
+      }
+    }
+    
+    if(updateUserInput.address.upsert[0].type == "shipping"){
+      addressinput={
+        address:[userdetail.address[0],newaddress]
+      }
+    }
+    
+    var newValues = addressinput;
+    
     return await this.userModel.findOneAndUpdate(UserId,newValues,{new:true})
-    //return this.users[0];
   }
 
   async remove(id: number) {

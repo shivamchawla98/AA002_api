@@ -52,7 +52,8 @@ export class UsersResolver {
   @Mutation(() => Profile)
   createProfile(
     @Args('input') profileInput: ProfileInput) {
-    // console.log(profileInput);
+      console.log("profileInput +++++++++++++++++++");
+    console.log(profileInput);
     return this.usersService.CreateProfileRecord(profileInput);
   }
 
@@ -160,13 +161,15 @@ export class UsersResolver {
 
   @Query(() => User, { name: 'user', nullable: true })
   getUser(@Args() getUserArgs: GetUserArgs): Promise<User> {
-    console.log("line 160");
-    console.log(getUserArgs);
+    // console.log("line 160");
+    // console.log(getUserArgs);
     return this.usersService.getUser(getUserArgs);
   }
 
   @Mutation(() => User)
   updateUser(@Args('input') updateUserInput: UpdateUserInput) {
+    console.log("UPDATE ++++++++++++++++++++");
+    console.log(updateUserInput.address);
     return this.usersService.updateUser(updateUserInput.id, updateUserInput);
   }
 
