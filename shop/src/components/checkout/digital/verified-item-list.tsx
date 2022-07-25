@@ -103,7 +103,7 @@ const VerifiedItemList: React.FC<Props> = ({ className }) => {
         <ItemInfoRow title={t('text-sub-total')} value={sub_total} />
         <ItemInfoRow title={t('text-tax')} value={tax} />
         <ItemInfoRow title={t('text-shipping')} value={shipping} />
-        {discount && coupon ? (
+        {/* {discount && coupon ? (
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-800 ltr:mr-4 rtl:ml-4">
               {t('text-discount')}
@@ -122,7 +122,7 @@ const VerifiedItemList: React.FC<Props> = ({ className }) => {
           <div className="flex justify-between !mt-5 !mb-4">
             <Coupon theme="dark" />
           </div>
-        )}
+        )} */}
         <div className="flex justify-between pt-3 border-t-4 border-double border-border-200">
           <p className="text-base font-semibold text-heading">
             {t('text-total')}

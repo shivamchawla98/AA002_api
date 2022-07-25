@@ -16,11 +16,12 @@ const SlidingCardCategories: React.FC<SlidingCardCategoriesProps> = ({
 }) => {
   if (loading) {
     return (
-      <div className="hidden xl:block">
-        <div className="w-full h-52 flex justify-center mt-8 px-2">
-          <BakeryCategoryLoader />
-        </div>
-      </div>
+      <></>
+      // <div className="hidden xl:block">
+      //   <div className="w-full h-52 flex justify-center mt-8 px-2">
+      //     <BakeryCategoryLoader />
+      //   </div>
+      // </div>
     );
   }
   console.log("6666666666666666");
