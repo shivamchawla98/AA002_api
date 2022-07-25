@@ -29,6 +29,7 @@ import { UpdateProfileArgs } from './dto/update-profile.args';
 import { MakeOrRevokeAdminInput } from './dto/make-revoke-admin.input';
 import { UserDto } from './dto/users.dto';
 import { Profiledto } from './dto/profile.dto';
+import { generateToken } from 'src/utils/jwt.utils';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -44,8 +45,9 @@ export class UsersResolver {
   async register(
     @Args('input') createUserInput: RegisterInput,
   ): Promise<AuthResponse> {
-    // console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT Line 47");
-    // console.log(createUserInput);
+    console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT Line 47");
+    console.log(createUserInput);
+    Object.assign(createUserInput, {'token': generateToken()})
     return this.usersService.register(createUserInput);
   }
 
