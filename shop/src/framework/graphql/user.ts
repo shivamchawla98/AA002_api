@@ -353,7 +353,7 @@ export function useRegister() {
   const [registerUser, { loading: isLoading }] = useRegisterMutation({
     onCompleted: (data) => {
       console.log("dataaaaaaaaaaaaaa");
-      console.log(data);
+      console.log(registerUser);
 
       if (data?.register?.token && data?.register?.permissions?.length) {
         setToken(data?.register?.token);

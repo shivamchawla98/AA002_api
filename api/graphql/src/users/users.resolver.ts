@@ -179,8 +179,9 @@ export class UsersResolver {
 
   @Mutation(() => User)
   updateUser(@Args('input') updateUserInput: UpdateUserInput) {
-    // console.log("updateUserInput ++++++++++++++++++++ Line 173");
-    // console.log(updateUserInput);
+    console.log("updateUserInput ++++++++++++++++++++ Line 173");
+    console.log(updateUserInput);
+    console.log(updateUserInput.profile.upsert[0]);
     return this.usersService.updateUser(updateUserInput.id, updateUserInput);
   }
 
