@@ -45,8 +45,8 @@ export class UsersResolver {
   async register(
     @Args('input') createUserInput: RegisterInput,
   ): Promise<AuthResponse> {
-    console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT Line 47");
-    console.log(createUserInput);
+    // console.log("CREATE USER TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT Line 47");
+    // console.log(createUserInput);
     Object.assign(createUserInput, {'token': generateToken()})
     return this.usersService.register(createUserInput);
   }
@@ -61,8 +61,8 @@ export class UsersResolver {
 
   @Mutation(() => AuthResponse) 
   async login(@Args('input') loginInput: finduser){
-    console.log("Login Mutation line 62");
-    console.log(loginInput)
+    // console.log("Login Mutation line 62");
+    // console.log(loginInput)
     return this.usersService.login(loginInput);
   }
 
@@ -181,7 +181,7 @@ export class UsersResolver {
   updateUser(@Args('input') updateUserInput: UpdateUserInput) {
     console.log("updateUserInput ++++++++++++++++++++ Line 173");
     console.log(updateUserInput);
-    console.log(updateUserInput.profile.upsert[0]);
+    // console.log(updateUserInput.profile.upsert[0]);
     return this.usersService.updateUser(updateUserInput.id, updateUserInput);
   }
 

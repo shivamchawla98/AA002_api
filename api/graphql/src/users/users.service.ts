@@ -136,7 +136,7 @@ export class UsersService {
 
     if(!loginInput.type){
       loginInput.type == "super_admin";
-      console.log(loginInput.type);
+      // console.log(loginInput.type);
     }
         
         if (!user) {
@@ -276,7 +276,7 @@ export class UsersService {
     // console.log("update users input");
     var UserId = {"id":  id };
     var userdetail = await this.userModel.findOne(UserId);
-    // console.log(userdetail.address);
+    
 
     if(updateUserInput.address){
       var randomID=Math.random().toString(36).slice(2);
@@ -306,7 +306,7 @@ export class UsersService {
     // console.log(updateUserInput.profile.upsert);
     if(updateUserInput.profile){
       var profileValues = {};
-      if(updateUserInput.profile.upsert[0].bio){
+      if(updateUserInput.profile.upsert[0].bio && !updateUserInput.profile.upsert[0].contact){
         profileValues = {
           profile: {
             bio: updateUserInput.profile.upsert[0].bio,
@@ -316,9 +316,48 @@ export class UsersService {
           }
         }
       }
+
+      if(updateUserInput.profile.upsert[0].contact && !updateUserInput.profile.upsert[0].bio){
+        profileValues = {
+          profile: {
+            bio: userdetail.profile.bio,
+            contact: updateUserInput.profile.upsert[0].contact,
+            customer_id: id,
+            updated_at: new Date()
+          }
+        }
+      }
+
+      if(updateUserInput.profile.upsert[0].contact && updateUserInput.profile.upsert[0].bio){
+        profileValues = {
+          profile: {
+            bio: updateUserInput.profile.upsert[0].bio,
+            contact: updateUserInput.profile.upsert[0].contact,
+            customer_id: id,
+            updated_at: new Date()
+          }
+        }
+      }
       var newValues = profileValues;
+
+      if(updateUserInput.name){
+        var nameobj = {
+          name: updateUserInput.name
+        }
+
+        var x = Object.assign(newValues,nameobj);
+      }
+
+      if(updateUserInput.GST_Number){
+        var GSTNumobj = {
+          GST_Number: updateUserInput.GST_Number
+        }
+
+        var Y = Object.assign(newValues,GSTNumobj);
+      }
       // console.log(newValues);
     }
+    
 
     
     return await this.userModel.findOneAndUpdate(UserId,newValues,{new:true})

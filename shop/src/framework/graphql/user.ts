@@ -102,13 +102,14 @@ export const useUpdateUser = () => {
       toast.error(t('error-something-wrong'));
     },
   });
-  function update({ id, address, name, profile }: UpdateUserInput) {
+  function update({ id, address, name, profile, GST_Number }: UpdateUserInput) {
     updateProfile({
       variables: {
         //@ts-ignore
         input: {
           id,
           name,
+          GST_Number,
           ...(profile && {
             profile: {
               upsert: {

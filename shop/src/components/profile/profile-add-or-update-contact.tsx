@@ -23,12 +23,6 @@ const ProfileAddOrUpdateContact = () => {
     });
   }
 
-  console.log(
-    customerId,
-    contact,
-    profileId,
-    'customerId, contactNumber, profileId'
-  );
 
   return (
     <div className="flex flex-col justify-center min-h-screen p-5 bg-light sm:p-8 md:min-h-0 md:rounded-xl">

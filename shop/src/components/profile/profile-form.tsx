@@ -14,13 +14,13 @@ const ProfileForm = ({ user }: { user: User }) => {
   const { mutate: updateProfile, isLoading } = useUpdateUser();
 
   function onSubmit(values: UpdateUserInput) {
-    console.log(values, 'values');
     if (!user) {
       return false;
     }
     updateProfile({
       id: user.id,
       name: values.name,
+      GST_Number: values.GST_Number,
       profile: {
         id: user?.profile?.id,
         bio: values?.profile?.bio ?? '',
