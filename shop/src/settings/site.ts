@@ -91,20 +91,20 @@ export const siteSettings = {
         links: [
           {
             name: 'text-about-us',
-            href: '/',
+            href: ROUTES.ABOUT,
           },
-          {
-            name: 'text-sitemap',
-            href: '/',
-          },
-          {
-            name: 'text-bookmarks',
-            href: '/',
-          },
-          {
-            name: 'text-sign-join',
-            href: '/',
-          },
+          // {
+          //   name: 'text-sitemap',
+          //   href: '/',
+          // },
+          // {
+          //   name: 'text-bookmarks',
+          //   href: '/',
+          // },
+          // {
+          //   name: 'text-sign-join',
+          //   href: '/',
+          // },
         ],
       },
       {
@@ -114,14 +114,14 @@ export const siteSettings = {
             name: 'text-faq-help',
             href: ROUTES.HELP,
           },
-          {
-            name: 'text-returns',
-            href: '/',
-          },
-          {
-            name: 'text-accessibility',
-            href: '/',
-          },
+          // {
+          //   name: 'text-returns',
+          //   href: '/',
+          // },
+          // {
+          //   name: 'text-accessibility',
+          //   href: '/',
+          // },
           {
             name: 'text-contact-us',
             href: ROUTES.CONTACT,
@@ -143,14 +143,14 @@ export const siteSettings = {
             name: 'text-terms-condition',
             href: ROUTES.TERMS,
           },
-          {
-            name: 'text-return-policy',
-            href: '/',
-          },
-          {
-            name: 'text-sitemap',
-            href: '/',
-          },
+          // {
+          //   name: 'text-return-policy',
+          //   href: '/',
+          // },
+          // {
+          //   name: 'text-sitemap',
+          //   href: '/',
+          // },
         ],
       },
     ],

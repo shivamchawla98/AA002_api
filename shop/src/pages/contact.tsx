@@ -31,13 +31,13 @@ export const ContactPage = () => {
 
             <div className="mb-8 flex flex-col">
               <span className="mb-3 font-semibold text-heading">
-                {t('text-address')}
+                {t('A-1, Near Sun Shine Banquet, Dhirpur Village New Delhi PinCode :-110009')}
               </span>
-              <span className="text-sm text-body">
+              {/* <span className="text-sm text-body">
                 {!isEmpty(formatAddress(settings?.contactDetails?.location))
                   ? formatAddress(settings?.contactDetails?.location)
                   : t('common:text-no-address')}
-              </span>
+              </span> */}
             </div>
 
             <div className="mb-8 flex flex-col">
