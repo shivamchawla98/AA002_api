@@ -65,8 +65,9 @@ export class ProductsService {
     var A = Object.assign(createProductInput, SlugObject);
 
     var options_for_variations = [];
-
-    if(createProductInput.variation_options.upsert[0].sale_price){
+    // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa");
+    // console.log(createProductInput.variation_options.upsert[0]);
+    if(createProductInput.variation_options.upsert[0]?.sale_price){
       createProductInput.sale_price = createProductInput.variation_options.upsert[0].sale_price;
     }
 
