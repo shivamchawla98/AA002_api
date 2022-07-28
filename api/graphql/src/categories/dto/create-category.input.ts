@@ -4,7 +4,7 @@ import { Category } from '../entities/category.entity';
 @InputType()
 export class ConnectTypeBelongsTo {
   @Field(() => ID)
-  connect: number;
+  connect?: number;
 }
 @InputType()
 export class CreateCategoryInput extends PickType(Category, [

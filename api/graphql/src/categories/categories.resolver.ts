@@ -33,12 +33,15 @@ export class CategoriesResolver {
   async getCategory(
     @Args() getCategoryArgs: GetCategoryArgs,
   ): Promise<Category> {
-    // console.log("line 34+++++++++++++++");
+    console.log("line 34+++++++++++++++");
+    console.log(getCategoryArgs)
     return this.categoriesService.getCategory(getCategoryArgs);
   }
 
   @Mutation(() => Category)
   updateCategory(@Args('input') updateCategoryInput: UpdateCategoryInput) {
+    console.log("line 43+++++++++++++++");
+    console.log(updateCategoryInput)
     return this.categoriesService.update(
       updateCategoryInput.id,
       updateCategoryInput,

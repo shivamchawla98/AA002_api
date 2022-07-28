@@ -27,11 +27,158 @@ export class CategoriesService {
   constructor( @InjectModel(Categories_.name) private CategoriesModel:Model<Categories_> , @InjectModel(Types.name) private TypesModel:Model<Types>){}
 
   async create(createCategoryInput: CreateCategoryInput) {
-    
-    if(createCategoryInput.parent){
-      console.log("=[=[=[=[=[=");
-      console.log(1111);
+    // console.log("]]]]]]]]]]");
+    // console.log(createCategoryInput);
+    if(!createCategoryInput.type.connect && !createCategoryInput?.parent){
+      var typeValue = await this.TypesModel.find();
+      
+      var typeInput = {
+        name:createCategoryInput.name,
+        slug:createCategoryInput.name,
+        icon:typeValue[0].icon,
+        banners:typeValue[0].banners,
+        promotional_sliders:typeValue[0].promotional_sliders,
+        settings:typeValue[0].settings,
+        _v:typeValue[0].__v
+
+      }
+      
+      const createType = new this.TypesModel(typeInput);
+      createType.save();
+
+      var groupvalue = await this.TypesModel.findOne({"name":createCategoryInput.name});
+      // console.log(groupvalue);
+      // createCategoryInput.type.connect = groupvalue._id;
+
+      // console.log("=[=[=[=[=[=");
+      // console.log(2222);
+      var Slug = createCategoryInput.name;
+      var SlugObject ={
+        slug:Slug
+      }
+      var A1 =Object.assign(createCategoryInput,SlugObject);
+      var Type_Id = createCategoryInput.type.connect;
+      var TypeObj1 = await this.TypesModel.findOne({"_id":Type_Id});
       var parentCategory = await this.CategoriesModel.findOne({"_id":createCategoryInput.parent});
+
+      var ParentObj1 = {
+        parent : parentDetails
+      }
+      
+      var B1 =Object.assign(createCategoryInput,ParentObj1);
+      var TypeInput1 =Object.assign(A1.type,typeInput);
+  
+      // console.log("TYPE OBJECT FROM CATEGORIES")
+      // console.log(TypeInput);
+      const createcategories = new this.CategoriesModel(createCategoryInput);
+      createcategories.save();
+      return this.categories[0];
+    }
+
+    if(createCategoryInput.parent){
+      // console.log("line 79 =============================");
+      var childrenAray = [];
+      var typename = "";
+
+      var parent_category_ID = createCategoryInput.parent;
+
+      var first_parent = await this.TypesModel.findOne({"_id":createCategoryInput.type.connect});
+      var first_parent_category = await this.CategoriesModel.findOne({"name":first_parent.name});
+      
+      var parentCategory = await this.CategoriesModel.findOne({"name":first_parent.name});
+      
+      parentCategory.children.forEach(element => {
+        if(element.id.toString() == createCategoryInput.parent){
+          element.children.forEach(childobject => {
+            childrenAray.push(childobject);
+            typename = childobject.name;
+          });
+          
+        }
+      
+      });
+
+      var parentDetails = {
+        name : parentCategory.name,
+        slug : parentCategory.slug,
+        id : parentCategory._id
+      }
+      var ParentObj = {
+        parent : parentDetails
+      }
+
+      var x =[];
+
+      var Type_Id = createCategoryInput.type.connect;
+      var TypeObj2 = {
+        name:parentCategory.name,
+        slug:parentCategory.name,
+        connect: createCategoryInput.parent
+      }
+      
+      parentCategory.children.forEach(async element => {
+        x.push(element);
+      });
+
+      var randomString = Math.random().toString(36).slice(2);
+      var IDCategory={
+      id:randomString
+      }
+
+      var Slug = createCategoryInput.name;
+      var SlugObject ={
+        slug:Slug
+      }
+
+      var childforsubcategory = {
+        children: []
+      }
+
+      var n = Object.assign(createCategoryInput,SlugObject);
+      var l = Object.assign(createCategoryInput,IDCategory);
+      var m1 = Object.assign(createCategoryInput.type,TypeObj2);
+      var o = Object.assign(createCategoryInput.parent,ParentObj);      
+      var o2 = Object.assign(createCategoryInput,childforsubcategory);
+
+      childrenAray.push(createCategoryInput);
+
+      x.forEach(element_in_X => {
+        if(element_in_X.id.toString() == parent_category_ID){
+          // console.log(element_in_X.children)
+          // if(element_in_X.children){
+          //   element_in_X.children.push(createCategoryInput)
+          // }
+          // if(!element_in_X.childern){
+          //   delete element_in_X.childern
+          //   element_in_X.childern = [createCategoryInput]
+          // }
+          element_in_X.children.push(createCategoryInput)
+        }
+      });
+
+      // console.log(x)
+
+      // x.push(createCategoryInput);
+      var child = {
+      children: x
+      }
+      var testobj = Object.assign(parentCategory,child);
+
+      childrenAray.push(testobj)
+      // console.log("??????????????????????????????")
+      // console.log(testobj)
+      const createcategories = new this.CategoriesModel(testobj);
+      createcategories.save();
+      return this.categories[0];
+    }
+
+    if(createCategoryInput.type.connect)
+    {
+      
+      var Type_Id = createCategoryInput.type.connect;
+      var TypeObj1 = await this.TypesModel.findOne({"_id":Type_Id});
+
+      var parentCategory = await this.CategoriesModel.findOne({"name":TypeObj1.name});
       var parentDetails = {
         name : parentCategory.name,
         slug : parentCategory.slug,
@@ -63,11 +210,16 @@ export class CategoriesService {
         slug:Slug
       }
 
+      var childforsubcategory = {
+        children: []
+      }
+
       var n = Object.assign(createCategoryInput,SlugObject);
       var l = Object.assign(createCategoryInput,IDCategory);
       var m = Object.assign(createCategoryInput.type,TypeObj);
-      var o = Object.assign(createCategoryInput.parent,ParentObj);      
-
+      var o1 = Object.assign(createCategoryInput,ParentObj);
+      var o2 = Object.assign(createCategoryInput,childforsubcategory);      
+      
       x.push(createCategoryInput);
       var child = {
       children: x
@@ -83,32 +235,6 @@ export class CategoriesService {
 
       
       const createcategories = new this.CategoriesModel(testobj);
-      createcategories.save();
-      return this.categories[0];
-    }
-    if(!createCategoryInput.parent)
-    {
-      console.log("=[=[=[=[=[=");
-      console.log(2222);
-      var Slug = createCategoryInput.name;
-      var SlugObject ={
-        slug:Slug
-      }
-      var A =Object.assign(createCategoryInput,SlugObject);
-      var Type_Id = createCategoryInput.type.connect;
-      var TypeObj1 = await this.TypesModel.findOne({"_id":Type_Id});
-      var parentCategory = await this.CategoriesModel.findOne({"_id":createCategoryInput.parent});
-
-      var ParentObj2 = {
-        parent : parentDetails
-      }
-      
-      var B =Object.assign(createCategoryInput,ParentObj2);
-      var TypeInput =Object.assign(A.type,TypeObj1);
-  
-      // console.log("TYPE OBJECT FROM CATEGORIES")
-      // console.log(TypeInput);
-      const createcategories = new this.CategoriesModel(createCategoryInput);
       createcategories.save();
       return this.categories[0];
     }
@@ -146,10 +272,10 @@ export class CategoriesService {
     
     let queryResult: Category[] = await this.CategoriesModel.find();
     // console.log("CATEGORY ******");
-    // console.log(queryResult);
+    // console.log(text, first, page, hasType, parent);
     
     if( hasType  && (parent != null) ){
-      console.log("considition 0");
+      // console.log("considition 0");
       return {
         data: queryResult,
         paginatorInfo: paginate(queryResult.length, page, first, queryResult.length),
@@ -197,7 +323,7 @@ export class CategoriesService {
     }
     
     if(hasType && text == "%%"){
-      console.log("condition 1");
+      // console.log("condition 1");
       queryResult.forEach(element => {
         if(element.type.slug.toLowerCase() == hasType?.value.toLowerCase()){
           result.push(element);
@@ -211,11 +337,11 @@ export class CategoriesService {
       }
       else{
        
-        console.log("category test");
+        // console.log("category test");
         queryResult.forEach(element => {
           if(element.children){
             element.children.forEach(child => {
-              console.log(child);
+              // console.log(child);
               a.push(child);
             });
             
@@ -258,22 +384,34 @@ export class CategoriesService {
       catch (error) {
         if (error){
           var All_Categories = await this.CategoriesModel.find();
-          // console.log("aaaallll categories");
+          var Num = 0;
           All_Categories.forEach(element => {
-            // console.log("Parent category<<<<<<<<<<<<<");
-            // console.log(element);
+            
             var child_category_array = element.children;
             child_category_array.forEach(child => {
-              // console.log("childern >>>>>>>>>>>");
-              // console.log(child);
-              // console.log(child.id);
+              
               if (child.id == id){  
-                // console.log("inside if condition");            
                 Child_Category = child;
+                Num = 1;
               }
             });           
           });
-          // console.log(Child_Category);
+          console.log(Num)
+
+          if(Num == 0){
+            All_Categories.forEach(element => {
+              element.children?.forEach(childObj => {
+                childObj.children?.forEach(sub_sub_category => {
+                  console.log(sub_sub_category.id)
+                  if (sub_sub_category.id == id){  
+                    Child_Category = sub_sub_category;
+                  }
+                });
+              });
+            });
+          }
+          console.log("]]]]][[[[[[")
+          console.log(Child_Category)
           return Child_Category;
         }
       }
@@ -315,7 +453,7 @@ export class CategoriesService {
       }
   });
  //console.log(a);
-    return deletedType;
+    return `This action removes a category`;
     // return `This action removes a #${id} category`;
   }
 }
