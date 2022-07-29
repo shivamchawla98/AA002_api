@@ -66,6 +66,7 @@ export class ProductsService {
 
     var options_for_variations = [];
 
+
     // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa");
     // console.log(createProductInput.variation_options.upsert[0]);
     if(createProductInput.variation_options.upsert[0]?.sale_price){
